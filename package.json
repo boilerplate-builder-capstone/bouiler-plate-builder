@@ -1,0 +1,31 @@
+{
+  "name": "boilerplate-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "start:dev": "nodemon server/index --ignore server/public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mpiech1813/boilerplate-builder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mpiech1813/boilerplate-builder/issues"
+  },
+  "homepage": "https://github.com/mpiech1813/boilerplate-builder#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
