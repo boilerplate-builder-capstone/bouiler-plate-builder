@@ -28,6 +28,7 @@ Server.init(
   {
     sequelize: db,
     modelName: 'server',
+    timestamps: false,
   }
 );
 
