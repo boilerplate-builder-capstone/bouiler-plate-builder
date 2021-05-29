@@ -1,9 +1,8 @@
-const { Model, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const db = require('../../db');
 
-class Server extends Model {}
-
-Server.init(
+const Server = db.define(
+  'server',
   {
     id: {
       primaryKey: true,
@@ -24,11 +23,7 @@ Server.init(
       type: DataTypes.TEXT,
     },
   },
-
-  {
-    sequelize: db,
-    modelName: 'server',
-  }
+  { timestamps: false }
 );
 
 module.exports = Server;
