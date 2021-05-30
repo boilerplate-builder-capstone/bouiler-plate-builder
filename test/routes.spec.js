@@ -18,5 +18,3 @@ describe('Testing Routes', () => {
     });
   });
 });
-
-// note
