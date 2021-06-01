@@ -1,6 +1,6 @@
 const Server = require('../code_snippets/model: server');
 
-const synsServer = async () => {
+const syncServer = async () => {
   const s1 = await Server.create({
     id: 'S1',
     title: 'Server: imports',
@@ -51,14 +51,6 @@ const synsServer = async () => {
     await syncAndSeed()
     `,
   });
-
-  // onst serverSeed = async () => {
-  //   const S1 = await Server.create({
-  //     id: 'S1',
-  //     title: 'Server: imports',
-  //     snippet: `
-  //     const express = require(‘express’)
-  //     const app = express()
-  //     const PORT = process.env.PORT || 3000`,
-  //   });
 };
+
+module.exports = syncServer;
