@@ -6,9 +6,9 @@ const serverSeed = async () => {
     id: 'S1',
     title: 'Server: imports',
     snippet: `
-    Const express = require(‘express’)
-    Const app = express()
-    Const PORT = process.env.PORT || 3000
+    Const express = require(‘express’);
+    Const app = express();
+    Const PORT = process.env.PORT || 3000;
     `,
   });
 
@@ -18,14 +18,14 @@ const serverSeed = async () => {
     snippet: `
     Const initializeApp = async () => {
       Try {
-        app.listen(PORT, () => console.log(‘app is listening on $ {PORT}
+        app.listen(PORT, () => console.log(‘app is listening on $ {PORT});
         }
         Catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
       
-    initializeApp()
+    initializeApp();
       `,
   });
 };
