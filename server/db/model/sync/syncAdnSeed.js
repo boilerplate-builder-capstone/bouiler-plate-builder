@@ -1,7 +1,6 @@
 const db = require('../../db');
-// -------------import all models here------------------
-const syncServer = require('../code_snippets/model: server');
-const { Server } = require('../../index');
+// -------------import all code snippets here------------------
+const syncServer = require('./server/snippet-startServer');
 
 const syncAndSeed = async () => {
   try {
