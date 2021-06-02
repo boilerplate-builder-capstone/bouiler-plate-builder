@@ -5,6 +5,7 @@ const Server = db.define(
   'server',
   {
     id: {
+      primaryKey: true,
       type: DataTypes.STRING,
       allowNull: false,
       validate: {

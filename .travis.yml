@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - 14.15.1
+
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database boilerplate_builder;' -U postgres
+  - psql -c '\d' -U postgres
