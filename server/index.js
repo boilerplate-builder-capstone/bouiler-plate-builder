@@ -1,5 +1,5 @@
 const app = require('./server');
-const syncAndSeed = require('./db/model/sync/syncAdnSeed');
+const syncAndSeed = require('./db/model/sync/syncandseed');
 const PORT = process.env.PORT || 3000;
 
 const init = async () => {
