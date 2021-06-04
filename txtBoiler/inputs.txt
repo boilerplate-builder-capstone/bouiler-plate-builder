@@ -1,4 +1,3 @@
 <% imports.forEach(function(imp){ %> 
-    import <%= imp.name %> from <%= imp.location -%>
+import <%= imp.name %> from <%= imp.location -%>
 <% }); %>
-

@@ -11,38 +11,31 @@ function zipHelper(fileString, arrObject){
 }
 
 //helper function to create a string containing all imports. pass in an array of objects containing the {name, location}
-function createImports(importObj){
-    let context
-    fs.readFile(path.join(__dirname, '..', '..', 'txtBoiler/inputs.txt'), 'utf8', (err, data)=>{
-        context = ejs.render(data, {importsObj})
+function createImports(importsObj){
+    let data = fs.readFileSync(path.join(__dirname, '..', '..', 'txtBoiler/inputs.txt'), 'utf8')
         
-    })
+    let context = ejs.render(data, {imports: importsObj})       
+
     return context
 }
 
 function createAppjs(importObj){
-    let contents = ""
     let name = "app.js"
-    contents += createImports(importObj)
+    let contents = createImports(importObj)
 
-    fs.readFile(path.join(__dirname, '..', '..', 'txtBoiler/Reactcomponent.txt'), 'utf8', (err, data)=>{
-        contents += "\n" + data
+    let data = fs.readFileSync(path.join(__dirname, '..', '..', 'txtBoiler/Reactcomponent.txt'), 'utf8')
+    contents += "\n" + data
         
-    })
 
     return {name, contents}
 }
 
-
 zippedBoilerPlate.get('/', async (req, res, next) => {
   try {
-
-
-   
     
     //stopped here
-    let appjs = createAppjs()
-
+    let appjs = createAppjs([{name: "import one", location: "import location"}])
+    
     let actionjs = {name: 'action.js', contents: "contents here"}
     let reducerjs = {name: 'reducer.js', contents: "contents here"}
     let rootreducerjs = {name: 'rootreducer.js', contents: "contents here"}
@@ -86,11 +79,11 @@ zippedBoilerPlate.get('/', async (req, res, next) => {
     zipHelper('server/db', dbObjectArray)
     zipHelper('server/routes', routesObjectArray)
     zipHelper('server', serverObjectArray)
+    zipHelper('client/components', [appjs])
 
     zip.file('.babelrc', "babelfile contents here")
     zip.file('package.json', "package file contents here")
     zip.file('webpack.config.js', "webpack contents here")
-    zip.file('client/components/App.js', appjs)
 
 
     let data = zip.generate({base64:false,compression:'DEFLATE'});
