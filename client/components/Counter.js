@@ -5,13 +5,13 @@ function Counter() {
     
     const [count, setCount] = useState(0)
 
-    // TO HAVE COUNT PERSIST AFTER REFRESH: uncomment the commented code below (and on line 24)
-    // useEffect(() => {
-    //     if (count > 0){
-    //         window.localStorage.setItem("count", `${count}`)
-    //     }
-    //     setCount(JSON.parse(window.localStorage.getItem("count")))
-    // }, [count])
+    // useEffect + localStorage makes state persist after refresh
+    useEffect(() => {
+        if (count > 0){
+            window.localStorage.setItem("count", `${count}`)
+        }
+        setCount(JSON.parse(window.localStorage.getItem("count")))
+    }, [count])
 
     return (
         <div>
@@ -21,7 +21,7 @@ function Counter() {
             }}>Increment</button>
             <button onClick={() => {
                 setCount(0)
-                // window.localStorage.removeItem("count")
+                window.localStorage.removeItem("count")
             }}>Clear</button>
         </div>
     )
