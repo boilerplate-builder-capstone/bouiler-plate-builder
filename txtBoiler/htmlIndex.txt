@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<head>
+   <link href="/public/style.css" rel="stylesheet" />
+   <% if(react) { %>
+   <script src="../public/bundle.js" defer></script>
+   <% } %>
+</head>
+<body>
+    <% if(react) { %>
+   <div id="root"></div>
+   <% } else { %> 
+   <h1>Hello world</h1>
+   <p>Welcome to your web app!</p>
+   <% } %>
+ 
+</body>

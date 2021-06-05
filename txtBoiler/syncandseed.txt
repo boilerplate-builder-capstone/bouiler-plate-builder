@@ -1,0 +1,20 @@
+const db = require('./db')
+const { models: { ModelName, OtherModelName } } = require('./models/modelsandrelationships')
+ 
+const syncAndSeed = async() => {
+   try {
+       await db.sync({ force: true })
+       //create your data instances here. See documentation: https://sequelize.org/master/manual/model-instances.html
+       // await ModelName.create({
+       //     exampleProperty: 'Test property!'
+       // })
+       // await OtherModelName.create({
+       //     exampleProperty: 'Test property!'
+       // })
+ 
+   } catch (error) {
+       console.log(error)
+   }
+}
+ 
+module.exports = syncAndSeed

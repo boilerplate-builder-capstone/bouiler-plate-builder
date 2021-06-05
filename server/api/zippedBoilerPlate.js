@@ -6,25 +6,16 @@ const path = require('path')
 
 //helper function designed to deal with multiple files in a directory folder
 function zipHelper(fileString, arrObject){
-    arrObject.forEach(file => zip.file(`${fileString}/${file.name}`, file.contents))
+    arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
 
 }
 
-//helper function to create a string containing all imports. pass in an array of objects containing the {name, location}
-function createImports(importsObj){
-    let data = fs.readFileSync(path.join(__dirname, '..', '..', 'txtBoiler/inputs.txt'), 'utf8')
-        
-    let context = ejs.render(data, {imports: importsObj})       
+function createFile(filename, variable, ext){
+    let name = `${filename}.${ext}`
+    
 
-    return context
-}
-
-function createAppjs(importObj){
-    let name = "app.js"
-    let contents = createImports(importObj)
-
-    let data = fs.readFileSync(path.join(__dirname, '..', '..', 'txtBoiler/Reactcomponent.txt'), 'utf8')
-    contents += "\n" + data
+    let data = fs.readFileSync(path.join(__dirname, '..', '..', `txtBoiler/${filename}.txt`), 'utf8')
+    let contents = ejs.render(data, variable)
         
 
     return {name, contents}
@@ -32,31 +23,34 @@ function createAppjs(importObj){
 
 zippedBoilerPlate.get('/', async (req, res, next) => {
   try {
+
+    let appjs = createFile('App', {router: true, redux: true}, 'js')
     
-    //stopped here
-    let appjs = createAppjs([{name: "import one", location: "import location"}])
-    
-    let actionjs = {name: 'action.js', contents: "contents here"}
-    let reducerjs = {name: 'reducer.js', contents: "contents here"}
-    let rootreducerjs = {name: 'rootreducer.js', contents: "contents here"}
-    let storejs = {name: 'store.js', contents: "contents here"}
+    let actionjs = createFile('Action', {}, 'js')
+    let reducerjs = createFile('Reducer', {}, 'js')
+    let rootreducerjs = createFile('RootReducer', {}, 'js')
+    let storejs = createFile('Store', {}, 'js')
    
-    let htmlindexhtml = {name: 'htmlindex.html', contents: "contents here"}
-    let clientindexjs = {name: 'index.js', contents: "contents here"}
+    let htmlindexhtml = createFile('htmlIndex', {react: true}, 'html')
+    let clientindexjs = createFile('index', {redux: true}, 'js')
 
     let stylecss = {name: 'style.css', contents: "contents here"}
 
-    let modelnamejs = {name: 'modelname.js', contents: "contents here"}
-    let modelsandrelationshipsjs = {name: 'modelsandrelationships.js', contents: "contents here"}
-    let othermodelnamejs = {name: 'othermodelname.js', contents: "contents here"}
+    let modelnamejs = createFile('modelname', {}, 'js')
+    let modelsandrelationshipsjs = createFile('modelsandrelationships', {}, 'js')
+    let othermodelnamejs = createFile('othermodelname', {}, 'js')
 
-    let dbjs = {name: 'db.js', contents: "contents here"}
-    let syncandseedjs = {name: 'syncandseed.js', contents: "contents here"}
+    let dbjs = createFile('db', {}, 'js')
+    let syncandseedjs = createFile('syncandseed', {}, 'js')
 
-    let individualrouterjs = {name: 'individualrouter.js', contents: "contents here"}
+    let individualrouterjs = createFile('individualrouter', {}, 'js')
 
-    let modifyserverjs = {name: 'modifyserver.js', contents: "contents here"}
-    let startserverjs = {name: 'startserver.js', contents: "contents here"}
+    let modifyserverjs = createFile('modifyserver', {router: true}, 'js')
+    let startserverjs = createFile('startserver', {database: true}, 'js')
+
+    let babel = createFile('.babelrc', {}, '')
+    let package = createFile('webpack', {}, 'config.js')
+    let webpack = createFile('package', {database: true, react: true, redux: true }, 'json')
 
     let reactreduxObjectArray = [actionjs, reducerjs, rootreducerjs, storejs] 
 
@@ -72,18 +66,17 @@ zippedBoilerPlate.get('/', async (req, res, next) => {
 
     let serverObjectArray = [modifyserverjs, startserverjs]
 
-    zipHelper('client/reactredux', reactreduxObjectArray)
-    zipHelper('client', clientObjectArray)
-    zipHelper('public', publicObjectArray)
-    zipHelper('server/db/models', modelObjectArray)
-    zipHelper('server/db', dbObjectArray)
-    zipHelper('server/routes', routesObjectArray)
-    zipHelper('server', serverObjectArray)
-    zipHelper('client/components', [appjs])
+    let configObjectArray = [babel, package, webpack]
 
-    zip.file('.babelrc', "babelfile contents here")
-    zip.file('package.json', "package file contents here")
-    zip.file('webpack.config.js', "webpack contents here")
+    zipHelper('client/reactredux/', reactreduxObjectArray)
+    zipHelper('client/', clientObjectArray)
+    zipHelper('public/', publicObjectArray)
+    zipHelper('server/db/models/', modelObjectArray)
+    zipHelper('server/db/', dbObjectArray)
+    zipHelper('server/routes/', routesObjectArray)
+    zipHelper('server/', serverObjectArray)
+    zipHelper('client/components/', [appjs])
+    zipHelper('', configObjectArray)
 
 
     let data = zip.generate({base64:false,compression:'DEFLATE'});
