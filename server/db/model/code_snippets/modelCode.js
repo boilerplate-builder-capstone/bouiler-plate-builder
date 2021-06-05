@@ -1,11 +1,18 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../db');
 
-const Server = db.define(
-  'server',
+const Code = db.define(
+  'code',
   {
     id: {
       primaryKey: true,
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    filenName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -26,4 +33,4 @@ const Server = db.define(
   { timestamps: false }
 );
 
-module.exports = Server;
+module.exports = Code;
