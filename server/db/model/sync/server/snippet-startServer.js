@@ -1,4 +1,4 @@
-const Server = require('../code_snippets/model: server');
+const Server = require('../../code_snippets/model-server');
 
 const syncServer = async () => {
   const s1 = await Server.create({
@@ -23,7 +23,7 @@ const syncServer = async () => {
     id: 'S3',
     title: 'Server: initialize p2',
     snippet: `
-      app.listen(PORT, () => console.log(\`app is listening on ${PORT}\`)) 
+      app.listen(PORT, () => console.log(\`app is listening on \${PORT}\`)) 
       }
       catch (error) {
               console.log(error)
