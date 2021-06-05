@@ -4,7 +4,6 @@ const db = require('../../server/db/db');
 const syncAndSeed = async () => {
   try {
     await db.sync({ force: true });
-    console.log('sync file loaded');
     // -------------import all code snippets here------------------
   } catch (error) {
     console.log('error occured in syncAndSeed', error);
