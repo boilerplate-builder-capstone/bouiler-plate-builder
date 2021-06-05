@@ -12,7 +12,7 @@ const Code = db.define(
         notEmpty: true,
       },
     },
-    filenName: {
+    fileName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {

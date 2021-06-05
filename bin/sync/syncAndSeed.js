@@ -1,4 +1,5 @@
 const db = require('../../server/db/db');
+const Code = require('../../server/db/models/Code');
 // -------------import all code snippets here------------------
 
 const syncAndSeed = async () => {
