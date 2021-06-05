@@ -1,8 +1,10 @@
-import React from 'react';
+`import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import { Provider } from 'react-redux';
-import store from './reactredux/store';
+<% if(react-redux) { %>
+   import { Provider } from 'react-redux'; 
+   import store from './reactredux/store'; 
+  <% } %>
 
 const root = document.getElementById('root');
 
@@ -11,3 +13,4 @@ ReactDOM.reander(
     <App />
   </Provider>
 );
+`;
