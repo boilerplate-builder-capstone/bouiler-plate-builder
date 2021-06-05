@@ -18,11 +18,11 @@ const syncReact = async () => {
     ReactDOM.reander(
       <% if (react.react-redux) { %>
       <Provider store={store}>
-      <% } else {%>
-        <Provider>
-        <% } %>
         <App />
       </Provider>
+      <% } else {%>
+        <App />
+      <% } %>
     );
     `,
   });
