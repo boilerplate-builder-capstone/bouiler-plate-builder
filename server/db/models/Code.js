@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const db = require('../../db');
+const db = require('../db');
 
 const Code = db.define(
   'code',
@@ -13,6 +13,13 @@ const Code = db.define(
       },
     },
     filenName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    category: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {

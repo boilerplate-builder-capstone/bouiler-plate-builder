@@ -1,12 +1,11 @@
-const db = require('../../db');
+const db = require('../../server/db/db');
 // -------------import all code snippets here------------------
-const syncServer = require('./server/snippet-startServer');
 
 const syncAndSeed = async () => {
   try {
     await db.sync({ force: true });
+    console.log('sync file loaded');
     // -------------import all code snippets here------------------
-    syncServer();
   } catch (error) {
     console.log('error occured in syncAndSeed', error);
   }
