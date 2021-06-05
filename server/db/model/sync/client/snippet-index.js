@@ -6,9 +6,8 @@ import store from './reactredux/store';
 
 const root = document.getElementById('root');
 
-ReactDOM.render(
+ReactDOM.reander(
   <Provider store={store}>
     <App />
-  </Provider>,
-  root
+  </Provider>
 );
