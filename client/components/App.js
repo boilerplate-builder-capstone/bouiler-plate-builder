@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './home/Home'
 import Build from './build/Build'
 import NavBar from './NavBar'
-import Questions from './Questions'
+import QuestionWalkthrough from './questionwalkthrough/QuestionWalkthrough'
 
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
                     <Build/>
                 </Route>
                 <Route exact path="/build/customize">
-                    <Questions />
+                    <QuestionWalkthrough />
                 </Route>
             </Router>
         </div>

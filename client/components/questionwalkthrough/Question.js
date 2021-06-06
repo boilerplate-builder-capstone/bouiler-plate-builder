@@ -1,17 +1,13 @@
-import axios from 'axios'
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 
-function Questions() {
+function Question(props) {
     const [ backEndResponses, setbackEndResponses ] = useState({})
     const [ frontEndResponses, setFrontEndResponses ] = useState({})
     const [ yesOrNo, setYesOrNo ] = useState(false)
     const [ question, setQuestion ] = useState("Do you want a server?")
     const [ questionSet, setQuestionSet ] = useState("backend")
-
-    const generateBoilerplate = () => {
-        console.log("boilerplate will generate now")
-    }
+    const { setCompleted } = props
 
     const backEndQuestions = (yesOrNo) => {
         // If this is the first question
@@ -28,8 +24,7 @@ function Questions() {
                 })
                 setQuestion("Front end time! Do you want to use React?")
                 setQuestionSet("frontend")
-            }
-            
+            }   
         }
         // If they said "yes, I want a server", ask if they want a database
         if (backEndResponses.server === true){
@@ -78,19 +73,6 @@ function Questions() {
         }
     }
 
-
-    // backEndResponses = {
-    //     server: false || {
-    //         db: false || {
-    //             extraRouter: true || false
-    //         }
-    //     },
-    //     react: false || {
-    //         reactRouter: false || true,
-    //         redux: false || true
-    //     }
-    // }
-
     const frontEndQuestions = (yesOrNo) => {
         // First question of the front end
         if (!frontEndResponses.react){
@@ -104,9 +86,7 @@ function Questions() {
                 setFrontEndResponses({
                     react: false
                 })
-                generateBoilerplate()
-                setQuestion("DONE")
-                console.log("here's your body:", {...backEndResponses, ...frontEndResponses})
+                setCompleted(true)
             }
         }
         // If they said "yes, I want React", ask them if they want react-router
@@ -145,9 +125,7 @@ function Questions() {
                     }
                 })
             }
-            generateBoilerplate()
             setQuestion("DONE")
-            console.log("here's your body:", {...backEndResponses, ...frontEndResponses})
         }
     }
 
@@ -162,18 +140,18 @@ function Questions() {
     }
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <Form.Label>{question}</Form.Label>
-            <Form.Check name="radiogroup" type="radio" label="Yes" onClick={() => setYesOrNo("yes")}/>
-            <Form.Check name="radiogroup" type="radio" label="No" onClick={() => setYesOrNo("no")}/>
-            <Button type="submit">Next Question</Button>
-            <Button onClick={() => {
-                console.log("combined responses:", {backEndResponses, frontEndResponses})
-                console.log("question", question)
-                console.log("questionSet", questionSet)
-            }}>See state</Button>
-        </Form>
+            <Form onSubmit={handleSubmit}>
+                <Form.Label>{question}</Form.Label>
+                <Form.Check name="radiogroup" type="radio" label="Yes" onClick={() => setYesOrNo("yes")}/>
+                <Form.Check name="radiogroup" type="radio" label="No" onClick={() => setYesOrNo("no")}/>
+                <Button type="submit">Next Question</Button>
+                <Button onClick={() => {
+                    console.log("combined responses:", {backEndResponses, frontEndResponses})
+                    console.log("question", question)
+                    console.log("questionSet", questionSet)
+                }}>See state</Button>
+            </Form>
     )
 }
 
-export default Questions 
+export default Question 
