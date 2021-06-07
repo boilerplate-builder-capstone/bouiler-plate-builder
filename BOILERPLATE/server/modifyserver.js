@@ -10,7 +10,7 @@ app.use('/YOUR-MOUNTED-PATH', individualRouter);
 app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
 app.get('/', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '..', '/public/htmlindex.html'));
+  res.sendFile(path.join(__dirname, '..', '/public/htmlIndex.html'));
 });
 
 app.use(function (req, res, next) {
