@@ -23,5 +23,16 @@ const syncPublic = async () => {
   <% } %>
 </body>
     `,
-  });
+  }),
+  const p2 = await Code.create({
+    id: 'P2',
+    fileName: 'style.css',
+    category: 'public',
+    title: 'Public: style.css',
+    snippet:`
+h1 {
+  background-color: aqua;
+}
+    `,
+  })
 };
