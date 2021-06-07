@@ -10,7 +10,9 @@ const syncPublic = async () => {
 <!DOCTYPE html>
 <head>
   <link href="/public/style.css" rel="stylesheet" />
+  <% if(react) { %>
   <script src="../public/bundle.js" defer></script>
+  <% } %>
 </head>
 <body>
   <% if(react) { %>
