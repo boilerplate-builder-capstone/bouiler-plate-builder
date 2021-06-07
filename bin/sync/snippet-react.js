@@ -115,11 +115,11 @@ export const someThunk = (input) => {
 }
       `,
   });
-  const r3 = await Code.create({
-    id: 'R3',
-    fileName: 'actions.js',
+  const r4 = await Code.create({
+    id: 'R4',
+    fileName: 'reducer.js',
     category: 'react',
-    title: 'React-Redux: action creator',
+    title: 'React-Redux: single reducer',
     snippet: `
 const YOUR_COMMAND = 'YOUR_COMMAND'
 
@@ -132,6 +132,42 @@ const singleReducer = (state = [], action) => {
 }
 
 export default singleReducer;
+    `,
+  });
+  const r5 = await Code.create({
+    id: 'R5',
+    fileName: 'rootreducer.js',
+    category: 'react',
+    title: 'React-Redux: root reducer',
+    snippet: `
+// combine all your reducers here
+
+import { combineReducers } from 'redux'
+import singleReducer from './reducer'
+
+const rootReducer = combineReducers({
+    stateName: singleReducer
+});
+
+export default rootReducer;
+    `,
+  });
+  const r6 = await Code.create({
+    id: 'R6',
+    fileName: 'store.js',
+    category: 'react',
+    title: 'React-Redux: store',
+    snippet: `
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
+import rootReducer from './rootreducer'
+
+const store = createStore(
+    rootReducer,
+    applyMiddleware(thunkMiddleware)
+)
+
+export default store
     `,
   });
 };
