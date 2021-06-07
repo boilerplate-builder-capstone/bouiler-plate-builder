@@ -115,6 +115,25 @@ export const someThunk = (input) => {
 }
       `,
   });
+  const r3 = await Code.create({
+    id: 'R3',
+    fileName: 'actions.js',
+    category: 'react',
+    title: 'React-Redux: action creator',
+    snippet: `
+const YOUR_COMMAND = 'YOUR_COMMAND'
+
+const singleReducer = (state = [], action) => {
+    if (action.type === YOUR_COMMAND){
+        // Use the action's data to modify state
+        state = [...state, action.data]
+    }
+    return state
+}
+
+export default singleReducer;
+    `,
+  });
 };
 
 module.exports = syncReact;
