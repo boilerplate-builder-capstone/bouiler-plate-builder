@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
-const serverSnippets = require('./serverSnippets');
+const allSnippets = require('./allSnippets');
 
-router.use('/server', serverSnippets);
+router.use('/all', allSnippets);
 
 module.exports = router;
