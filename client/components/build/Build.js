@@ -12,7 +12,6 @@ function Build() {
         if (!authorized){
             setShowModal(true)
         }
-        window.localStorage.setItem()
     }, [])
 
     return (
