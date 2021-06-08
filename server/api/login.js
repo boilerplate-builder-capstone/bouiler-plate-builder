@@ -1,7 +1,4 @@
 const loginRouter = require('express').Router();
-const env = require('../../env');
-process.env.client_id = env.client_id;
-process.env.client_secret = env.client_secret;
 
 loginRouter.get('/', async (req, res, next) => {
   try {
@@ -9,6 +6,7 @@ loginRouter.get('/', async (req, res, next) => {
       `https://github.com/login/oauth/authorize?client_id=${process.env.client_id}`
     );
   } catch (error) {
+    console.log('error in loginRouter', error);
     next(error);
   }
 });
