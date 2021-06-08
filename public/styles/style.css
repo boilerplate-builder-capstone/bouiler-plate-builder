@@ -2,9 +2,10 @@
     margin: 1.5rem
 }
 
-#build {
-    /* justify-content: center; */
-}
+/* #test{
+    display: flex;
+    justify-content: space-evenly;
+} */
 
 .splitscreen {
     display: flex;
@@ -13,7 +14,14 @@
 }
 
 .split {
-    margin: 1rem
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 1.5rem 1rem 1.5rem;
+    width: 35%
+}
+
+.split h5 {
+    text-align: center
 }
 
 .header {

@@ -4,6 +4,7 @@ import Home from './home/Home'
 import Build from './build/Build'
 import NavBar from './NavBar'
 import QuestionWalkthrough from './questionwalkthrough/QuestionWalkthrough'
+import SignIn from './SignIn'
 
 function App() {
 
@@ -19,6 +20,9 @@ function App() {
                 </Route>
                 <Route exact path="/build/customize">
                     <QuestionWalkthrough />
+                </Route>
+                <Route exact path= "/signin">
+                    <SignIn />
                 </Route>
             </Router>
         </div>
