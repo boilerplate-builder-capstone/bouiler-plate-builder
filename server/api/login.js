@@ -1,3 +1,5 @@
+// redirects the page to github login
+
 const loginRouter = require('express').Router();
 
 loginRouter.get('/', async (req, res, next) => {
