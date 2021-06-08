@@ -7,6 +7,7 @@ function Question(props) {
     const [ yesOrNo, setYesOrNo ] = useState(false)
     const [ question, setQuestion ] = useState("Do you want a server?")
     const [ questionSet, setQuestionSet ] = useState("backend")
+    const [ showWarning, setShowWarning ] = useState(false)
     const { setCompleted } = props
 
     const backEndQuestions = (yesOrNo) => {
@@ -131,26 +132,29 @@ function Question(props) {
 
     const handleSubmit = (ev) => {
         ev.preventDefault();
-        if (questionSet === "backend"){
+        if (!yesOrNo){
+            setShowWarning(true)
+        }
+        else if (questionSet === "backend"){
             backEndQuestions(yesOrNo)
+            setShowWarning(false)
         }
         else if (questionSet === "frontend"){
             frontEndQuestions(yesOrNo)
+            setShowWarning(false)
         }
     }
 
     return (
-            <Form onSubmit={handleSubmit}>
-                <Form.Label>{question}</Form.Label>
+        <div id="questioncontainer">
+            <Form id="question" onSubmit={handleSubmit}>
+                <h6>{question}</h6>
                 <Form.Check name="radiogroup" type="radio" label="Yes" onClick={() => setYesOrNo("yes")}/>
                 <Form.Check name="radiogroup" type="radio" label="No" onClick={() => setYesOrNo("no")}/>
                 <Button type="submit">Next Question</Button>
-                <Button onClick={() => {
-                    console.log("combined responses:", {backEndResponses, frontEndResponses})
-                    console.log("question", question)
-                    console.log("questionSet", questionSet)
-                }}>See state</Button>
+                {showWarning ? <Form.Text>Please make a selection</Form.Text> : null}
             </Form>
+        </div>
     )
 }
 

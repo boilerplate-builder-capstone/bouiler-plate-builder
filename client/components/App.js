@@ -18,11 +18,11 @@ function App() {
                 <Route exact path="/build">
                     <Build/>
                 </Route>
-                <Route exact path="/build/customize">
-                    <QuestionWalkthrough />
-                </Route>
                 <Route exact path= "/signin">
                     <SignIn />
+                </Route>
+                <Route exact path="/build/customize">
+                    <QuestionWalkthrough />
                 </Route>
             </Router>
         </div>
