@@ -22,7 +22,7 @@ ReactDOM.reander(
   <Provider store={store}>
     <App />
   </Provider>
-  <% } else {%>
+  <% } else { %>
   <App />
   <% } %>
 );
