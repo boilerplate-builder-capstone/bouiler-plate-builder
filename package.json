@@ -26,9 +26,12 @@
   },
   "homepage": "https://github.com/mpiech1813/boilerplate-builder#readme",
   "dependencies": {
+    "ejs": "^3.1.6",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "express": "^4.17.1",
+    "fs": "*",
+    "node-zip": "^1.1.1",
     "pg": "^8.6.0",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.0",
