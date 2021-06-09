@@ -25,6 +25,17 @@ accessTokenRouter.get('/', async (req, res, next) => {
       error.status = 401;
       throw error;
     }
+
+    const accessToken = response.access_token;
+
+    response = (
+      await axios.get('https://api.github.com/user', {
+        headers: {
+          authorization: `token ${accessToken}`,
+        },
+      })
+    ).data;
+
     res.send(response);
   } catch (error) {
     console.log('error in accessTokenRouter', error);
