@@ -1,4 +1,4 @@
-const Server = require('../code_snippets/model-server');
+const Server = require('../../server/db/models/Code');
 
 const syncServer = async () => {
   const s1 = await Server.create({

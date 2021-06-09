@@ -11,6 +11,7 @@
     "test:dev": "npm run test -- --watch",
     "start": "node server/index.js",
     "start:dev": "npm run build:dev & nodemon server/index --ignore server/public",
+    "windows-start:dev": "nodemon server/index",
     "build": "webpack  --mode=production",
     "build:dev": "npm run build -- --watch --mode=development"
   },
@@ -26,9 +27,9 @@
   },
   "homepage": "https://github.com/mpiech1813/boilerplate-builder#readme",
   "dependencies": {
-    "ejs": "^3.1.6",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "fs": "*",
     "node-zip": "^1.1.1",
