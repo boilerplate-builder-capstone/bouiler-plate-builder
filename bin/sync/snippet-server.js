@@ -1,7 +1,7 @@
-const Server = require('../code_snippets/model-server');
+const Code = require('../../server/db/models/Code');
 
 const syncServer = async () => {
-  const s1 = await Server.create({
+  const s1 = await Code.create({
     id: 'S1',
     fileName: 'startServer.js',
     category: 'server',
@@ -21,7 +21,7 @@ const syncServer = async () => {
             await db.sync()
             await syncAndSeed()
             <% } %>
-            app.listen(PORT, () => console.log(\`app is listening on ${PORT}\`))
+            app.listen(PORT, () => console.log(\`app is listening on \${PORT}\`))
         }
         catch (error) {
                 console.log(error)
@@ -32,7 +32,7 @@ const syncServer = async () => {
     `,
   });
 
-  const s2 = await Server.create({
+  const s2 = await Code.create({
     id: 'S2',
     fileName: 'modifyServer.js(app.js)',
     category: 'server',
@@ -65,7 +65,7 @@ const syncServer = async () => {
     `,
   });
 
-  const s3 = await Server.create({
+  const s3 = await Code.create({
     id: 'S3',
     fileName: 'db.js',
     category: 'database',
@@ -74,13 +74,13 @@ const syncServer = async () => {
       const Sequelize = require('sequelize')
 
       const dbName = /* NAME OF YOUR DATABASE HERE */
-      const db = new Sequelize(process.env.DATABASE_URL || \`postgres://localhost/${dbName}\`)
+      const db = new Sequelize(process.env.DATABASE_URL || \`postgres://localhost/\${dbName}\`)
 
       module.exports = db
     `,
   });
 
-  const s4 = await Server.create({
+  const s4 = await Code.create({
     id: 'S4',
     fileName: 'modelname.js',
     category: 'model',
@@ -99,7 +99,7 @@ const syncServer = async () => {
     `,
   });
 
-  const s5 = await Server.create({
+  const s5 = await Code.create({
     id: 'S5',
     fileName: 'othermodelname.js',
     category: 'model',
@@ -118,7 +118,7 @@ const syncServer = async () => {
     `,
   });
 
-  const s6 = await Server.create({
+  const s6 = await Code.create({
     id: 'S6',
     fileName: 'modelsandrelationships.js',
     category: 'model',
@@ -138,11 +138,11 @@ const syncServer = async () => {
     `,
   });
 
-  const s7 = await Server.create({
+  const s7 = await Code.create({
     id: 'S7',
     fileName: 'syncandseed.js',
     category: 'syncandseed',
-    title: "Syncandseed",
+    title: 'Syncandseed',
     snippet: `
       const db = require('./db')
       const { models: { ModelName, OtherModelName } } = require('./models/modelsandrelationships')
@@ -167,11 +167,11 @@ const syncServer = async () => {
     `,
   });
 
-  const s8 = await Server.create({
+  const s8 = await Code.create({
     id: 'S8',
     fileName: 'individualrouter.js',
     category: 'router',
-    title: "router",
+    title: 'router',
     snippet: `
     <% if(router) {%>
       // We're bringing in this model for you to use in your routes.
@@ -209,7 +209,6 @@ const syncServer = async () => {
       <% } %>
     `,
   });
-
 };
 
 module.exports = syncServer;
