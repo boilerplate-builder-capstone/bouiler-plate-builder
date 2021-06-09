@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import { Transition } from 'react-transition-group'
 
 function Question(props) {
     const [ backEndResponses, setbackEndResponses ] = useState({})
@@ -25,7 +26,8 @@ function Question(props) {
                 })
                 setQuestion("Front end time! Do you want to use React?")
                 setQuestionSet("frontend")
-            }   
+            }
+            // setInProp(true)
         }
         // If they said "yes, I want a server", ask if they want a database
         if (backEndResponses.server === true){
@@ -126,7 +128,7 @@ function Question(props) {
                     }
                 })
             }
-            setQuestion("DONE")
+            setCompleted(true)
         }
     }
 
@@ -136,24 +138,59 @@ function Question(props) {
             setShowWarning(true)
         }
         else if (questionSet === "backend"){
+            // setInProp(false)
             backEndQuestions(yesOrNo)
             setShowWarning(false)
+            // setInProp(false)
         }
         else if (questionSet === "frontend"){
+            // setInProp(false)
             frontEndQuestions(yesOrNo)
             setShowWarning(false)
+            // setInProp(false)
         }
     }
 
+    // TRANSITION STUFF
+    const duration = 500;
+    const defaultStyle = {
+        transition: `opacity ${duration}ms ease-in-out`,
+        opacity: 0,
+    }
+    const transitionStyles = {
+        entering: { opacity: 1 },
+        entered:  { opacity: 1 },
+        exiting:  { opacity: 0 },
+        exited:  { opacity: 0 },
+      };
+      const [inProp, setInProp] = useState(false)
+
+    // useEffect function that fires only when the question text state changes
+    useEffect(() => {
+        console.log('hello world');
+        setInProp(!inProp)
+    }, [question])
+
     return (
         <div id="questioncontainer">
-            <Form id="question" onSubmit={handleSubmit}>
-                <h6>{question}</h6>
-                <Form.Check name="radiogroup" type="radio" label="Yes" onClick={() => setYesOrNo("yes")}/>
-                <Form.Check name="radiogroup" type="radio" label="No" onClick={() => setYesOrNo("no")}/>
-                <Button type="submit">Next Question</Button>
-                {showWarning ? <Form.Text>Please make a selection</Form.Text> : null}
-            </Form>
+            <Transition in={inProp} timeout={duration}>
+                {state => (
+                    <div style={{
+                        ...defaultStyle,
+                        ...transitionStyles[state]
+                    }}>
+                        <Form id="question" onSubmit={handleSubmit}>
+                            <h6>{question}</h6>
+                            <Form.Check name="radiogroup" type="radio" label="Yes" onClick={() => setYesOrNo("yes")}/>
+                            <Form.Check name="radiogroup" type="radio" label="No" onClick={() => setYesOrNo("no")}/>
+                            <Button type="submit">Next Question</Button>
+                            {showWarning ? <Form.Text>Please make a selection</Form.Text> : null}
+                        </Form>
+                    </div>
+                )}
+            </Transition>
+            <button onClick={() => setInProp(true)}>Click to Enter</button>
+            <button onClick={() => setInProp(false)}>Click to Exit</button>
         </div>
     )
 }
