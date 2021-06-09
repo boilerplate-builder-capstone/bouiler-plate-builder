@@ -87,6 +87,89 @@ export default (App)
 <% } %>
     `,
   });
+  const r3 = await Code.create({
+    id: 'R3',
+    fileName: 'actions.js',
+    category: 'react',
+    title: 'React-Redux: action creator',
+    snippet: `
+import axios from 'axios'
+const YOUR_COMMAND = 'YOUR_COMMAND'
+
+const actionCreator = (data) => {
+    return {
+        type: YOUR_COMMAND,
+        data
+    }
+}
+
+export const someThunk = (input) => {
+    return async(dispatch) => {
+        try {
+            const data = (await axios.get('/pathName')).data
+            dispatch(actionCreator(data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+      `,
+  });
+  const r4 = await Code.create({
+    id: 'R4',
+    fileName: 'reducer.js',
+    category: 'react',
+    title: 'React-Redux: single reducer',
+    snippet: `
+const YOUR_COMMAND = 'YOUR_COMMAND'
+
+const singleReducer = (state = [], action) => {
+    if (action.type === YOUR_COMMAND){
+        // Use the action's data to modify state
+        state = [...state, action.data]
+    }
+    return state
+}
+
+export default singleReducer;
+    `,
+  });
+  const r5 = await Code.create({
+    id: 'R5',
+    fileName: 'rootreducer.js',
+    category: 'react',
+    title: 'React-Redux: root reducer',
+    snippet: `
+// combine all your reducers here
+
+import { combineReducers } from 'redux'
+import singleReducer from './reducer'
+
+const rootReducer = combineReducers({
+    stateName: singleReducer
+});
+
+export default rootReducer;
+    `,
+  });
+  const r6 = await Code.create({
+    id: 'R6',
+    fileName: 'store.js',
+    category: 'react',
+    title: 'React-Redux: store',
+    snippet: `
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
+import rootReducer from './rootreducer'
+
+const store = createStore(
+    rootReducer,
+    applyMiddleware(thunkMiddleware)
+)
+
+export default store
+    `,
+  });
 };
 
 module.exports = syncReact;
