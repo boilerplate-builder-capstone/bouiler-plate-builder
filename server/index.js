@@ -1,5 +1,5 @@
 const app = require('./server');
-const syncAndSeed = require('./db/model/sync/syncAdnSeed');
+const syncAndSeed = require('../bin/sync/syncAndSeed');
 const PORT = process.env.PORT || 3000;
 
 const init = async () => {
@@ -14,5 +14,3 @@ const init = async () => {
 };
 
 init();
-
-//added travis-ci yml file
