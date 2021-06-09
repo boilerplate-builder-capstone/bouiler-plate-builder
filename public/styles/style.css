@@ -36,6 +36,7 @@
 .verticalline {
     border-left: 3px solid limegreen;
     height: 20rem;
+    margin: 2rem 1rem 2rem 1rem;
     border-radius: 1.5px;
     opacity: .5;
 }

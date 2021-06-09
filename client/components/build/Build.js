@@ -18,7 +18,7 @@ function Build() {
         <div>
             <ChooseExperience />
 
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal centered show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Body>
                     <div className="splitscreen">
                         <div className="split">
