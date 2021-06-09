@@ -1,6 +1,7 @@
 const db = require('../../server/db/db');
 const Code = require('../../server/db/models/Code');
 const syncReact = require('./snippet-react');
+const syncServer = require('./snippet-server');
 // -------------import all code snippets here------------------
 
 const syncAndSeed = async () => {
@@ -8,6 +9,7 @@ const syncAndSeed = async () => {
     await db.sync({ force: true });
     // -------------import all code snippets here------------------
     await syncReact();
+    await syncServer();
     // delete below when we have an actual code snippet
     await Code.create({
       id: 'T1',
