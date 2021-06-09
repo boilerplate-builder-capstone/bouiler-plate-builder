@@ -21,7 +21,7 @@ const syncServer = async () => {
             await db.sync()
             await syncAndSeed()
             <% } %>
-            app.listen(PORT, () => console.log(\`app is listening on ${PORT}\`))
+            app.listen(PORT, () => console.log(\`app is listening on \${PORT}\`))
         }
         catch (error) {
                 console.log(error)
@@ -74,7 +74,7 @@ const syncServer = async () => {
       const Sequelize = require('sequelize')
 
       const dbName = /* NAME OF YOUR DATABASE HERE */
-      const db = new Sequelize(process.env.DATABASE_URL || \`postgres://localhost/${dbName}\`)
+      const db = new Sequelize(process.env.DATABASE_URL || \`postgres://localhost/\${dbName}\`)
 
       module.exports = db
     `,
