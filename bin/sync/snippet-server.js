@@ -209,6 +209,68 @@ const syncServer = async () => {
       <% } %>
     `,
   });
+
+  const s9 = await Code.create({
+    id: 'S9',
+    fileName: 'package.json',
+    category: 'server',
+    title: 'Server: package.json file',
+    snippet: `
+    {
+      "name": "boilerplatebuilder",
+      "version": "1.0.0",
+      "description": "",
+      "main": "modifyserver.js",
+      "scripts": {
+        <% if (react) {%>
+        "build": "webpack  --mode=production",
+        "build:dev": "npm run build -- --watch --mode=development",
+        "start:dev": "npm run build:dev & nodemon server/startserver.js --ignore dist/"
+        <% } else {%>
+          "start:dev": "nodemon server/startserver.js"
+          <% } %>
+      },
+      "keywords": [],
+      "author": "",
+      "license": "ISC",
+      "dependencies": {
+        "express": "^4.17.1",
+        <% if (db) {%>
+          "sequelize": "^6.6.2"
+          "pg": "^8.6.0",
+          <% } %>
+          <% if (react) {%>
+            "react": "^17.0.2",
+            "react-dom": "^17.0.2",
+            "axios": "^0.21.1",
+          <% } %>
+          <% if (react.react-redux) {%>
+            "react-redux": "^7.2.4",
+            "redux": "^4.1.0",
+            "redux-thunk": "^2.3.0",
+          <% } %>
+          <% if(react.reactRouter) { %>
+            "react-router-dom": "^5.2.0",
+          <% } %>
+      },
+      "devDependencies": {
+        <% if (server) {%>
+        "nodemon": "^2.0.7",
+        <% } %>
+        <% if (react) {%>
+        "webpack": "^5.38.1",
+        "webpack-cli": "^4.7.0",
+        "@babel/cli": "^7.13.16",
+        "@babel/core": "^7.13.16",
+        "@babel/plugin-proposal-class-properties": "^7.13.0",
+        "@babel/preset-react": "^7.13.13",
+        "babel-loader": "^8.2.2"
+        <% } %>
+      }
+     }
+     
+    `,
+  });
 };
 
 module.exports = syncServer;
