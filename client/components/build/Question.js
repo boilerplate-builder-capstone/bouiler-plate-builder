@@ -1,75 +1,79 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import { Transition } from 'react-transition-group'
 
 function Question(props) {
-    const [ backEndResponses, setbackEndResponses ] = useState({})
-    const [ frontEndResponses, setFrontEndResponses ] = useState({})
+    const [transition, setTransition] = useState(true)
     const [ yesOrNo, setYesOrNo ] = useState(false)
     const [ question, setQuestion ] = useState("Do you want a server?")
     const [ questionSet, setQuestionSet ] = useState("backend")
-    const { setCompleted } = props
+    const [ showWarning, setShowWarning ] = useState(false)
+    const { setCompleted, backEndResponses, setBackEndResponses, frontEndResponses, setFrontEndResponses } = props
 
-    const backEndQuestions = (yesOrNo) => {
-        // If this is the first question
+    const transitionQuestion = (text) => {
+        setTransition(false)
+        setTimeout(setQuestion, 500, text)
+        setTimeout(setTransition, 500, true)
+    }
+
+    const backEndQuestions = async (yesOrNo) => {
+        // First question
         if (Object.keys(backEndResponses).length === 0){
 
             if (yesOrNo === "yes"){
-                setbackEndResponses({server: true})
-                setQuestion("Do you want a database?")
+                setBackEndResponses({server: true})
+                transitionQuestion("Do you want a database?")
             }
             else if (yesOrNo === "no"){
-                setQuestion("You said no")
-                setbackEndResponses({
+                setBackEndResponses({
                     server: false
                 })
-                setQuestion("Front end time! Do you want to use React?")
+                transitionQuestion("Front end time! Do you want to use React?")
                 setQuestionSet("frontend")
-            }   
+            }
         }
         // If they said "yes, I want a server", ask if they want a database
         if (backEndResponses.server === true){
             if (yesOrNo === "yes"){
-                setbackEndResponses({
+                setBackEndResponses({
                     server: {
                         db: true
                     }
                 })
-                setQuestion("Do you want an extra router?")
+                transitionQuestion("Do you want an extra router?")
             }
             else if (yesOrNo === "no"){
-                setbackEndResponses({
+                setBackEndResponses({
                     server: {
                         db: false
                     }
                 })
-                setQuestion("Front end time! Do you want to use React?")
+                transitionQuestion("Front end time! Do you want to use React?")
                 setQuestionSet("frontend")
             }
         }
         // If they said "yes, I want a database", ask if they want an extra router
         if (backEndResponses.server && backEndResponses.server.db === true){
             if (yesOrNo === "yes"){
-                setbackEndResponses({
+                setBackEndResponses({
                     server: {
                         db: {
                             extraRouter: true
                         }
                     }
                 })
-                setQuestion("Front end time! Do you want to use React?")
-                setQuestionSet("frontend")
             }
             else if (yesOrNo === "no"){
-                setbackEndResponses({
+                setBackEndResponses({
                     server: {
                         db: {
                             extraRouter: false
                         }
                     }
                 })
-                setQuestion("Front end time! Do you want to use React?")
-                setQuestionSet("frontend")
             }
+            transitionQuestion("Front end time! Do you want to use React?")
+            setQuestionSet("frontend")
         }
     }
 
@@ -80,13 +84,14 @@ function Question(props) {
                 setFrontEndResponses({
                     react: true
                 })
-                setQuestion("Do you want to use React Router?")
+                transitionQuestion("Do you want to use React Router?")
             }
             else if (yesOrNo === "no"){
                 setFrontEndResponses({
                     react: false
                 })
-                setCompleted(true)
+                setTransition(false)
+                setTimeout(setCompleted, 500, true)
             }
         }
         // If they said "yes, I want React", ask them if they want react-router
@@ -105,7 +110,7 @@ function Question(props) {
                     }
                 })
             }
-            setQuestion("Do you want to use React Redux to manage state?")
+            transitionQuestion("Do you want to use React Redux to manage state?")
         }
         // Regardless of if they wanted react-router, ask them if they want react redux
         if (frontEndResponses.react && (frontEndResponses.react.reactRouter === true || frontEndResponses.react.reactRouter === false)){
@@ -125,32 +130,61 @@ function Question(props) {
                     }
                 })
             }
-            setQuestion("DONE")
+            setTransition(false)
+            setTimeout(setCompleted, 500, true)
         }
     }
 
     const handleSubmit = (ev) => {
         ev.preventDefault();
-        if (questionSet === "backend"){
+        if (!yesOrNo){
+            setShowWarning(true)
+        }
+        else if (questionSet === "backend"){
             backEndQuestions(yesOrNo)
+            setShowWarning(false)
         }
         else if (questionSet === "frontend"){
             frontEndQuestions(yesOrNo)
+            setShowWarning(false)
+
         }
     }
 
+    // TRANSITION ANIMATION STUFF
+    const duration = 500;
+    const defaultStyle = {
+        transition: `opacity ${duration}ms ease-in-out`,
+        opacity: 0,
+    }
+    const transitionStyles = {
+        entering: { opacity: 1 },
+        entered:  { opacity: 1 },
+        exiting:  { opacity: 0 },
+        exited:  { opacity: 0 },
+      };
+
     return (
-            <Form onSubmit={handleSubmit}>
-                <Form.Label>{question}</Form.Label>
-                <Form.Check name="radiogroup" type="radio" label="Yes" onClick={() => setYesOrNo("yes")}/>
-                <Form.Check name="radiogroup" type="radio" label="No" onClick={() => setYesOrNo("no")}/>
-                <Button type="submit">Next Question</Button>
-                <Button onClick={() => {
-                    console.log("combined responses:", {backEndResponses, frontEndResponses})
-                    console.log("question", question)
-                    console.log("questionSet", questionSet)
-                }}>See state</Button>
-            </Form>
+        <div id="questioncontainer">
+            <Transition in={transition} timeout={duration}>
+                {state => (
+                    <div style={{
+                        ...defaultStyle,
+                        ...transitionStyles[state]
+                    }}>
+
+                        <Form id="question" onSubmit={handleSubmit}>
+                            <h6>{question}</h6>
+                            <Form.Check name="radiogroup" type="radio" label="Yes" onClick={() => setYesOrNo("yes")}/>
+                            <Form.Check name="radiogroup" type="radio" label="No" onClick={() => setYesOrNo("no")}/>
+                            <Button type="submit">Next Question</Button>
+                            {showWarning ? <Form.Text>Please make a selection</Form.Text> : null}
+                        </Form>
+
+                    </div>
+                )}
+            </Transition>
+        </div>
     )
 }
 
