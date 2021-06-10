@@ -7,14 +7,13 @@ const User = db.define('user', {
     allowNull: false,
     unique: true,
   },
-  // will use this in the future
-  // id: {
-  //   primaryKey: true,
-  //   type: DataTypes.UUID,
-  //   defaultValue: DataTypes.UUIDV4,
-  //   allowNull: false,
-  //   unique: true,
-  // },
+  id: {
+    primaryKey: true,
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    allowNull: false,
+    unique: true,
+  },
   github: {
     type: DataTypes.JSON,
   },
