@@ -1,5 +1,6 @@
 const accessTokenRouter = require('express').Router();
 const axios = require('axios');
+const jwt = require('jsonwebtoken');
 const User = require('../db/models/User');
 
 accessTokenRouter.get('/', async (req, res, next) => {
@@ -59,9 +60,25 @@ accessTokenRouter.get('/', async (req, res, next) => {
     //   await User.update({ github });
     // }
 
-    const info = `Logged in successfully, under ${login}`;
+    // const info = `Logged in successfully, under ${login}`;
 
-    res.send(info);
+    console.log(process.env.JWT);
+
+    const jwtToken = jwt.sign({ id: user.id }, process.env.JWT);
+
+    const tokenResponse = `
+    <html>
+    <head>
+        <script>
+            window.localStorage.setItem('token','${jwtToken}');
+            window.document.location = '/';
+            </script>
+    </head>
+    <body></body>
+</html>
+    `;
+
+    res.send(tokenResponse);
   } catch (error) {
     console.log('error in accessTokenRouter', error);
     next(error);
