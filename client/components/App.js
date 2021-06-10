@@ -32,12 +32,10 @@ class App extends Component {
 
   logout() {
     window.localStorage.removeItem('token');
-    this.state.user = false;
+    this.setState({ user: false });
   }
 
   render() {
-    const { user } = this.state;
-    console.log('user is ', user);
     return (
       <div>
         <Router>

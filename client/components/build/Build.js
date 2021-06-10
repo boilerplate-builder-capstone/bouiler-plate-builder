@@ -10,8 +10,6 @@ function Build() {
     const authorized = window.localStorage.getItem('token');
     if (!authorized) {
       setShowModal(true);
-    } else {
-      console.log('user logged in from BUild.js');
     }
   }, []);
 

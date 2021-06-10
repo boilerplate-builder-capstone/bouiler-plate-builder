@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 
 function NavBar(props) {
-  console.log('props from navbar', props);
+  const logout = () => {
+    props.logout();
+  };
 
   return (
     <Navbar className="navbar" bg="dark" variant="dark" expand="lg">
@@ -19,7 +21,7 @@ function NavBar(props) {
         ) : (
           <Nav.Link
             onClick={() => {
-              props.logout();
+              logout();
             }}
           >
             Logout
