@@ -9,7 +9,8 @@ import SignIn from './SignIn';
 
 class App extends Component {
   componentDidMount() {
-    //add component did mount and login form token in local storage
+    // upon load, check if there is a loged in user
+    // in future, use cookies instead LS
     const token = window.localStorage.getItem('token');
     if (token) {
       axios.get('/api/auth', {
