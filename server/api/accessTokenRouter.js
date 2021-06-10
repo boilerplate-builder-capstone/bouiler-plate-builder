@@ -62,7 +62,7 @@ accessTokenRouter.get('/', async (req, res, next) => {
 
     // const info = `Logged in successfully, under ${login}`;
 
-    const jwtToken = jwt.sign({ id: user.id }, process.env.JWT);
+    const jwtToken = jwt.sign({ userId: user.id }, process.env.JWT);
 
     const tokenResponse = `
     <html>

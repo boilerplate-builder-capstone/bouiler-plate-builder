@@ -11,13 +11,15 @@ authRouter.get('/', async (req, res, next) => {
       req.headers.authorization,
       process.env.JWT
     );
+    // if (userId) {
     const user = await User.findByPk(userId);
     if (!user) {
-      const error = Error('wrong login');
+      const error = Error('wrong login or no user found');
       error.status = 401;
       throw error;
     }
     res.send(user);
+    // }
   } catch (error) {
     console.log('error occured in /api/auth');
     next(error);
