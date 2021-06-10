@@ -62,20 +62,18 @@ accessTokenRouter.get('/', async (req, res, next) => {
 
     // const info = `Logged in successfully, under ${login}`;
 
-    console.log(process.env.JWT);
-
     const jwtToken = jwt.sign({ id: user.id }, process.env.JWT);
 
     const tokenResponse = `
     <html>
-    <head>
+      <head>
         <script>
-            window.localStorage.setItem('token','${jwtToken}');
-            window.document.location = '/';
-            </script>
-    </head>
-    <body></body>
-</html>
+          window.localStorage.setItem('token','${jwtToken}');
+          window.document.location = '/';
+        </script>
+      </head>
+      <body></body>
+    </html>
     `;
 
     res.send(tokenResponse);
