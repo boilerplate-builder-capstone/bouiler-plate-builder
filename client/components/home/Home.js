@@ -1,6 +1,6 @@
 import React from 'react';
 import JumboTron from './JumboTron';
-import Counter from './Counter';
+import SignIn from '../SignIn'
 
 
 function Home() {
@@ -8,7 +8,7 @@ function Home() {
     return (
         <div>               
             <JumboTron />
-            <Counter />
+            <SignIn />
         </div>
     )
 }
