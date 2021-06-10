@@ -54,11 +54,14 @@ accessTokenRouter.get('/', async (req, res, next) => {
         github,
       });
     }
+    // will use in the future
     // else {
     //   await User.update({ github });
     // }
 
-    res.send(user);
+    const info = `Logged in successfully, under ${login}`;
+
+    res.send(info);
   } catch (error) {
     console.log('error in accessTokenRouter', error);
     next(error);
