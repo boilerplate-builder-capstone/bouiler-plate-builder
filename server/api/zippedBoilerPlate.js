@@ -24,8 +24,9 @@ function createFile(key, variable){
 zippedBoilerPlate.get('/', async (req, res, next) => {
   try {
 
-    let { server, react } = req.body
-
+    let { server, react } = req.query
+    //need to fix the issues here with wrong datatypes being passed through for whatever reason
+    console.log(server.db, react)
     let appjs = createFile('R2', {react})
 
     //intialize variables
