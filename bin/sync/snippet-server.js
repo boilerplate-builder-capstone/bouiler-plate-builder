@@ -7,7 +7,7 @@ const syncServer = async () => {
     category: 'server',
     title: 'Server: startServer',
     snippet: `
-      <% if(database) { %>
+      <% if(server.db) { %>
       const db = require('./db/db')
       const syncAndSeed = require('./db/syncandseed')
       <% } %>
@@ -17,7 +17,7 @@ const syncServer = async () => {
 
       const initializeApp = async () => {
         try {
-            <% if(database) {%>
+            <% if(server.db) {%>
             await db.sync()
             await syncAndSeed()
             <% } %>
@@ -43,7 +43,7 @@ const syncServer = async () => {
       const path = require('path')
 
       app.use(express.json());
-      <% if(router) {%>
+      <% if(server.db) {%>
       const individualRouter = require('./routes/individualrouter')
       app.use('/YOUR-MOUNTED-PATH', individualRouter)
       <% } %>
@@ -173,7 +173,7 @@ const syncServer = async () => {
     category: 'router',
     title: "router",
     snippet: `
-    <% if(router) {%>
+    <% if(server.db) {%>
       // We're bringing in this model for you to use in your routes.
       const { models: { ModelName } } = require('../db/models/modelsandrelationships')
       const individualRouter = require('express').Router()

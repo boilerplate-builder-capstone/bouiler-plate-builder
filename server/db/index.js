@@ -1,6 +1,4 @@
 const db = require('./db');
-const Server = require('./model/code_snippets/model-server');
+const Code = require('./models/Code.js');
 
-module.exports = {
-  Server,
-};
+module.exports = { db, models:{ Code } };

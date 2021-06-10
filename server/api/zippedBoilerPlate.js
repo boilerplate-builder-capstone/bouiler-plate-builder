@@ -1,4 +1,5 @@
 const zippedBoilerPlate = require('express').Router();
+const { models: { Code }} = require('../db')
 const ejs = require('ejs')
 const fs = require('fs')
 const zip = new require('node-zip')()
@@ -10,12 +11,11 @@ function zipHelper(fileString, arrObject){
 
 }
 
-function createFile(filename, variable, ext){
-    let name = `${filename}.${ext}`
-    
+function createFile(key, variable){   
 
-    let data = fs.readFileSync(path.join(__dirname, '..', '..', `txtBoiler/${filename}.txt`), 'utf8')
-    let contents = ejs.render(data, variable)
+    let data = Code.findByPk(key)
+    let name = data.fileName
+    let contents = ejs.render(data.snippet, variable)
         
 
     return {name, contents}
@@ -24,49 +24,61 @@ function createFile(filename, variable, ext){
 zippedBoilerPlate.get('/', async (req, res, next) => {
   try {
 
-    let appjs = createFile('App', {router: true, redux: true}, 'js')
+    let { server, react } = req.body
+
+    let appjs = createFile('R2', {react})
+
+    //intialize variables
+    let reactreduxObjectArray = [] 
+    let clientObjectArray = []
+    let publicObjectArray = []
+    let modelObjectArray = []
+    let dbObjectArray = []
+    let routesObjectArray = []
+    let serverObjectArray = []
+    let configObjectArray = []
     
-    let actionjs = createFile('Action', {}, 'js')
-    let reducerjs = createFile('Reducer', {}, 'js')
-    let rootreducerjs = createFile('RootReducer', {}, 'js')
-    let storejs = createFile('Store', {}, 'js')
+    //react 
+    if(react){
+
+      clientObjectArray.push(createFile('R1', react))
+      //react redux logic
+      if(react.redux){
+        //creates array object for redux components on client side
+        reactreduxObjectArray.push(createFile('R3', {}))
+        reactreduxObjectArray.push(createFile('R4', {}))
+        reactreduxObjectArray.push(createFile('R5', {}))
+        reactreduxObjectArray.push(createFile('R6', {}))
+      }
+    }
    
-    let htmlindexhtml = createFile('htmlIndex', {react: true}, 'html')
-    let clientindexjs = createFile('index', {redux: true}, 'js')
+    //The app index html creation for htmlindex in public folder
+    clientObjectArray.push(createFile('P1', react))
 
-    let stylecss = {name: 'style.css', contents: "contents here"}
+    //CSS file creation in public folder
+    publicObjectArray.push(createFile('P2', {}))
 
-    let modelnamejs = createFile('modelname', {}, 'js')
-    let modelsandrelationshipsjs = createFile('modelsandrelationships', {}, 'js')
-    let othermodelnamejs = createFile('othermodelname', {}, 'js')
+    if(server){
+      /* SERVER DB ROUTER STRUCTURE NEEDS TO BE ADJUSTED!!!!!*/
+      serverObjectArray.push(createFile('S2', server))
+      serverObjectArray.push(createFile('S1', server))
 
-    let dbjs = createFile('db', {}, 'js')
-    let syncandseedjs = createFile('syncandseed', {}, 'js')
-
-    let individualrouterjs = createFile('individualrouter', {}, 'js')
-
-    let modifyserverjs = createFile('modifyserver', {router: true}, 'js')
-    let startserverjs = createFile('startserver', {database: true}, 'js')
-
-    let babel = createFile('.babelrc', {}, '')
-    let package = createFile('webpack', {}, 'config.js')
-    let webpack = createFile('package', {database: true, react: true, redux: true }, 'json')
-
-    let reactreduxObjectArray = [actionjs, reducerjs, rootreducerjs, storejs] 
-
-    let clientObjectArray = [htmlindexhtml, clientindexjs]
-
-    let publicObjectArray = [stylecss]
-
-    let modelObjectArray = [modelnamejs, modelsandrelationshipsjs, othermodelnamejs]
-
-    let dbObjectArray = [dbjs, syncandseedjs]
-
-    let routesObjectArray = [individualrouterjs]
-
-    let serverObjectArray = [modifyserverjs, startserverjs]
-
-    let configObjectArray = [babel, package, webpack]
+      routesObjectArray.push(createFile('S8', {}))
+  
+      if(server.db){
+        //main db file creation
+        dbObjectArray.push(createFile('S3', {}))
+        //seeding file created
+        configObjectArray.push(createFile('S7', {}))
+        //server database object creation
+        modelObjectArray.push(createFile('S4', {}))
+        modelObjectArray.push(createFile('S6', {}))
+        modelObjectArray.push(createFile('S5', {}))
+      }
+    }
+    configObjectArray.push(createFile('.babelrc', {}, ''))
+    configObjectArray.push(createFile('webpack', {}, 'config.js'))
+    configObjectArray.push(createFile('package', {server, react}, 'json'))
 
     zipHelper('client/reactredux/', reactreduxObjectArray)
     zipHelper('client/', clientObjectArray)
