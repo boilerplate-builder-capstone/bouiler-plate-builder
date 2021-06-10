@@ -1,10 +1,12 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
-function GenerateBoilerplate() {
-    
+function GenerateBoilerplate(props) {
+    const { backEndResponses, frontEndResponses } = props
+
     const generateBoilerplate = () => {
         console.log("boilerplate will generate now")
+        console.log("This will be the request body:", {...backEndResponses, ...frontEndResponses})
         // Axios call here
     }
 

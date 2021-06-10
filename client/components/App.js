@@ -2,8 +2,9 @@ import React from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import Home from './home/Home'
 import Build from './build/Build'
+import QuestionWalkthrough from './build/QuestionWalkthrough'
 import NavBar from './NavBar'
-import QuestionWalkthrough from './questionwalkthrough/QuestionWalkthrough'
+import SignIn from './SignIn'
 
 function App() {
 
@@ -13,6 +14,9 @@ function App() {
                 <NavBar />
                 <Route exact path="/">
                     <Home/>
+                </Route>
+                <Route exact path= "/signin">
+                    <SignIn />
                 </Route>
                 <Route exact path="/build">
                     <Build/>
