@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const User = require('../db/models/User');
 
 const authRouter = require('express').Router();

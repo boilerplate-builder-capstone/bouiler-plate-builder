@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
+import axios from 'axios';
 import Home from './home/Home';
 import Build from './build/Build';
 import QuestionWalkthrough from './build/QuestionWalkthrough';
@@ -11,14 +12,11 @@ class App extends Component {
     //add component did mount and login form token in local storage
     const token = window.localStorage.getItem('token');
     if (token) {
-      console.log('token found');
-      // const response = await axios.get('/api/auth', {
-      //   headers: {
-      //     authorization: token,
-      //   },
-      // });
-    } else {
-      console.log('token not found');
+      axios.get('/api/auth', {
+        headers: {
+          authorization: token,
+        },
+      });
     }
   }
 
