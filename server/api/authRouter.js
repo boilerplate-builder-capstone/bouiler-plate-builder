@@ -27,3 +27,7 @@ authRouter.get('/', async (req, res, next) => {
 });
 
 module.exports = authRouter;
+
+// if you are having trouble deploying on heroku due because of oauth
+// check prof's video at timestamp 1:07:00
+// https://www.youtube.com/watch?v=o58zhvHC5kQ
