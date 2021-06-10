@@ -8,6 +8,14 @@ import NavBar from './NavBar';
 import SignIn from './SignIn';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      user: false,
+    };
+    this.logout = this.logout.bind(this);
+  }
+
   componentDidMount() {
     // upon load, check if there is a loged in user
     // in future, use cookies instead LS
@@ -18,14 +26,22 @@ class App extends Component {
           authorization: token,
         },
       });
+      this.setState({ user: true });
     }
   }
 
+  logout() {
+    window.localStorage.removeItem('token');
+    this.state.user = false;
+  }
+
   render() {
+    const { user } = this.state;
+    console.log('user is ', user);
     return (
       <div>
         <Router>
-          <NavBar />
+          <NavBar user={this.state.user} logout={this.logout} />
           <Route exact path="/">
             <Home />
           </Route>
