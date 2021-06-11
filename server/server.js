@@ -5,6 +5,8 @@ const router = require('./api/router');
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+app.use(express.json())
+
 app.use('/api', router);
 
 app.get('/', (req, res, next) => {

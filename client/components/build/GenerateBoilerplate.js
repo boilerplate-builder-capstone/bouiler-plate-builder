@@ -10,7 +10,8 @@ function GenerateBoilerplate(props) {
         console.log("boilerplate will generate now")
         console.log("This will be the request body:", {...backEndResponses, ...frontEndResponses})
         // Axios call to the server to grab documents
-        const  { data }= await axios.get(`api/completedboiler`, { params:{...backEndResponses, ...frontEndResponses}, responseType: 'arraybuffer' })
+        const  { data }= await axios.post(`api/completedboiler`, {...backEndResponses, ...frontEndResponses}, { responseType: 'arraybuffer' })
+        
 
         let blob = await new Blob([data], { type: 'application/zip' }) 
         console.log(data)

@@ -11,40 +11,42 @@ function zipHelper(fileString, arrObject){
 
 }
 
-function createFile(key, variable){   
-
-    let data = Code.findByPk(key)
+async function createFile(key, variable){   
+  try{
+    
+    let data = await Code.findByPk(key)
     let name = data.fileName
     let contents = ejs.render(data.snippet, variable)
-        
-
+    console.log(key, name)
     return {name, contents}
+  }catch(er){
+    console.log(er)
+  }
 }
 
-zippedBoilerPlate.get('/', async (req, res, next) => {
+zippedBoilerPlate.post('/', async (req, res, next) => {
   try {
-
-    let { server, react } = req.query
+    let boiler = req.body
     //need to fix the issues here with wrong datatypes being passed through for whatever reason
-    console.log(server.db, react)
-    let appjs = createFile('R2', {react})
+    let appjs = createFile('R2', boiler)
 
     //intialize variables
     let reactreduxObjectArray = [] 
     let clientObjectArray = []
     let publicObjectArray = []
     let modelObjectArray = []
+
     let dbObjectArray = []
     let routesObjectArray = []
     let serverObjectArray = []
     let configObjectArray = []
     
     //react 
-    if(react){
+    if(boiler.react){
 
-      clientObjectArray.push(createFile('R1', react))
+      clientObjectArray.push(createFile('R1', boiler))
       //react redux logic
-      if(react.redux){
+      if(boiler.react.redux){
         //creates array object for redux components on client side
         reactreduxObjectArray.push(createFile('R3', {}))
         reactreduxObjectArray.push(createFile('R4', {}))
@@ -54,19 +56,19 @@ zippedBoilerPlate.get('/', async (req, res, next) => {
     }
    
     //The app index html creation for htmlindex in public folder
-    clientObjectArray.push(createFile('P1', react))
+    clientObjectArray.push(createFile('P1', boiler))
 
     //CSS file creation in public folder
     publicObjectArray.push(createFile('P2', {}))
 
-    if(server){
+    if(boiler.server){
       /* SERVER DB ROUTER STRUCTURE NEEDS TO BE ADJUSTED!!!!!*/
-      serverObjectArray.push(createFile('S2', server))
-      serverObjectArray.push(createFile('S1', server))
+      serverObjectArray.push(createFile('S2', boiler))
+      serverObjectArray.push(createFile('S1', boiler))
 
       routesObjectArray.push(createFile('S8', {}))
   
-      if(server.db){
+      if(boiler.server.db){
         //main db file creation
         dbObjectArray.push(createFile('S3', {}))
         //seeding file created
@@ -79,7 +81,7 @@ zippedBoilerPlate.get('/', async (req, res, next) => {
     }
     configObjectArray.push(createFile('.babelrc', {}, ''))
     configObjectArray.push(createFile('webpack', {}, 'config.js'))
-    configObjectArray.push(createFile('package', {server, react}, 'json'))
+    configObjectArray.push(createFile('package', boiler, 'json'))
 
     zipHelper('client/reactredux/', reactreduxObjectArray)
     zipHelper('client/', clientObjectArray)
