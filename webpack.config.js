@@ -20,19 +20,4 @@ module.exports = {
     resolve: {
       extensions: ['*', '.js', '.jsx']
     }
-    // module: {
-    //   rules: [
-    //     {
-    //       loader: 'babel-loader',
-    //       exclude: /(node_modules)/,
-    //       options: {
-    //         presets: ['@babel/preset-react']
-    //       }
-    //     },
-    //     {
-    //       test: /\.css$/i,
-    //       use: ['style-loader', 'css-loader'],
-    //     }
-    //   ],
-    // }
   };

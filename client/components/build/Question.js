@@ -10,9 +10,17 @@ function Question(props) {
     const [ showWarning, setShowWarning ] = useState(false)
     const { setCompleted, backEndResponses, setBackEndResponses, frontEndResponses, setFrontEndResponses } = props
 
-    const transitionQuestion = (text) => {
+    const transitionQuestion = (text, changeRadio) => {
         setTransition(false)
         setTimeout(setQuestion, 500, text)
+        if (changeRadio){
+            setTimeout(() => {
+                const yes = document.getElementById("yes")
+                const no = document.getElementById("no")
+                yes.innerHTML = "React Redux"
+                no.innerHTML = "React Hooks"
+            }, 500)
+        }
         setTimeout(setTransition, 500, true)
     }
 
@@ -113,9 +121,6 @@ function Question(props) {
                 })
             }
             transitionQuestion("Do you want to manage component state with either React Hooks or React-Redux?")
-            const yes = document.getElementById("yes")
-            const no = document.getElementById("no")
-            yes.label = 'YES'
         }
         // Regardless of if they wanted react-router, ask them if they want to manage state
         if (frontEndResponses.react && (frontEndResponses.react.reactRouter === true || frontEndResponses.react.reactRouter === false) && !frontEndResponses.react.state){
@@ -126,7 +131,7 @@ function Question(props) {
                         state: true
                     }
                 })
-                transitionQuestion("Do you want to use React Redux or React Hooks to manage state?")
+                transitionQuestion("Do you want to use React Redux or React Hooks to manage state?", true)               
             }
             else if (yesOrNo === "no"){
                 setFrontEndResponses({
@@ -139,7 +144,6 @@ function Question(props) {
                 setTransition(false)
                 setTimeout(setCompleted, 500, true)
             }
-            // transitionQuestion("Do you want to use React Redux or React Hooks to manage state?")
         }
 
         // If they want to manage state, ask them if they want to use react-redux or react hooks
@@ -196,10 +200,6 @@ function Question(props) {
         exited:  { opacity: 0 },
       };
 
-    const showState = () => {
-        console.log({...backEndResponses, ...frontEndResponses})
-    }
-
     return (
         <div id="questioncontainer">
             <Transition in={transition} timeout={duration}>
@@ -211,10 +211,14 @@ function Question(props) {
 
                         <Form id="question" onSubmit={handleSubmit}>
                             <h6>{question}</h6>
-                            <Form.Check id="yes" name="radiogroup" type="radio"  onClick={() => setYesOrNo("yes")}/>
-                            <Form.Check id="no" name="radiogroup" type="radio"  onClick={() => setYesOrNo("no")}/>
+
+                            <input type="radio" name="radio" onClick={() => setYesOrNo("yes")}/>
+                            <label id="yes" htmlFor="yes" id="yes" > Yes</label><br/>
+
+                            <input type="radio" name="radio" onClick={() => setYesOrNo("no")}/>
+                            <label id="no" htmlFor="no"> No</label><br/>
+                            
                             <Button type="submit">Next Question</Button>
-                            <Button onClick={showState}>Show State</Button>
                             {showWarning ? <Form.Text>Please make a selection</Form.Text> : null}
                         </Form>
 
