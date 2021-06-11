@@ -99,26 +99,57 @@ function Question(props) {
             if (yesOrNo === "yes"){
                 setFrontEndResponses({
                     react: {
-                        reactRouter: true
+                        reactRouter: true,
+                        state: false
                     }
                 })
             }
             else if (yesOrNo === "no"){
                 setFrontEndResponses({
                     react: {
-                        reactRouter: false
+                        reactRouter: false,
+                        state: false
                     }
                 })
             }
-            transitionQuestion("Do you want to use React Redux to manage state?")
+            transitionQuestion("Do you want to manage component state with either React Hooks or React-Redux?")
+            const yes = document.getElementById("yes")
+            const no = document.getElementById("no")
+            yes.label = 'YES'
         }
-        // Regardless of if they wanted react-router, ask them if they want react redux
-        if (frontEndResponses.react && (frontEndResponses.react.reactRouter === true || frontEndResponses.react.reactRouter === false)){
+        // Regardless of if they wanted react-router, ask them if they want to manage state
+        if (frontEndResponses.react && (frontEndResponses.react.reactRouter === true || frontEndResponses.react.reactRouter === false) && !frontEndResponses.react.state){
             if (yesOrNo === "yes"){
                 setFrontEndResponses({
                     react: {
                         reactRouter: frontEndResponses.react.reactRouter,
-                        redux: true
+                        state: true
+                    }
+                })
+                transitionQuestion("Do you want to use React Redux or React Hooks to manage state?")
+            }
+            else if (yesOrNo === "no"){
+                setFrontEndResponses({
+                    react: {
+                        reactRouter: frontEndResponses.react.reactRouter,
+                        redux: false,
+                        reacthooks: false
+                    }
+                })
+                setTransition(false)
+                setTimeout(setCompleted, 500, true)
+            }
+            // transitionQuestion("Do you want to use React Redux or React Hooks to manage state?")
+        }
+
+        // If they want to manage state, ask them if they want to use react-redux or react hooks
+        if (frontEndResponses.react && frontEndResponses.react.state === true){
+            if (yesOrNo === "yes"){
+                setFrontEndResponses({
+                    react: {
+                        reactRouter: frontEndResponses.react.reactRouter,
+                        redux: true,
+                        reacthooks: false
                     }
                 })
             }
@@ -126,12 +157,13 @@ function Question(props) {
                 setFrontEndResponses({
                     react: {
                         reactRouter: frontEndResponses.react.reactRouter,
-                        redux: false
+                        redux: false,
+                        reacthooks: true,
                     }
                 })
             }
             setTransition(false)
-            setTimeout(setCompleted, 500, true)
+            setTimeout(setCompleted, 400, true)
         }
     }
 
@@ -164,6 +196,10 @@ function Question(props) {
         exited:  { opacity: 0 },
       };
 
+    const showState = () => {
+        console.log({...backEndResponses, ...frontEndResponses})
+    }
+
     return (
         <div id="questioncontainer">
             <Transition in={transition} timeout={duration}>
@@ -175,9 +211,10 @@ function Question(props) {
 
                         <Form id="question" onSubmit={handleSubmit}>
                             <h6>{question}</h6>
-                            <Form.Check name="radiogroup" type="radio" label="Yes" onClick={() => setYesOrNo("yes")}/>
-                            <Form.Check name="radiogroup" type="radio" label="No" onClick={() => setYesOrNo("no")}/>
+                            <Form.Check id="yes" name="radiogroup" type="radio"  onClick={() => setYesOrNo("yes")}/>
+                            <Form.Check id="no" name="radiogroup" type="radio"  onClick={() => setYesOrNo("no")}/>
                             <Button type="submit">Next Question</Button>
+                            <Button onClick={showState}>Show State</Button>
                             {showWarning ? <Form.Text>Please make a selection</Form.Text> : null}
                         </Form>
 
