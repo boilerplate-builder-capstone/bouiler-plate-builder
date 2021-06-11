@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import axios from 'axios';
 import Home from './home/Home';
@@ -7,18 +7,10 @@ import QuestionWalkthrough from './build/QuestionWalkthrough';
 import NavBar from './NavBar';
 import SignIn from './SignIn';
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      user: false,
-    };
-    this.logout = this.logout.bind(this);
-  }
+function App() {
+  const [user, useUser] = useState(false);
 
-  componentDidMount() {
-    // upon load, check if there is a loged in user
-    // in future, use cookies instead LS
+  useEffect(() => {
     const token = window.localStorage.getItem('token');
     if (token) {
       axios.get('/api/auth', {
@@ -26,36 +18,34 @@ class App extends Component {
           authorization: token,
         },
       });
-      this.setState({ user: true });
+      useUser(true);
     }
-  }
+  }, []);
 
-  logout() {
+  const logout = () => {
     window.localStorage.removeItem('token');
-    this.setState({ user: false });
-  }
+    useUser(false);
+  };
 
-  render() {
-    return (
-      <div>
-        <Router>
-          <NavBar user={this.state.user} logout={this.logout} />
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/signin">
-            <SignIn />
-          </Route>
-          <Route exact path="/build">
-            <Build />
-          </Route>
-          <Route exact path="/build/customize">
-            <QuestionWalkthrough />
-          </Route>
-        </Router>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Router>
+        <NavBar user={user} logout={logout} />
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/signin">
+          <SignIn />
+        </Route>
+        <Route exact path="/build">
+          <Build />
+        </Route>
+        <Route exact path="/build/customize">
+          <QuestionWalkthrough />
+        </Route>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
