@@ -87,6 +87,7 @@ export default (App)
 <% } %>
     `,
   });
+
   const r3 = await Code.create({
     id: 'R3',
     fileName: 'actions.js',
@@ -115,6 +116,7 @@ export const someThunk = (input) => {
 }
       `,
   });
+
   const r4 = await Code.create({
     id: 'R4',
     fileName: 'reducer.js',
@@ -134,6 +136,7 @@ const singleReducer = (state = [], action) => {
 export default singleReducer;
     `,
   });
+
   const r5 = await Code.create({
     id: 'R5',
     fileName: 'rootreducer.js',
@@ -152,6 +155,7 @@ const rootReducer = combineReducers({
 export default rootReducer;
     `,
   });
+
   const r6 = await Code.create({
     id: 'R6',
     fileName: 'store.js',
@@ -170,6 +174,43 @@ const store = createStore(
 export default store
     `,
   });
+
+  const r7 = await Code.create({
+    id: 'R7',
+    fileName: 'webpack.config.js',
+    category: 'react',
+    title: 'React: webpack',
+    snippet: `
+const path = require('path');
+ 
+module.exports = { 
+ mode: 'development',
+   devtool: 'source-map',
+   entry: './client/index.js',
+   output: {
+     filename: './public/bundle.js',
+     path: __dirname,
+   },
+   module: {
+     rules: [
+       {
+         loader: 'babel-loader',
+         exclude: /(node_modules)/,
+         options: {
+           presets: ['@babel/preset-react']
+         }
+       },
+       {
+         test: /\.css$/i,
+         use: ['style-loader', 'css-loader'],
+       }
+     ],
+   }
+ };
+    `,
+  });
 };
 
 module.exports = syncReact;
+
+//
