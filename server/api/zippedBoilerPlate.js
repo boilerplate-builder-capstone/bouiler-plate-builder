@@ -7,8 +7,9 @@ const path = require('path')
 
 //helper function designed to deal with multiple files in a directory folder
 function zipHelper(fileString, arrObject){
-    arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
-
+    Promise.all(arrObject).then((results)=>{
+      results.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
+    })
 }
 
 async function createFile(key, variable){   
@@ -17,7 +18,6 @@ async function createFile(key, variable){
     let data = await Code.findByPk(key)
     let name = data.fileName
     let contents = ejs.render(data.snippet, variable)
-    console.log(key, name)
     return {name, contents}
   }catch(er){
     console.log(er)
@@ -29,7 +29,6 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     let boiler = req.body
     //need to fix the issues here with wrong datatypes being passed through for whatever reason
     let appjs = createFile('R2', boiler)
-
     //intialize variables
     let reactreduxObjectArray = [] 
     let clientObjectArray = []
@@ -43,7 +42,8 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     
     //react 
     if(boiler.react){
-
+      configObjectArray.push(createFile('S10',{}))
+      configObjectArray.push(createFile('R7', boiler))
       clientObjectArray.push(createFile('R1', boiler))
       //react redux logic
       if(boiler.react.redux){
@@ -66,7 +66,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
       serverObjectArray.push(createFile('S2', boiler))
       serverObjectArray.push(createFile('S1', boiler))
 
-      routesObjectArray.push(createFile('S8', {}))
+      routesObjectArray.push(createFile('S8', boiler))
   
       if(boiler.server.db){
         //main db file creation
@@ -79,9 +79,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
         modelObjectArray.push(createFile('S5', {}))
       }
     }
-    configObjectArray.push(createFile('.babelrc', {}, ''))
-    configObjectArray.push(createFile('webpack', {}, 'config.js'))
-    configObjectArray.push(createFile('package', boiler, 'json'))
+    configObjectArray.push(createFile('S9', boiler))
 
     zipHelper('client/reactredux/', reactreduxObjectArray)
     zipHelper('client/', clientObjectArray)

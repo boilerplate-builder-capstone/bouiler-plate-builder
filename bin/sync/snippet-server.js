@@ -34,7 +34,7 @@ const syncServer = async () => {
 
   const s2 = await Code.create({
     id: 'S2',
-    fileName: 'modifyServer.js(app.js)',
+    fileName: 'modifyServer.js',
     category: 'server',
     title: 'Server: modifyServer',
     snippet: `
@@ -226,6 +226,7 @@ const syncServer = async () => {
         "build": "webpack  --mode=production",
         "build:dev": "npm run build -- --watch --mode=development",
         "start:dev": "npm run build:dev & nodemon server/startserver.js --ignore dist/"
+        "windows-start:dev": "nodemon server/startserver.js"
         <% } else {%>
           "start:dev": "nodemon server/startserver.js"
           <% } %>
@@ -235,29 +236,21 @@ const syncServer = async () => {
       "license": "ISC",
       "dependencies": {
         "express": "^4.17.1",
-        <% if (db) {%>
+        <% if (server.db) {%>
           "sequelize": "^6.6.2"
-          "pg": "^8.6.0",
-          <% } %>
-          <% if (react) {%>
+          "pg": "^8.6.0"<% } %><% if (react) {%>,
             "react": "^17.0.2",
             "react-dom": "^17.0.2",
-            "axios": "^0.21.1",
-          <% } %>
-          <% if (react.react-redux) {%>
+            "axios": "^0.21.1"<% } %><% if (react.redux) {%>,
             "react-redux": "^7.2.4",
             "redux": "^4.1.0",
-            "redux-thunk": "^2.3.0",
-          <% } %>
-          <% if(react.reactRouter) { %>
-            "react-router-dom": "^5.2.0",
+            "redux-thunk": "^2.3.0"<% } %><% if(react.reactRouter) { %>,
+            "react-router-dom": "^5.2.0"
           <% } %>
       },
       "devDependencies": {
-        <% if (server) {%>
+        <% if(react && server) { %>
         "nodemon": "^2.0.7",
-        <% } %>
-        <% if (react) {%>
         "webpack": "^5.38.1",
         "webpack-cli": "^4.7.0",
         "@babel/cli": "^7.13.16",
@@ -265,11 +258,41 @@ const syncServer = async () => {
         "@babel/plugin-proposal-class-properties": "^7.13.0",
         "@babel/preset-react": "^7.13.13",
         "babel-loader": "^8.2.2"
+        <% } else if(react) { %>
+          "webpack": "^5.38.1",
+          "webpack-cli": "^4.7.0",
+          "@babel/cli": "^7.13.16",
+          "@babel/core": "^7.13.16",
+          "@babel/plugin-proposal-class-properties": "^7.13.0",
+          "@babel/preset-react": "^7.13.13",
+          "babel-loader": "^8.2.2"
+        <% } else if(server) { %>
+          "webpack": "^5.38.1",
+          "webpack-cli": "^4.7.0",
+          "@babel/cli": "^7.13.16",
+          "@babel/core": "^7.13.16",
+          "@babel/plugin-proposal-class-properties": "^7.13.0",
+          "@babel/preset-react": "^7.13.13",
+          "babel-loader": "^8.2.2"
         <% } %>
       }
      }
      
     `,
+  })
+  const s10 = await Code.create({
+    id: 'S10',
+    fileName: '.babelrc',
+    category: 'server',
+    title: 'Server: package.json file',
+    snippet: `{
+      "presets": [
+          "@babel/preset-react"
+      ],
+      "plugins": [
+          "@babel/plugin-proposal-class-properties"
+      ]
+   }`,
   });
 };
 
