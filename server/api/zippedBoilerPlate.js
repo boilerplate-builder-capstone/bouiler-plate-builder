@@ -6,10 +6,8 @@ const zip = new require('node-zip')()
 const path = require('path')
 
 //helper function designed to deal with multiple files in a directory folder
-function zipHelper(fileString, arrObject){
-    Promise.all(arrObject).then((results)=>{
-      results.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
-    })
+function zipHelper(fileString, arrObject){    
+      arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
 }
 
 async function createFile(key, variable){   
@@ -81,23 +79,24 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     }
     configObjectArray.push(createFile('S9', boiler))
 
-    zipHelper('client/reactredux/', reactreduxObjectArray)
-    zipHelper('client/', clientObjectArray)
-    zipHelper('public/', publicObjectArray)
-    zipHelper('server/db/models/', modelObjectArray)
-    zipHelper('server/db/', dbObjectArray)
-    zipHelper('server/routes/', routesObjectArray)
-    zipHelper('server/', serverObjectArray)
-    zipHelper('client/components/', [appjs])
-    zipHelper('', configObjectArray)
+    Promise.all(reactreduxObjectArray).then((data)=>zipHelper('client/reactredux/', data))
+    Promise.all(clientObjectArray).then((data)=>zipHelper('client/', data))
+    Promise.all(publicObjectArray).then((data)=>zipHelper('public/', data))
+    Promise.all(modelObjectArray).then((data)=>zipHelper('server/db/models/', data))
+    Promise.all(dbObjectArray).then((data)=>zipHelper('server/db/', data))
+    Promise.all(routesObjectArray).then((data)=>zipHelper('server/routes/', data))
+    Promise.all(serverObjectArray).then((data)=>zipHelper('server/', data))
+    Promise.all([appjs]).then((data)=>zipHelper('client/components/', data))
+    Promise.all(configObjectArray).then((data)=>zipHelper('', data)).then(()=>{
+    
+      let data = zip.generate({base64:false,compression:'DEFLATE'});
 
-
-    let data = zip.generate({base64:false,compression:'DEFLATE'});
-
+    
     res.type('zip');
     res.send(Buffer.from(data, 'binary'));
 
-  } catch (error) {
+    })
+   } catch (error) {
     console.log('bad call ', error);
     next(error);
   }

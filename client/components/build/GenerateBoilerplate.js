@@ -14,7 +14,6 @@ function GenerateBoilerplate(props) {
         
 
         let blob = await new Blob([data], { type: 'application/zip' }) 
-        console.log(data)
 
         const link = document.createElement('a');
       // Browsers that support HTML5 download attribute
