@@ -35,40 +35,67 @@ ReactDOM.reander(
     category: 'react',
     title: 'React: app',
     snippet: `
+<% if (!react.reacthooks) { -%>
 import React, { Component } from 'react'
-<% if(react.reactRouter) { %>
+<% } else { -%>
+import React, { useState, useEffect }
+<% } -%>
+<% if(react.reactRouter) { -%>
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+<% } -%>
+<% if (react.redux) { -%>
 import { connect } from 'react-redux'
-<% } %>
-
+<% } -%>
+<% if (react.redux) { %>
 class App extends Component {
-    constructor(props){
-        super(props)
-        this.state = null
-    }
+  constructor(props){
+    super(props)
+    this.state = null
+  }
 
-    // componentDidMount(){}
+  // componentDidMount(){}
 
-    // componentDidUpdate(){}
+  // componentDidUpdate(){}
 
-    render(){
-        return(
-            <div>
-                <h1>Hello world</h1>
-                <p>Welcome to your web app!</p>
-                <% if(react.reactRouter) { %>
-                <Router>
-                    {/* <Route component={YourComponentName} path="/path" /> */}
-                    <Switch>
-                        {/* <Route component={YourComponentName2} path="/path2" /> */}
-                    </Switch>
-                </Router>
-                <% } %>
-            </div>
-        )
-    }
+  render(){
+    return(
+      <div>
+        <h1>Hello world</h1>
+        <p>Welcome to your web app!</p>
+        <% if(react.reactRouter) { %>
+        <Router>
+            {/* <Route component={YourComponentName} path="/path" /> */}
+            <Switch>
+            {/* <Route component={YourComponentName2} path="/path2" /> */}
+            </Switch>
+        </Router>
+        <% } %>
+      </div>
+    )
+  }
 }
-
+<% } else { %>
+function App() {
+  const [state, setState] = useState(‘starting state’);
+  
+  useEffect(() => {
+    //function that executes upon component mounting
+  });
+  
+  return(
+    <div>
+      <h1>Hello world</h1>
+      <p>Welcome to your web app!</p>
+      <Router>
+        {/* <Route component={YourComponentName} path="/path" /> */}
+        <Switch>
+        {/* <Route component={YourComponentName2} path="/path2" /> */}
+        </Switch>
+      </Router>
+    </div>
+  )
+}
+<% } -%>
 <% if (react.redux) { %>
 const mapStateToProps = (state) => {
     return {
@@ -81,12 +108,13 @@ const mapDispatchToProps = (dispatch) => {
         functionName: () => dispatch(functionFromDispatch())
     }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(App)
 <% } else { %>
 export default (App)
-<% } %>
+<% } -%>
     `,
-  });
+});
 
   const r3 = await Code.create({
     id: 'R3',
