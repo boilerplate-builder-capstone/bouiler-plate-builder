@@ -17,6 +17,7 @@ export const logoutCall = () => {
 export const loginUser = (credentials, history) => {
   return async (dispatch) => {
     try {
+      console.log('user actions**** ', history);
       const response = (await axios.post('/api/localAuth', credentials)).data;
       const token = response;
       window.localStorage.setItem('token', token);
@@ -40,6 +41,8 @@ export const tokenLogin = (history) => {
       ).data;
       dispatch(userInfo({ user }));
       // ** fix this
+      console.log('*********** history from tokenLogin', history);
+
       // history.push('/');
     }
   };

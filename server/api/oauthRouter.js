@@ -9,8 +9,6 @@ authRouter.get('/', async (req, res, next) => {
       req.headers.authorization,
       process.env.JWT
     );
-    // if (userId) {
-    console.log('*****************oauth router userId ', userId);
     const user = await User.findByPk(userId, {
       attributes: { exclude: ['password'] },
     });
@@ -20,7 +18,6 @@ authRouter.get('/', async (req, res, next) => {
       throw error;
     }
     res.send(user);
-    // }
   } catch (error) {
     console.log('error occured in /api/auth');
     next(error);

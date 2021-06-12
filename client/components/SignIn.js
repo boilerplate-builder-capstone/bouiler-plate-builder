@@ -67,6 +67,7 @@ class SignIn extends Component {
 
 const mapDispatchToProps = (dispatch, { history }) => {
   return {
+    // login: () => console.log(history),
     login: (credentails) => dispatch(loginUser(credentails, history)),
   };
 };

@@ -46,7 +46,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { history }) => {
+const mapDispatchToProps = (dispatch, history) => {
   return {
     login: () => dispatch(tokenLogin(history)),
     logout: () => dispatch(logoutUser()),
