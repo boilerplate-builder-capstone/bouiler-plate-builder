@@ -10,15 +10,15 @@ function Question(props) {
     const [ showWarning, setShowWarning ] = useState(false)
     const { setCompleted, backEndResponses, setBackEndResponses, frontEndResponses, setFrontEndResponses } = props
 
-    const transitionQuestion = (text, changeRadio) => {
+    const transitionQuestion = (text, newRadioText1, newRadioText2) => {
         setTransition(false)
         setTimeout(setQuestion, 500, text)
-        if (changeRadio){
+        if (newRadioText1 && newRadioText2){
             setTimeout(() => {
                 const yes = document.getElementById("yes")
                 const no = document.getElementById("no")
-                yes.innerHTML = "React Redux"
-                no.innerHTML = "React Hooks"
+                yes.innerHTML = newRadioText1
+                no.innerHTML = newRadioText2
             }, 500)
         }
         setTimeout(setTransition, 500, true)
@@ -131,7 +131,7 @@ function Question(props) {
                         state: true
                     }
                 })
-                transitionQuestion("Do you want to use React Redux or React Hooks to manage state?", true)               
+                transitionQuestion("Do you want to use React Redux or React Hooks to manage state?", "React Redux", "React Hooks")               
             }
             else if (yesOrNo === "no"){
                 setFrontEndResponses({
