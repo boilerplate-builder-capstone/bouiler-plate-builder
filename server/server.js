@@ -9,6 +9,8 @@ process.env.client_secret = env.client_secret;
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+app.use(express.json())
+
 app.use('/api', router);
 
 app.get('/', (req, res, next) => {

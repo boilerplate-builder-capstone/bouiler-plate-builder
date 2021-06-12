@@ -7,7 +7,7 @@ const syncServer = async () => {
     category: 'server',
     title: 'Server: startServer',
     snippet: `
-      <% if(database) { %>
+      <% if(server.db) { %>
       const db = require('./db/db')
       const syncAndSeed = require('./db/syncandseed')
       <% } %>
@@ -17,7 +17,7 @@ const syncServer = async () => {
 
       const initializeApp = async () => {
         try {
-            <% if(database) {%>
+            <% if(server.db) {%>
             await db.sync()
             await syncAndSeed()
             <% } %>
@@ -34,7 +34,7 @@ const syncServer = async () => {
 
   const s2 = await Code.create({
     id: 'S2',
-    fileName: 'modifyServer.js(app.js)',
+    fileName: 'modifyServer.js',
     category: 'server',
     title: 'Server: modifyServer',
     snippet: `
@@ -43,7 +43,7 @@ const syncServer = async () => {
       const path = require('path')
 
       app.use(express.json());
-      <% if(router) {%>
+      <% if(server.db) {%>
       const individualRouter = require('./routes/individualrouter')
       app.use('/YOUR-MOUNTED-PATH', individualRouter)
       <% } %>
@@ -173,7 +173,7 @@ const syncServer = async () => {
     category: 'router',
     title: 'router',
     snippet: `
-    <% if(router) {%>
+    <% if(server.db) {%>
       // We're bringing in this model for you to use in your routes.
       const { models: { ModelName } } = require('../db/models/modelsandrelationships')
       const individualRouter = require('express').Router()
@@ -216,60 +216,85 @@ const syncServer = async () => {
     category: 'server',
     title: 'Server: package.json file',
     snippet: `
-    {
-      "name": "boilerplatebuilder",
-      "version": "1.0.0",
-      "description": "",
-      "main": "modifyserver.js",
-      "scripts": {
-        <% if (react) {%>
-        "build": "webpack  --mode=production",
-        "build:dev": "npm run build -- --watch --mode=development",
-        "start:dev": "npm run build:dev & nodemon server/startserver.js --ignore dist/"
-        <% } else {%>
-          "start:dev": "nodemon server/startserver.js"
-          <% } %>
+{
+  "name": "boilerplatebuilder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "modifyserver.js",
+  "scripts": {
+<% if (react && server) { -%>
+    "build": "webpack  --mode=production",
+    "build:dev": "npm run build -- --watch --mode=development",
+    "start:dev": "npm run build:dev & nodemon server/startserver.js --ignore dist/", 
+    "windows-start:dev": "nodemon server/startserver.js"
+<% } else if(react){ -%>
+    "build": "webpack  --mode=production",
+    "build:dev": "npm run build -- --watch --mode=development",
+<% } else if(server){ -%>
+    "start:dev": "npm run build:dev & nodemon server/startserver.js --ignore dist/", 
+    "windows-start:dev": "nodemon server/startserver.js"
+<% } -%>
       },
-      "keywords": [],
-      "author": "",
-      "license": "ISC",
-      "dependencies": {
-        "express": "^4.17.1",
-        <% if (db) {%>
-          "sequelize": "^6.6.2"
-          "pg": "^8.6.0",
-          <% } %>
-          <% if (react) {%>
-            "react": "^17.0.2",
-            "react-dom": "^17.0.2",
-            "axios": "^0.21.1",
-          <% } %>
-          <% if (react.react-redux) {%>
-            "react-redux": "^7.2.4",
-            "redux": "^4.1.0",
-            "redux-thunk": "^2.3.0",
-          <% } %>
-          <% if(react.reactRouter) { %>
-            "react-router-dom": "^5.2.0",
-          <% } %>
-      },
-      "devDependencies": {
-        <% if (server) {%>
-        "nodemon": "^2.0.7",
-        <% } %>
-        <% if (react) {%>
-        "webpack": "^5.38.1",
-        "webpack-cli": "^4.7.0",
-        "@babel/cli": "^7.13.16",
-        "@babel/core": "^7.13.16",
-        "@babel/plugin-proposal-class-properties": "^7.13.0",
-        "@babel/preset-react": "^7.13.13",
-        "babel-loader": "^8.2.2"
-        <% } %>
-      }
-     }
-     
-    `,
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+<% if(server) {-%>
+    "express": "^4.17.1"<% if (server.db) { -%>,
+    "sequelize": "^6.6.2",
+    "pg": "^8.6.0"<% }} if (react) { -%><% if (server) { -%>,<% } -%>
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "axios": "^0.21.1"<% if (react.redux) { -%>,
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.0",
+    "redux-thunk": "^2.3.0"<% } if(react.reactRouter) { -%>,
+    "react-router-dom": "^5.2.0"
+    <% }} -%>
+    },
+  "devDependencies": {
+<% if(react && server) { -%>
+    "nodemon": "^2.0.7",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0",
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.13.16",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-react": "^7.13.13",
+    "babel-loader": "^8.2.2"
+<% } else if(react) { -%>
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0",
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.13.16",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-react": "^7.13.13",
+    "babel-loader": "^8.2.2"
+<% } else if(server) { -%>
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0",
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.13.16",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-react": "^7.13.13",
+    "babel-loader": "^8.2.2"
+<% } -%>
+    }
+}`,
+  })
+  const s10 = await Code.create({
+    id: 'S10',
+    fileName: '.babelrc',
+    category: 'server',
+    title: 'Server: package.json file',
+    snippet: `{
+      "presets": [
+          "@babel/preset-react"
+      ],
+      "plugins": [
+          "@babel/plugin-proposal-class-properties"
+      ]
+   }`,
   });
 };
 
