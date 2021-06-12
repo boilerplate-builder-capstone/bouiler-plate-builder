@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Component } from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import axios from 'axios';
 import Home from './home/Home';
@@ -7,10 +7,16 @@ import QuestionWalkthrough from './build/QuestionWalkthrough';
 import NavBar from './NavBar';
 import SignIn from './SignIn';
 
-function App() {
-  const [user, useUser] = useState(false);
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      user: false,
+    };
+  }
+  // const [user, useUser] = useState(false);
 
-  useEffect(() => {
+  componentDidMount() {
     const token = window.localStorage.getItem('token');
     if (token) {
       axios.get('/api/auth', {
@@ -20,32 +26,36 @@ function App() {
       });
       useUser(true);
     }
-  }, []);
+  }
+  // useEffect(() => {
+  // }, []);
 
-  const logout = () => {
+  logout() {
     window.localStorage.removeItem('token');
     useUser(false);
-  };
+  }
 
-  return (
-    <div>
-      <Router>
-        <NavBar user={user} logout={logout} />
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route exact path="/signin">
-          <SignIn />
-        </Route>
-        <Route exact path="/build">
-          <Build />
-        </Route>
-        <Route exact path="/build/customize">
-          <QuestionWalkthrough />
-        </Route>
-      </Router>
-    </div>
-  );
+  render() {
+    return (
+      <div>
+        <Router>
+          <NavBar user={user} logout={logout} />
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/signin">
+            <SignIn />
+          </Route>
+          <Route exact path="/build">
+            <Build />
+          </Route>
+          <Route exact path="/build/customize">
+            <QuestionWalkthrough />
+          </Route>
+        </Router>
+      </div>
+    );
+  }
 }
 
 export default App;
