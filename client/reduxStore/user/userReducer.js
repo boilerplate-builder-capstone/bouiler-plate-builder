@@ -4,8 +4,8 @@ const initialState = {
   user: {},
 };
 
-const userReducer = (state = initialState) => {
-  if (applicationCache.type === types.LOGIN) {
+const userReducer = (state = initialState, action) => {
+  if (action.type === types.LOGIN) {
     const { user } = action;
     state = { ...state, user };
   }

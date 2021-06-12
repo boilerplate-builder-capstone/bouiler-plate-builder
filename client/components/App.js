@@ -1,32 +1,30 @@
 import React, { useEffect, useState, Component } from 'react';
+import { connect } from 'react-redux';
 import { HashRouter as Router, Route } from 'react-router-dom';
-import axios from 'axios';
 import Home from './home/Home';
 import Build from './build/Build';
 import QuestionWalkthrough from './build/QuestionWalkthrough';
 import NavBar from './NavBar';
 import SignIn from './SignIn';
+import { tokenLogin } from '../reduxStore/user/userActions';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      auth: {},
-      user: false,
-    };
-    this.logout = this.logout.bind(this);
-  }
-  // const [user, useUser] = useState(false);
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     auth: {},
+  //     user: false,
+  //   };
+  //   this.logout = this.logout.bind(this);
+  // }
+  // // const [user, useUser] = useState(false);
 
   componentDidMount() {
+    console.log('state is ', this.props.state);
     const token = window.localStorage.getItem('token');
     if (token) {
-      axios.get('/api/auth', {
-        headers: {
-          authorization: token,
-        },
-      });
-      this.setState({ user: true });
+      console.log('token located');
+      this.props.login(token);
     }
   }
   // useEffect(() => {
@@ -38,12 +36,12 @@ class App extends Component {
   }
 
   render() {
-    const { user } = this.state;
-    const { logout } = this;
+    // const { user } = this.state;
+    // const { logout } = this;
     return (
       <div>
         <Router>
-          <NavBar user={user} logout={logout} />
+          <NavBar />
           <Route exact path="/">
             <Home />
           </Route>
@@ -62,4 +60,17 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch, { history }) => {
+  return {
+    // login: () => console.log('this.props.login fired'),
+    login: (token) => dispatch(tokenLogin(token, history)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

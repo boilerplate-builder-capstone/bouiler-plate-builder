@@ -3,7 +3,7 @@ import types from '../type';
 
 export const userInfo = ({ user }) => {
   return {
-    type: type.LOGIN,
+    type: types.LOGIN,
     user,
   };
 };
@@ -31,6 +31,7 @@ export const tokenLogin = (token, history) => {
           },
         })
       ).data;
+      console.log('thunk fired', user);
       dispatch(userInfo({ user }));
 
       history.push('/');
