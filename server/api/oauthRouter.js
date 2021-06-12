@@ -12,12 +12,15 @@ authRouter.get('/', async (req, res, next) => {
       process.env.JWT
     );
     // if (userId) {
-    const user = await User.findByPk(userId);
+    const user = await User.findByPk(userId, {
+      attributes: { exclude: ['password'] },
+    });
     if (!user) {
       const error = Error('wrong login or no user found');
       error.status = 401;
       throw error;
     }
+    console.log(user);
     res.send(user);
     // }
   } catch (error) {
