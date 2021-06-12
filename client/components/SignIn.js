@@ -7,7 +7,7 @@ function SignIn() {
       <h1 className="header">Sign In</h1>
       <div className="splitscreen">
         <div className="split">
-          <h5>Create an Account</h5>
+          <h5>Sign In</h5>
           <p className="textblock">FORM</p>
           <Button>Create Account</Button>
         </div>

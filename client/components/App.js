@@ -20,7 +20,7 @@ class App extends Component {
   // // const [user, useUser] = useState(false);
 
   componentDidMount() {
-    console.log('state is ', this.props.state);
+    console.log('state is ', this.props.user);
     const token = window.localStorage.getItem('token');
     if (token) {
       console.log('token located');
