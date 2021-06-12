@@ -5,10 +5,9 @@ const User = require('../db/models/User');
 authRouter.get('/', async (req, res, next) => {
   try {
     // get the userId from the token and find the user in our db
-    const { userId } = await jwt.verify(
-      req.headers.authorization,
-      process.env.JWT
-    );
+    console.log('authorication token: ', req.headers.authorization);
+    const userId = await jwt.verify(req.headers.authorization, process.env.JWT);
+    console.log('user id from authRouter ', userId);
     // if (userId) {
     const user = await User.findByPk(userId, {
       attributes: { exclude: ['password'] },

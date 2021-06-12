@@ -11,8 +11,9 @@ export const userInfo = ({ user }) => {
 export const loginUser = (credentials, history) => {
   return async (dispatch) => {
     try {
+      console.log('credentials submitted', credentials);
       const response = (await axios.post('/api/localAuth', credentials)).data;
-      const { token } = response;
+      const token = response;
       window.localStorage.setItem('token', token);
       dispatch(tokenLogin(history));
     } catch (error) {
@@ -21,8 +22,9 @@ export const loginUser = (credentials, history) => {
   };
 };
 
-export const tokenLogin = (token, history) => {
+export const tokenLogin = (history) => {
   return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
     if (token) {
       const user = (
         await axios.get('/api/auth', {
@@ -33,8 +35,8 @@ export const tokenLogin = (token, history) => {
       ).data;
       console.log('thunk fired', user);
       dispatch(userInfo({ user }));
-
-      history.push('/');
+      // ** fix this
+      // history.push('/');
     }
   };
 };

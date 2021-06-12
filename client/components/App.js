@@ -9,26 +9,12 @@ import SignIn from './SignIn';
 import { tokenLogin } from '../reduxStore/user/userActions';
 
 class App extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     auth: {},
-  //     user: false,
-  //   };
-  //   this.logout = this.logout.bind(this);
-  // }
-  // // const [user, useUser] = useState(false);
-
   componentDidMount() {
-    console.log('state is ', this.props.user);
-    const token = window.localStorage.getItem('token');
+    const token = window.localStorage.token;
     if (token) {
-      console.log('token located');
-      this.props.login(token);
+      this.props.login();
     }
   }
-  // useEffect(() => {
-  // }, []);
 
   logout() {
     window.localStorage.removeItem('token');
@@ -36,8 +22,6 @@ class App extends Component {
   }
 
   render() {
-    // const { user } = this.state;
-    // const { logout } = this;
     return (
       <div>
         <Router>
@@ -68,8 +52,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, { history }) => {
   return {
-    // login: () => console.log('this.props.login fired'),
-    login: (token) => dispatch(tokenLogin(token, history)),
+    login: () => dispatch(tokenLogin(history)),
   };
 };
 
