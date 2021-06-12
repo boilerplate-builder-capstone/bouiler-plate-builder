@@ -10,7 +10,7 @@ const syncReact = async () => {
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-<% if (react.react-redux) { %>
+<% if (react.redux) { %>
 import { Provider } from 'react-redux'; 
 import store from './reactredux/store'; 
   <% } %>
@@ -18,7 +18,7 @@ import store from './reactredux/store';
 const root = document.getElementById('root');
 
 ReactDOM.reander(
-  <% if (react.react-redux) { %>
+  <% if (react.redux) { %>
   <Provider store={store}>
     <App />
   </Provider>
@@ -69,7 +69,7 @@ class App extends Component {
     }
 }
 
-<% if (react.react-redux) { %>
+<% if (react.redux) { %>
 const mapStateToProps = (state) => {
     return {
         stateName: state.stateName
