@@ -26,7 +26,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
   try {
     let boiler = req.body
     //need to fix the issues here with wrong datatypes being passed through for whatever reason
-    let appjs = createFile('R2', boiler)
+    let appjs
     //intialize variables
     let reactreduxObjectArray = [] 
     let clientObjectArray = []
@@ -40,6 +40,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     
     //react 
     if(boiler.react){
+      appjs = createFile('R2', boiler)
       configObjectArray.push(createFile('S10',{}))
       configObjectArray.push(createFile('R7', boiler))
       clientObjectArray.push(createFile('R1', boiler))
