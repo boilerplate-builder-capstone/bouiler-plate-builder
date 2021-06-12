@@ -23,7 +23,7 @@ const syncPublic = async () => {
   <% } %>
 </body>
     `,
-  }),
+  });
   const p2 = await Code.create({
     id: 'P2',
     fileName: 'style.css',
@@ -34,5 +34,6 @@ h1 {
   background-color: aqua;
 }
     `,
-  })
-};
+  });
+}
+module.exports = syncPublic
