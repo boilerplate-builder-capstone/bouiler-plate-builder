@@ -8,10 +8,15 @@ export const userInfo = ({ user }) => {
   };
 };
 
+export const logoutCall = () => {
+  return {
+    type: types.LOGOUT,
+  };
+};
+
 export const loginUser = (credentials, history) => {
   return async (dispatch) => {
     try {
-      console.log('credentials submitted', credentials);
       const response = (await axios.post('/api/localAuth', credentials)).data;
       const token = response;
       window.localStorage.setItem('token', token);
@@ -33,10 +38,16 @@ export const tokenLogin = (history) => {
           },
         })
       ).data;
-      console.log('thunk fired', user);
       dispatch(userInfo({ user }));
       // ** fix this
       // history.push('/');
     }
+  };
+};
+
+export const logoutUser = () => {
+  return async (dispatch) => {
+    window.localStorage.removeItem('token');
+    dispatch(logoutCall());
   };
 };

@@ -46,9 +46,8 @@ User.authenticate = async ({ username, password }) => {
     where: { username },
   });
   const passcode = await bcrypt.compare(password, user.password);
-  console.log('passcode from user.authenticate', passcode);
   if (user && passcode) {
-    return await jwt.sign(user.id, process.env.JWT);
+    return await jwt.sign({ userId: user.id }, process.env.JWT);
   } else {
     throw error();
   }

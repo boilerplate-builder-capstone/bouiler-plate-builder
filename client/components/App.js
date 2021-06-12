@@ -6,7 +6,7 @@ import Build from './build/Build';
 import QuestionWalkthrough from './build/QuestionWalkthrough';
 import NavBar from './NavBar';
 import SignIn from './SignIn';
-import { tokenLogin } from '../reduxStore/user/userActions';
+import { tokenLogin, logoutUser } from '../reduxStore/user/userActions';
 
 class App extends Component {
   componentDidMount() {
@@ -16,16 +16,12 @@ class App extends Component {
     }
   }
 
-  logout() {
-    window.localStorage.removeItem('token');
-    this.setState({ user: false });
-  }
-
   render() {
+    const { user, logout } = this.props;
     return (
       <div>
         <Router>
-          <NavBar />
+          <NavBar user={user} logout={logout} />
           <Route exact path="/">
             <Home />
           </Route>
@@ -53,6 +49,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, { history }) => {
   return {
     login: () => dispatch(tokenLogin(history)),
+    logout: () => dispatch(logoutUser()),
   };
 };
 
