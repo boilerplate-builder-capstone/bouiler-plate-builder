@@ -11,8 +11,10 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      auth: {},
       user: false,
     };
+    this.logout = this.logout.bind(this);
   }
   // const [user, useUser] = useState(false);
 
@@ -24,7 +26,7 @@ class App extends Component {
           authorization: token,
         },
       });
-      useUser(true);
+      this.setState({ user: true });
     }
   }
   // useEffect(() => {
@@ -32,10 +34,12 @@ class App extends Component {
 
   logout() {
     window.localStorage.removeItem('token');
-    useUser(false);
+    this.setState({ user: false });
   }
 
   render() {
+    const { user } = this.state;
+    const { logout } = this;
     return (
       <div>
         <Router>

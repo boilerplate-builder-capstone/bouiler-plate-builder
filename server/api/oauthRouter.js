@@ -20,7 +20,6 @@ authRouter.get('/', async (req, res, next) => {
       error.status = 401;
       throw error;
     }
-    console.log(user);
     res.send(user);
     // }
   } catch (error) {
