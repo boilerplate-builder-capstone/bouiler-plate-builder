@@ -7,8 +7,6 @@ function GenerateBoilerplate(props) {
 
     const generateBoilerplate = async () => {
         try{
-        console.log("boilerplate will generate now")
-        console.log("This will be the request body:", {...backEndResponses, ...frontEndResponses})
         // Axios call to the server to grab documents
         const  { data }= await axios.post(`api/completedboiler`, {...backEndResponses, ...frontEndResponses}, { responseType: 'arraybuffer' })
         
@@ -17,7 +15,7 @@ function GenerateBoilerplate(props) {
 
         const link = document.createElement('a');
       // Browsers that support HTML5 download attribute
-      
+      //need to adjust this for react!!!!!!!!!!!!!!!!!!!
         const url = URL.createObjectURL(blob);
         link.setAttribute('href', url);
         link.setAttribute('download', 'Boilerplate');

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
+import { Avatar } from '@material-ui/core';
 
 function NavBar(props) {
   const { logout, user } = props;
@@ -13,19 +14,16 @@ function NavBar(props) {
       <Nav className="ml-auto">
         <Nav.Link href="/#about">About</Nav.Link>
       </Nav>
-      <Nav className="ml-auto">
-        {!user ? (
+      {!user ? (
+        <Nav className="ml-auto">  
           <Nav.Link href="/#signin">Sign In/Create Account</Nav.Link>
-        ) : (
-          <Nav.Link
-            onClick={() => {
-              logout();
-            }}
-          >
-            Logout
-          </Nav.Link>
-        )}
-      </Nav>
+        </Nav>
+      ) : (
+        <Nav className="ml-auto">
+          <Nav.Link href="/#dashboard"><Avatar src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" /></Nav.Link>
+          <Nav.Link onClick={() => {logout();}}>Logout</Nav.Link>
+        </Nav>
+      )}
     </Navbar>
   );
 }

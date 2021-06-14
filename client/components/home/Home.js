@@ -3,12 +3,16 @@ import JumboTron from './JumboTron';
 import SignIn from '../SignIn'
 
 
-function Home() {
+function Home(props) {
     
+    const { user } = props;
+
     return (
         <div>               
             <JumboTron />
+            {!user &&
             <SignIn />
+            }
         </div>
     )
 }

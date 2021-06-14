@@ -6,6 +6,7 @@ import Build from './build/Build';
 import QuestionWalkthrough from './build/QuestionWalkthrough';
 import NavBar from './NavBar';
 import SignIn from './SignIn';
+import UserDashboard from './User/UserDashboard';
 
 function App() {
   const [user, useUser] = useState(false);
@@ -32,13 +33,16 @@ function App() {
       <Router>
         <NavBar user={user} logout={logout} />
         <Route exact path="/">
-          <Home />
+          <Home user={user}/>
         </Route>
         <Route exact path="/signin">
           <SignIn />
         </Route>
         <Route exact path="/build">
           <Build />
+        </Route>
+        <Route exact path="/dashboard">
+          <UserDashboard user={user}/>
         </Route>
         <Route exact path="/build/customize">
           <QuestionWalkthrough />
