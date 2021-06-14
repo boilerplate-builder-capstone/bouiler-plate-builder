@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 
 function NavBar(props) {
-  const { logout, user } = props;
+  const { user, logout } = props;
 
   return (
     <Navbar className="navbar" bg="dark" variant="dark" expand="lg">
@@ -14,7 +14,7 @@ function NavBar(props) {
         <Nav.Link href="/#about">About</Nav.Link>
       </Nav>
       <Nav className="ml-auto">
-        {!user ? (
+        {!user.user ? (
           <Nav.Link href="/#signin">Sign In/Create Account</Nav.Link>
         ) : (
           <Nav.Link

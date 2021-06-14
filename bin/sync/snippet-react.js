@@ -46,7 +46,8 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 <% if (react.redux) { -%>
 import { connect } from 'react-redux'
 <% } -%>
-<% if (react.redux) { %>
+
+<% if (react.redux) { -%>
 class App extends Component {
   constructor(props){
     super(props)
@@ -74,7 +75,8 @@ class App extends Component {
     )
   }
 }
-<% } else { %>
+
+<% } else { -%>
 function App() {
   const [state, setState] = useState(‘starting state’);
   
@@ -96,7 +98,7 @@ function App() {
   )
 }
 <% } -%>
-<% if (react.redux) { %>
+<% if (react.redux) { -%>
 const mapStateToProps = (state) => {
     return {
         stateName: state.stateName
