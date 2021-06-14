@@ -41,9 +41,9 @@ export const tokenLogin = (history) => {
       ).data;
       dispatch(userInfo({ user }));
       // ** fix this
-      console.log('*********** history from tokenLogin', history);
+      // console.log('*********** history from tokenLogin', history);
 
-      // history.push('/');
+      history.push('/');
     }
   };
 };

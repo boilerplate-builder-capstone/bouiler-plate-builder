@@ -22,18 +22,14 @@ class App extends Component {
       <div>
         <Router>
           <NavBar user={user} logout={logout} />
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/signin">
-            <SignIn />
-          </Route>
-          <Route exact path="/build">
-            <Build />
-          </Route>
-          <Route exact path="/build/customize">
-            <QuestionWalkthrough />
-          </Route>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/signin" component={SignIn} />
+          <Route exact path="/build" component={Build} />
+          <Route
+            exact
+            path="/build/customize"
+            component={QuestionWalkthrough}
+          />
         </Router>
       </div>
     );
