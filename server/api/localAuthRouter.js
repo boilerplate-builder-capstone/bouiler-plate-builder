@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-
 const User = require('../db/models/User');
 
 const localAuthRouter = require('express').Router();
