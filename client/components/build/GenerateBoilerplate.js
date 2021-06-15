@@ -9,8 +9,51 @@ function GenerateBoilerplate(props) {
         try{
         console.log("boilerplate will generate now")
         console.log("This will be the request body:", {...body})
+        const assembleRequestBody = (body) => {
+            const requestBody = {}
+            // backend assembling
+            if (body.server){
+                requestBody.server = {}
+                if (body.db){
+                    requestBody.server.db = {}
+                    if (body.extraRouter){
+                        requestBody.server.db.extraRouter = true
+                    } else if (!body.extraRouter){
+                        requestBody.server.db.extraRouter = false
+                    }
+                } else if (!body.db){
+                    requestBody.server.db = false
+                }
+            }
+            else if (!body.server){
+                requestBody.server = false
+            }
+            //frontend assembling
+            if (body.react){
+                requestBody.react = {}
+                if (body.reactRouter){
+                    requestBody.react.reactRouter = true
+                } else {
+                    requestBody.react.reactRouter = false
+                }
+                if (body.redux){
+                    requestBody.react.redux = true
+                    requestBody.react.reacthooks = false
+                } else if (body.reacthooks){
+                    requestBody.react.redux = false
+                    requestBody.react.reacthooks = true
+                } else {
+                    requestBody.react.redux = false
+                    requestBody.react.reacthooks = false
+                }
+            }
+            return requestBody
+        }
+        const requestBody = assembleRequestBody(body)
+        console.log('assembled body:', assembleRequestBody(body))
+        
         // Axios call to the server to grab documents
-        const  { data }= await axios.post(`api/completedboiler`, {...backEndResponses, ...frontEndResponses}, { responseType: 'arraybuffer' })
+        const  { data }= await axios.post(`api/completedboiler`, {requestBody}, { responseType: 'arraybuffer' })
         
 
         let blob = await new Blob([data], { type: 'application/zip' }) 

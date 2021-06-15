@@ -17,7 +17,7 @@ import store from './reactredux/store';
 
 const root = document.getElementById('root');
 
-ReactDOM.reander(
+ReactDOM.render(
   <% if (react.redux) { %>
   <Provider store={store}>
     <App />

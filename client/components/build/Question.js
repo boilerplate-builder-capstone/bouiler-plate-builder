@@ -78,7 +78,7 @@ function Question(props) {
                 </Form>
                 
                 <button onClick={() => console.log(selected)}>see selected</button>
-        </div>
+            </div>
         )
     }    
 }

@@ -74,21 +74,21 @@ const questions = [
             nextQuestion: null,
             body: {
                 redux: true,
-                reactHooks: false
+                reacthooks: false
             }
         },
         "React Hooks": {
             nextQuestion: null,
             body: {
                 redux: false,
-                reactHooks: true
+                reacthooks: true
             }
         },
         "Neither": {
             nextQuestion: null,
             body: {
                 redux: false,
-                reactHooks: false
+                reacthooks: false
             }
         }
     }
