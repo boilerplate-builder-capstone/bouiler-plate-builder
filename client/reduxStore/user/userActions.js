@@ -39,8 +39,9 @@ export const tokenLogin = (history) => {
         })
       ).data;
       dispatch(userInfo({ user }));
-
-      history.push('/');
+      if (history) {
+        history.push('/');
+      }
     }
   };
 };
@@ -54,11 +55,11 @@ export const logoutUser = () => {
   };
 };
 
-export const createUser = (userForm, history) => {
+export const createUser = (userForm) => {
   return async (dispatch) => {
     const newUser = await axios.post('/api/localAuth/create', userForm);
     if (newUser) {
-      dispatch(loginUser, history);
+      dispatch(loginUser(userForm));
     } else {
       alert('This username already exists');
     }
