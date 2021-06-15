@@ -1,29 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Form, Button } from 'react-bootstrap'
 
 function RadioQuestion(props) {
-    const { body } = props
-
-    const handleSubmit = (ev) => {
-        ev.preventDefault()
-        body.radiotest = 'test'
-        console.log('body', body)
-    }
+    const { handleSubmit, currQuestion, showWarning, setSelected } = props
 
     return (
-        <div id="questioncontainer">
-            <Form id="question" onSubmit={handleSubmit}>
-                <h6>RADIO QUESTION</h6>
-
-                <input type="radio" name="radio"/>
-                <label id="yes" htmlFor="yes" id="yes" > Yes</label><br/>
-
-                <input type="radio" name="radio"/>
-                <label id="no" htmlFor="no"> No</label><br/>
-                
-                <Button type="submit">Next Question</Button>
-            </Form>
-        </div>
+        <Form id="question" onSubmit={handleSubmit}>
+            <h6>{currQuestion.text}</h6>
+            {currQuestion.options.map((option, idx) => {
+                return (
+                    <div key={idx}>
+                        <input value={option} type="radio" name="radio"  onClick={() => setSelected(option)}/>
+                        <label id={option} htmlFor={option} id={option} > {option}</label><br/>
+                    </div>
+                )
+            })}
+            <Button type="submit">Next</Button>
+            {showWarning ? <Form.Text>Please make a selection</Form.Text> : null}
+        </Form>
     )
 }
 

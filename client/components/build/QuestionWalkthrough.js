@@ -6,9 +6,6 @@ function QuestionWalkthrough() {
     const [ completed, setCompleted ] = useState(false)
     const [body, setBody] = useState({})    
 
-    // const [ backEndResponses, setBackEndResponses ] = useState({})
-    // const [ frontEndResponses, setFrontEndResponses ] = useState({})
-
     return (
         <div>
             { completed ?
@@ -19,7 +16,7 @@ function QuestionWalkthrough() {
                     setCompleted={setCompleted} 
                     body={body}
                     setBody={setBody}
-                    />
+                />
             }
         </div>
     )

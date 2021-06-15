@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Button } from 'react-bootstrap'
 import { Transition } from 'react-transition-group'
-// import RadioQuestion from './RadioQuestion'
-// import TextInputQuestion from './TextInputQuestion'
+import RadioQuestion from './RadioQuestion'
+import DropdownQuestion from './DropdownQuestion'
 import questions from '../../questiondata'
 
 function Question(props) {
@@ -60,19 +59,12 @@ function Question(props) {
                             ...defaultStyle,
                             ...transitionStyles[state]
                         }}>
-                            <Form id="question" onSubmit={handleSubmit}>
-                                <h6>{currQuestion.text}</h6>
-                                {currQuestion.options.map((option, idx) => {
-                                    return (
-                                        <div key={idx}>
-                                            <input value={option} type="radio" name="radio"  onClick={() => setSelected(option)}/>
-                                            <label id={option} htmlFor={option} id={option} > {option}</label><br/>
-                                        </div>
-                                    )
-                                })}
-                                <Button type="submit">Next</Button>
-                                {showWarning ? <Form.Text>Please make a selection</Form.Text> : null}
-                            </Form>
+                            <RadioQuestion 
+                                handleSubmit={handleSubmit} 
+                                showWarning={showWarning} 
+                                currQuestion={currQuestion}
+                                setSelected={setSelected}
+                            />
                         </div>
                     )}
                 </Transition>
@@ -88,19 +80,12 @@ function Question(props) {
                             ...defaultStyle,
                             ...transitionStyles[state]
                         }}>
-                            <Form id="question" onSubmit={handleSubmit}>
-                                <h6>Question: {currQuestion.text}</h6>
-                                <Form.Control as="select" onChange={(e) => setSelected(e.target.value)}>
-                                    <option defaultValue>Make Selection</option>
-                                        {currQuestion.options.map((option, idx) => {
-                                            return (
-                                                <option value={option} key={idx}>{option}</option>
-                                            )
-                                        })}
-                                </Form.Control>                                 
-                                <Button type="submit">Next</Button>
-                                {showWarning ? <Form.Text>Please make a selection</Form.Text> : null}
-                            </Form>
+                            <DropdownQuestion
+                                handleSubmit={handleSubmit} 
+                                showWarning={showWarning} 
+                                currQuestion={currQuestion}
+                                setSelected={setSelected}
+                            />
                         </div>
                     )}
                 </Transition>
