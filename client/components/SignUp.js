@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 function SignUp() {
-  const [userForm, setUserForm] = useForm();
+  const { register, handleSubmit, reset } = useForm();
+
+  const onSubmit = (data) => {
+    alert(JSON.stringify(data));
+    reset({});
+  };
 
   return (
     <div>
-      <form>
-        <input type="text" name="username" placeholder="username" />
-        <input type="password" name="password" placeholder="password" />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input {...register('userName')} placeholder="username" />
+        <input
+          {...register('password')}
+          type="password"
+          placeholder="password"
+        />
         <input type="submit" />
       </form>
     </div>

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { loginUser } from '../reduxStore/user/userActions';
-import SignUp from './SignUp';
 
 class SignIn extends Component {
   constructor(props) {

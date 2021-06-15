@@ -17,7 +17,6 @@ export const logoutCall = () => {
 export const loginUser = (credentials, history) => {
   return async (dispatch) => {
     try {
-      console.log('user actions**** ', history);
       const response = (await axios.post('/api/localAuth', credentials)).data;
       const token = response;
       window.localStorage.setItem('token', token);
@@ -52,5 +51,16 @@ export const logoutUser = () => {
     dispatch(logoutCall());
 
     alert('Logged out successfully');
+  };
+};
+
+export const createUser = (userForm, history) => {
+  return async (dispatch) => {
+    const newUser = await axios.post('/api/localAuth/create', userForm);
+    if (newUser) {
+      dispatch(loginUser, history);
+    } else {
+      alert('This username already exists');
+    }
   };
 };
