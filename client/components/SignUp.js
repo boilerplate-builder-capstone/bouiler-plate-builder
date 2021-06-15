@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Redirect } from 'react-router-dom';
 
 function SignUp(props) {
-  const [toHome, setHome] = useState(false);
+  const [toHome, setToHome] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
   const { create } = props;
@@ -13,7 +13,8 @@ function SignUp(props) {
     const userForm = JSON.parse(userData);
     create(userForm);
     reset({});
-    // setTimeout(() => setHome(true), 2000);
+    // setTimeout(() => setToHome(true), 2000);
+    setToHome(true);
   };
 
   return (
