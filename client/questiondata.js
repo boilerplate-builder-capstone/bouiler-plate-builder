@@ -41,7 +41,7 @@ const questions = [
         }
     },
     {
-        text: "FRONT END TIME: Do you want to use React",
+        text: "Let's talk about the front end. Do you want to use React",
         type: "radio",
         options: yesNo,
         Yes: {
