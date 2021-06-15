@@ -4,22 +4,21 @@ import GenerateBoilerplate from './GenerateBoilerplate'
 
 function QuestionWalkthrough() {
     const [ completed, setCompleted ] = useState(false)
-    const [ backEndResponses, setBackEndResponses ] = useState({})
-    const [ frontEndResponses, setFrontEndResponses ] = useState({})
+    const [body, setBody] = useState({})    
+
+    // const [ backEndResponses, setBackEndResponses ] = useState({})
+    // const [ frontEndResponses, setFrontEndResponses ] = useState({})
 
     return (
         <div>
             { completed ?
                 <GenerateBoilerplate 
-                    backEndResponses={backEndResponses} 
-                    frontEndResponses={frontEndResponses}
+                    body={body}
                 /> :
                 <Question 
                     setCompleted={setCompleted} 
-                    backEndResponses={backEndResponses} 
-                    setBackEndResponses={setBackEndResponses}
-                    frontEndResponses={frontEndResponses}
-                    setFrontEndResponses={setFrontEndResponses}
+                    body={body}
+                    setBody={setBody}
                     />
             }
         </div>

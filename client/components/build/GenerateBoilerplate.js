@@ -3,12 +3,12 @@ import { Button } from 'react-bootstrap'
 import axios from 'axios'
 
 function GenerateBoilerplate(props) {
-    const { backEndResponses, frontEndResponses } = props
+    const { body } = props
 
     const generateBoilerplate = async () => {
         try{
         console.log("boilerplate will generate now")
-        console.log("This will be the request body:", {...backEndResponses, ...frontEndResponses})
+        console.log("This will be the request body:", {...body})
         // Axios call to the server to grab documents
         const  { data }= await axios.post(`api/completedboiler`, {...backEndResponses, ...frontEndResponses}, { responseType: 'arraybuffer' })
         

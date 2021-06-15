@@ -5,42 +5,93 @@ const questions = [
         text: "Do you want a server?",
         type: "radio",
         options: yesNo,
-        yes: 1,
-        no: 3
+        Yes: {
+            nextQuestion: 1,
+            body: {server: true}
+        },
+        No: {
+            nextQuestion: 3,
+            body: {server: false}
+        }
     },
     {
         text: "Do you want a database?",
         type: "radio",
         options: yesNo,
-        yes: 2,
-        no: 3
+        Yes: {
+            nextQuestion: 2,
+            body: {db: true}
+        },
+        No: {
+            nextQuestion: 3,
+            body: {db: false}
+        }
     },
     {
         text: "Would you like an extra router?",
         type: "radio",
         options: yesNo,
-        yes: 3,
-        no: 3
+        Yes: {
+            nextQuestion: 3,
+            body: {extraRouter: true}
+        },
+        No: {
+            nextQuestion: 3,
+            body: {extraRouter: false}
+        }
     },
     {
         text: "FRONT END TIME: Do you want to use React",
         type: "radio",
         options: yesNo,
-        yes: 4,
-        no: "finished"
+        Yes: {
+            nextQuestion: 4,
+            body: {react: true}
+        },
+        No: {
+            nextQuestion: null,
+            body: {react: false}
+        }
     },
     {
         text: "Do you want to use react-router?",
         type: "radio",
         options: yesNo,
-        yes: 5,
-        no: 5
+        Yes: {
+            nextQuestion: 5,
+            body: {reactRouter: true}
+        },
+        No: {
+            nextQuestion: 5,
+            body: {reactRouter: false}
+        }
     },
     {
         text: "Would you like to use React Redux or React Hooks to manage state?",
-        type: "select",
-        options: ["React Redux", "React Hooks", "Neither"]
-    },
+        type: "dropdown",
+        options: ["React Redux", "React Hooks", "Neither"],
+        "React Redux": {
+            nextQuestion: null,
+            body: {
+                redux: true,
+                reactHooks: false
+            }
+        },
+        "React Hooks": {
+            nextQuestion: null,
+            body: {
+                redux: false,
+                reactHooks: true
+            }
+        },
+        "Neither": {
+            nextQuestion: null,
+            body: {
+                redux: false,
+                reactHooks: false
+            }
+        }
+    }
 ]
 
-export default backEndQuestions
+export default questions
