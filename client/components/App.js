@@ -6,6 +6,7 @@ import Build from './build/Build';
 import QuestionWalkthrough from './build/QuestionWalkthrough';
 import NavBar from './NavBar';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 import { tokenLogin, logoutUser } from '../reduxStore/user/userActions';
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
             path="/build/customize"
             component={QuestionWalkthrough}
           />
+          <Route exact path="/signup" component={SignUp} />
         </Router>
       </div>
     );

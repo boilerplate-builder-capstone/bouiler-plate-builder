@@ -40,8 +40,6 @@ export const tokenLogin = (history) => {
         })
       ).data;
       dispatch(userInfo({ user }));
-      // ** fix this
-      // console.log('*********** history from tokenLogin', history);
 
       history.push('/');
     }
@@ -52,5 +50,7 @@ export const logoutUser = () => {
   return async (dispatch) => {
     window.localStorage.removeItem('token');
     dispatch(logoutCall());
+
+    alert('Logged out successfully');
   };
 };
