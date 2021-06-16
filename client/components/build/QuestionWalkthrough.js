@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-// import Question from './Question'
 import GenerateBoilerplate from './GenerateBoilerplate'
 import { Transition } from 'react-transition-group'
 import RadioQuestion from './RadioQuestion'
@@ -39,7 +38,6 @@ function QuestionWalkthrough() {
     useEffect(() => {
         setSelected(null)
     }, [currQuestion.type])
-
 
     // TRANSITION ANIMATION STUFF
     const duration = 500;
@@ -100,7 +98,6 @@ function QuestionWalkthrough() {
             </div>
         )
     }
-
 }
 
 export default QuestionWalkthrough 
