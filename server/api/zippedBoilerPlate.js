@@ -7,12 +7,15 @@ const path = require('path')
 
 //helper function designed to deal with multiple files in a directory folder
 function zipHelper(fileString, arrObject){    
-      arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
+  // console.log('@@@@@@@@@@ arrObject:', arrObject)
+  // console.log('@@@@@@@@@ arrObject.length:', arrObject.length)
+  if (arrObject.length){
+    arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
+  }
 }
 
 async function createFile(key, variable){   
   try{
-    
     let data = await Code.findByPk(key)
     let name = data.fileName
     let contents = ejs.render(data.snippet, variable)
@@ -26,7 +29,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
   try {
     let boiler = req.body
     //need to fix the issues here with wrong datatypes being passed through for whatever reason
-    let appjs
+    let appjsObjectArray = []
     //intialize variables
     let reactreduxObjectArray = [] 
     let clientObjectArray = []
@@ -40,7 +43,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     
     //react 
     if(boiler.react){
-      appjs = createFile('R2', boiler)
+      appjsObjectArray.push(createFile('R2', boiler))
       configObjectArray.push(createFile('S10',{}))
       configObjectArray.push(createFile('R7', boiler))
       clientObjectArray.push(createFile('R1', boiler))
@@ -87,7 +90,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     Promise.all(dbObjectArray).then((data)=>zipHelper('server/db/', data))
     Promise.all(routesObjectArray).then((data)=>zipHelper('server/routes/', data))
     Promise.all(serverObjectArray).then((data)=>zipHelper('server/', data))
-    Promise.all([appjs]).then((data)=>zipHelper('client/components/', data))
+    Promise.all(appjsObjectArray).then((data)=>zipHelper('client/components/', data))
     Promise.all(configObjectArray).then((data)=>zipHelper('', data)).then(()=>{
     
       let data = zip.generate({base64:false,compression:'DEFLATE'});
