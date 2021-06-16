@@ -17,7 +17,7 @@ import store from './reactredux/store';
 
 const root = document.getElementById('root');
 
-ReactDOM.reander(
+ReactDOM.render(
   <% if (react.redux) { %>
   <Provider store={store}>
     <App />
@@ -37,7 +37,9 @@ ReactDOM.reander(
     snippet: `
 <% if (!react.reacthooks) { -%>
 import React, { Component } from 'react'
-<% } else { -%>
+<% } else if (react.reacthooks && react.redux) { -%>
+import React, { Component, useState, useEffect }
+<% } else if (react.reacthooks && !react.redux) { -%>
 import React, { useState, useEffect }
 <% } -%>
 <% if(react.reactRouter) { -%>
@@ -53,7 +55,15 @@ class App extends Component {
     super(props)
     this.state = null
   }
-
+  
+<% if (react.reacthooks) { -%>
+  const [state, setState] = useState(‘starting state’);
+  
+  useEffect(() => {
+    //function that executes upon component mounting
+  });
+  
+<% } -%>
   // componentDidMount(){}
 
   // componentDidUpdate(){}
@@ -76,7 +86,7 @@ class App extends Component {
   }
 }
 
-<% } else { -%>
+<% } else if (react.reacthooks && !react.redux) { -%>
 function App() {
   const [state, setState] = useState(‘starting state’);
   
