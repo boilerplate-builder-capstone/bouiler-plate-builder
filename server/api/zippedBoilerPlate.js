@@ -1,7 +1,8 @@
 const zippedBoilerPlate = require('express').Router();
 const { models: { Code }} = require('../db')
 const ejs = require('ejs')
-const zip = new require('node-zip')()
+const nodezip = require('node-zip')
+const zip = new nodezip();
 
 //helper function designed to deal with multiple files in a directory folder
 function zipHelper(fileString, arrObject){    
