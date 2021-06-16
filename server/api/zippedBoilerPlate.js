@@ -1,19 +1,18 @@
 const zippedBoilerPlate = require('express').Router();
 const { models: { Code }} = require('../db')
 const ejs = require('ejs')
-const fs = require('fs')
 const nodezip = require('node-zip')
 const zip = new nodezip();
-const path = require('path')
 
 //helper function designed to deal with multiple files in a directory folder
-function zipHelper(fileString, arrObject){
-      arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
+function zipHelper(fileString, arrObject){    
+  if (arrObject.length){
+    arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
+  }
 }
 
-async function createFile(key, variable){
+async function createFile(key, variable){   
   try{
-
     let data = await Code.findByPk(key)
     let name = data.fileName
     let contents = ejs.render(data.snippet, variable)
@@ -27,9 +26,9 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
   try {
     let boiler = req.body
     //need to fix the issues here with wrong datatypes being passed through for whatever reason
-    let appjs
+    let appjsObjectArray = []
     //intialize variables
-    let reactreduxObjectArray = []
+    let reactreduxObjectArray = [] 
     let clientObjectArray = []
     let publicObjectArray = []
     let modelObjectArray = []
@@ -38,10 +37,10 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     let routesObjectArray = []
     let serverObjectArray = []
     let configObjectArray = []
-
-    //react
+    
+    //react 
     if(boiler.react){
-      appjs = createFile('R2', boiler)
+      appjsObjectArray.push(createFile('R2', boiler))
       configObjectArray.push(createFile('S10',{}))
       configObjectArray.push(createFile('R7', boiler))
       clientObjectArray.push(createFile('R1', boiler))
@@ -54,7 +53,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
         reactreduxObjectArray.push(createFile('R6', {}))
       }
     }
-
+   
     //The app index html creation for htmlindex in public folder
     clientObjectArray.push(createFile('P1', boiler))
 
@@ -67,7 +66,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
       serverObjectArray.push(createFile('S1', boiler))
 
       routesObjectArray.push(createFile('S8', boiler))
-
+  
       if(boiler.server.db){
         //main db file creation
         dbObjectArray.push(createFile('S3', {}))
@@ -88,12 +87,12 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     Promise.all(dbObjectArray).then((data)=>zipHelper('server/db/', data))
     Promise.all(routesObjectArray).then((data)=>zipHelper('server/routes/', data))
     Promise.all(serverObjectArray).then((data)=>zipHelper('server/', data))
-    Promise.all([appjs]).then((data)=>zipHelper('client/components/', data))
+    Promise.all(appjsObjectArray).then((data)=>zipHelper('client/components/', data))
     Promise.all(configObjectArray).then((data)=>zipHelper('', data)).then(()=>{
-
+    
       let data = zip.generate({base64:false,compression:'DEFLATE'});
 
-
+    
     res.type('zip');
     res.send(Buffer.from(data, 'binary'));
 
