@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import IconButton from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import Card from '@material-ui/core/Card';
@@ -7,16 +7,36 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Carousel from "react-multi-carousel";
+import { connect } from 'react-redux';
+import axios from 'axios'
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
+import { SettingsInputAntennaTwoTone } from '@material-ui/icons';
 
 
-function UserDashboard() {
-      let items = [{Name: "name1", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", link: "www.github.com"},{Name: "name2", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", link: "www.github.com"}, {Name: "name3", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", link: "www.github.com"}, {Name: "name1", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", link: "www.github.com"},{Name: "name2", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", link: "www.github.com"}, {Name: "name3", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", link: "www.github.com"}, {Name: "name1", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", link: "www.github.com"},{Name: "name2", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", link: "www.github.com"}, {Name: "name3", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", link: "www.github.com"}]
-    return (
+class UserDashboard extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+         image: '',
+         repos: []
+        };
+      }
+    async componentDidMount(){
+        try{
+        if(this.props.user.user.github){
+            this.setState({ image: this.props.user.user.github.avatar_url})
+            let { data } = await axios.get("https://api.github.com/users/kfless12/repos")
+            this.setState({ repos: data })
+        }
+        }catch(er){console.log(er)}
+    }
+    render (){
+        let items = this.state.repos
+        return (
         <div>
             <div id="dashboardcontainer" > 
                 <div id="imageeditcont" >              
-                    <img className="userimage" src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" />
+                    <img className="userimage" src={this.state.image} />
                     <IconButton className="editButton" style={{marginTop: 50}}>
                         <p>Edit Profile  </p>
                         <EditIcon />
@@ -51,17 +71,18 @@ function UserDashboard() {
                         >
                             {items.map(e=>{
                                 return ( 
-                                    <Card key={e.Name}>
+                                    <Card key={e.id}>
                                         <CardContent>
                                             <Typography variant="h5" component="h2">
-                                            {e.Name}
+                                            {e.name}
                                             </Typography>
                                             <Typography variant="body2" component="p">
                                             {e.description}
+                                            created on {(new Date(e.created_at)).toDateString()}
                                             </Typography>
                                         </CardContent>
                                         <CardActions>
-                                            <Link src={e.link}>Checkout on Github</Link>
+                                            <Link src={e.html_url}>Checkout on Github</Link>
                                         </CardActions>
                                     </Card>)
                             })}
@@ -73,7 +94,13 @@ function UserDashboard() {
                 </div>
             </div>
         </div>
-    )
+        )
+    }
 }
+const mapStateToProps = (state) => {
+    return {
+      user: state.user,
+    };
+  };
 
-export default UserDashboard 
+export default connect(mapStateToProps)(UserDashboard)

@@ -7,6 +7,7 @@ import QuestionWalkthrough from './build/QuestionWalkthrough';
 import NavBar from './NavBar';
 import SignIn from './SignIn';
 import { tokenLogin, logoutUser } from '../reduxStore/user/userActions';
+import UserDashboard from './User/UserDashboard';
 
 class App extends Component {
   componentDidMount() {
