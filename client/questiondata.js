@@ -41,7 +41,7 @@ const questions = [
         }
     },
     {
-        text: "Let's talk about the front end. Do you want to use React",
+        text: "Let's talk about the front end. Do you want to use React?",
         type: "radio",
         options: yesNo,
         Yes: {
@@ -67,29 +67,29 @@ const questions = [
         }
     },
     {
-        text: "Would you like to use React Redux or React Hooks to manage state?",
-        type: "dropdown",
-        options: ["React Redux", "React Hooks", "Neither"],
-        "React Redux": {
-            nextQuestion: null,
-            body: {
-                redux: true,
-                reacthooks: false
-            }
+        text: "Would you like to use React Redux to manage state on the front end?",
+        type: "radio",
+        options: yesNo,
+        Yes: {
+            nextQuestion: 6,
+            body: {redux: true}
         },
-        "React Hooks": {
+        No: {
+            nextQuestion: 6,
+            body: {redux: false}
+        }
+    },
+    {
+        text: "Would you also like to use React Hooks to manage component state?",
+        type: "radio",
+        options: yesNo,
+        Yes: {
             nextQuestion: null,
-            body: {
-                redux: false,
-                reacthooks: true
-            }
+            body: {reacthooks: true}
         },
-        "Neither": {
+        No: {
             nextQuestion: null,
-            body: {
-                redux: false,
-                reacthooks: false
-            }
+            body: {reacthooks: false}
         }
     }
 ]

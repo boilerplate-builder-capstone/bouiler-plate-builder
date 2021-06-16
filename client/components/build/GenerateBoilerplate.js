@@ -7,46 +7,33 @@ function GenerateBoilerplate(props) {
 
     const generateBoilerplate = async () => {
         try{
-        const assembleRequestBody = (body) => {
-            const requestBody = {}
-            // backend assembling
-            if (body.server){
-                requestBody.server = {}
-                if (body.db){
-                    requestBody.server.db = {}
-                    if (body.extraRouter){
-                        requestBody.server.db.extraRouter = true
-                    } else if (!body.extraRouter){
-                        requestBody.server.db.extraRouter = false
+            const assembleRequestBody = (body) => {
+                const requestBody = {}
+                // backend assembling
+                if (body.server){
+                    requestBody.server = {}
+                    if (body.db){
+                        requestBody.server.db = {
+                            extraRouter: body.extraRouter
+                        }
+                    } else if (!body.db){
+                        requestBody.server.db = false
                     }
-                } else if (!body.db){
-                    requestBody.server.db = false
-                }
-            }
-            else if (!body.server){
-                requestBody.server = false
-            }
-            //frontend assembling
-            if (body.react){
-                requestBody.react = {}
-                if (body.reactRouter){
-                    requestBody.react.reactRouter = true
                 } else {
-                    requestBody.react.reactRouter = false
+                    requestBody.server = false
                 }
-                if (body.redux){
-                    requestBody.react.redux = true
-                    requestBody.react.reacthooks = false
-                } else if (body.reacthooks){
-                    requestBody.react.redux = false
-                    requestBody.react.reacthooks = true
+                //frontend assembling
+                if (body.react){
+                    requestBody.react = {
+                        reactRouter: body.reactRouter,
+                        redux: body.redux,
+                        reacthooks: body.reacthooks
+                    }
                 } else {
-                    requestBody.react.redux = false
-                    requestBody.react.reacthooks = false
+                    requestBody.react = false
                 }
+                return requestBody
             }
-            return requestBody
-        }
         const requestBody = assembleRequestBody(body)
         console.log("This will be the request body:", requestBody)
         
