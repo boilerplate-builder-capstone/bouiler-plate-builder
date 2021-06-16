@@ -3,12 +3,42 @@ import { Button } from 'react-bootstrap'
 import axios from 'axios'
 
 function GenerateBoilerplate(props) {
-    const { backEndResponses, frontEndResponses } = props
+    const { body } = props
 
     const generateBoilerplate = async () => {
         try{
+            const assembleRequestBody = (body) => {
+                const requestBody = {}
+                // backend assembling
+                if (body.server){
+                    requestBody.server = {}
+                    if (body.db){
+                        requestBody.server.db = {
+                            extraRouter: body.extraRouter
+                        }
+                    } else if (!body.db){
+                        requestBody.server.db = false
+                    }
+                } else {
+                    requestBody.server = false
+                }
+                //frontend assembling
+                if (body.react){
+                    requestBody.react = {
+                        reactRouter: body.reactRouter,
+                        redux: body.redux,
+                        reacthooks: body.reacthooks
+                    }
+                } else {
+                    requestBody.react = false
+                }
+                return requestBody
+            }
+        const requestBody = assembleRequestBody(body)
+        console.log("This will be the request body:", requestBody)
+        
         // Axios call to the server to grab documents
-        const  { data }= await axios.post(`api/completedboiler`, {...backEndResponses, ...frontEndResponses}, { responseType: 'arraybuffer' })
+        const  { data }= await axios.post(`api/completedboiler`, requestBody, { responseType: 'arraybuffer' })
         
 
         let blob = await new Blob([data], { type: 'application/zip' }) 
