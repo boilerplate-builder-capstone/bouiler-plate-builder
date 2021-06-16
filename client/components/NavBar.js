@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Avatar } from '@material-ui/core';
 
 function NavBar(props) {
-  const { logout, user } = props;
+  const { user, logout } = props;
 
   return (
     <Navbar className="navbar" bg="dark" variant="dark" expand="lg">

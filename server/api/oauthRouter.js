@@ -1,8 +1,6 @@
-const jwt = require('jsonwebtoken');
-
-const User = require('../db/models/User');
-
 const authRouter = require('express').Router();
+const jwt = require('jsonwebtoken');
+const User = require('../db/models/User');
 
 authRouter.get('/', async (req, res, next) => {
   try {
@@ -11,15 +9,15 @@ authRouter.get('/', async (req, res, next) => {
       req.headers.authorization,
       process.env.JWT
     );
-    // if (userId) {
-    const user = await User.findByPk(userId);
+    const user = await User.findByPk(userId, {
+      attributes: { exclude: ['password'] },
+    });
     if (!user) {
       const error = Error('wrong login or no user found');
       error.status = 401;
       throw error;
     }
     res.send(user);
-    // }
   } catch (error) {
     console.log('error occured in /api/auth');
     next(error);

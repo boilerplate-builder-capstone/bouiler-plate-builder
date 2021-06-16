@@ -3,6 +3,7 @@ const Code = require('../../server/db/models/Code');
 const syncPublic = require('./snippet-public-index');
 const syncReact = require('./snippet-react');
 const syncServer = require('./snippet-server');
+const userSync = require('./userSync');
 // -------------import all code snippets here------------------
 
 const syncAndSeed = async () => {
@@ -12,6 +13,7 @@ const syncAndSeed = async () => {
     await syncReact();
     await syncServer();
     await syncPublic();
+    await userSync();
     // delete below when we have an actual code snippet
     await Code.create({
       id: 'T1',

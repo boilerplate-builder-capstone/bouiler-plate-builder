@@ -1,7 +1,6 @@
 import React from 'react';
 import JumboTron from './JumboTron';
-import SignIn from '../SignIn'
-
+import SignIn from '../SignIn';
 
 function Home(props) {
     
@@ -17,4 +16,4 @@ function Home(props) {
     )
 }
 
-export default Home 
+export default Home;
