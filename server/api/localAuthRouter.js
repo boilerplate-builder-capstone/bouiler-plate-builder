@@ -14,21 +14,15 @@ localAuthRouter.post('/', async (req, res, next) => {
   }
 });
 
-// authenticate a user if token is present ( i think we don't need it but creating just in case )
-// localAuthRouter.get('/', async (req, res, next) => {
-//   try {
-//     const token = req.headers.authorization;
-//     // use below line is && statement doesnt work
-//     // !token ? res.status(401).send('you shall not pass') : '';
-//     !token && res.status(401).send('you shall not pass');
-
-//     // get the userId info from token
-//     const user = await User.tokenId(token)
-//     res.send(user)
-//   } catch (error) {
-//     console.log('error occured in get/api/localAuthRouter', error);
-//     next(error);
-//   }
-// });
+localAuthRouter.post('/create', async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const newUser = await User.create({ username, password });
+    res.status(201).send(newUser);
+  } catch (error) {
+    console.log('error occured in post/api/localAuthRouter/create', error);
+    next(error);
+  }
+});
 
 module.exports = localAuthRouter;
