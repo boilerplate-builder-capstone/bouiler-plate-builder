@@ -62,7 +62,6 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
 
     if(boiler.server){
       /* SERVER DB ROUTER STRUCTURE NEEDS TO BE ADJUSTED!!!!!*/
-      console.log('%%%%%%%% server says boiler.server is truthy')
       serverObjectArray.push(createFile('S2', boiler))
       serverObjectArray.push(createFile('S1', boiler))
 
