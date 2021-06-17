@@ -6,8 +6,12 @@ import Build from './build/Build';
 import QuestionWalkthrough from './build/QuestionWalkthrough';
 import NavBar from './NavBar';
 import SignIn from './SignIn';
-import { tokenLogin, logoutUser } from '../reduxStore/user/userActions';
-import UserDashboard from './User/UserDashboard';
+import SignUp from './SignUp';
+import {
+  tokenLogin,
+  logoutUser,
+  createUser,
+} from '../reduxStore/user/userActions';
 
 class App extends Component {
   componentDidMount() {
@@ -18,26 +22,24 @@ class App extends Component {
   }
 
   render() {
-    const { user, logout } = this.props;
+    const { user, logout, create } = this.props;
     return (
       <div>
         <Router>
           <NavBar user={user} logout={logout} />
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/signin">
-            <SignIn />
-          </Route>
-          <Route exact path="/build">
-            <Build />
-          </Route>
-          <Route exact path="/dashboard">
-            <UserDashboard />
-           </Route>
-          <Route exact path="/build/customize">
-            <QuestionWalkthrough />
-          </Route>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/signin" component={SignIn} />
+          <Route exact path="/build" component={Build} />
+          <Route
+            exact
+            path="/build/customize"
+            component={QuestionWalkthrough}
+          />
+          <Route
+            exact
+            path="/signup"
+            component={() => <SignUp create={create} history={history} />}
+          />
         </Router>
       </div>
     );
@@ -50,10 +52,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, history) => {
+const mapDispatchToProps = (dispatch, { history }) => {
   return {
     login: () => dispatch(tokenLogin(history)),
     logout: () => dispatch(logoutUser()),
+    create: (userForm) => dispatch(createUser(userForm)),
   };
 };
 

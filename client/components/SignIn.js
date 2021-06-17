@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { loginUser } from '../reduxStore/user/userActions';
 
 class SignIn extends Component {
@@ -31,6 +32,9 @@ class SignIn extends Component {
     return (
       <div>
         <h1 className="header">Sign In</h1>
+        <Link to={'/signup'}>
+          <h4 className="header">Create an account</h4>
+        </Link>
         <div className="splitscreen">
           <form className="split">
             <p className="textblock">Sign In</p>
