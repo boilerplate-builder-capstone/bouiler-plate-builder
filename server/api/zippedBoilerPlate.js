@@ -62,6 +62,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
 
     if(boiler.server){
       /* SERVER DB ROUTER STRUCTURE NEEDS TO BE ADJUSTED!!!!!*/
+      console.log('%%%%%%%% server says boiler.server is truthy')
       serverObjectArray.push(createFile('S2', boiler))
       serverObjectArray.push(createFile('S1', boiler))
 
@@ -90,7 +91,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     Promise.all(appjsObjectArray).then((data)=>zipHelper('client/components/', data))
     Promise.all(configObjectArray).then((data)=>zipHelper('', data)).then(()=>{
     
-      let data = zip.generate({base64:false,compression:'DEFLATE'});
+    let data = zip.generate({base64:false,compression:'DEFLATE'});
 
     
     res.type('zip');
