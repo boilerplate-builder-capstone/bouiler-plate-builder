@@ -17,7 +17,6 @@ export const logoutCall = () => {
 export const loginUser = (credentials, history) => {
   return async (dispatch) => {
     try {
-      console.log('user actions**** ', history);
       const response = (await axios.post('/api/localAuth', credentials)).data;
       const token = response;
       window.localStorage.setItem('token', token);
@@ -40,10 +39,9 @@ export const tokenLogin = (history) => {
         })
       ).data;
       dispatch(userInfo({ user }));
-      // ** fix this
-      console.log('*********** history from tokenLogin', history);
-
-      // history.push('/');
+      if (history) {
+        history.push('/');
+      }
     }
   };
 };
@@ -52,5 +50,18 @@ export const logoutUser = () => {
   return async (dispatch) => {
     window.localStorage.removeItem('token');
     dispatch(logoutCall());
+
+    alert('Logged out successfully');
+  };
+};
+
+export const createUser = (userForm) => {
+  return async (dispatch) => {
+    const newUser = await axios.post('/api/localAuth/create', userForm);
+    if (newUser) {
+      dispatch(loginUser(userForm));
+    } else {
+      alert('This username already exists');
+    }
   };
 };
