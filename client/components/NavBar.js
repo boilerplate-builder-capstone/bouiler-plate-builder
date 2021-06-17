@@ -1,11 +1,16 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { Avatar } from '@material-ui/core';
+import { useHistory } from "react-router-dom";
 
 function NavBar(props) {
   const { user, logout } = props;
+  let history = useHistory();
 
-  
+  function logoutUser(){
+    logout();
+    history.push("/")
+  }
 
   return (
     <Navbar className="navbar" bg="dark" variant="dark" expand="lg">
@@ -22,8 +27,10 @@ function NavBar(props) {
         </Nav>
       ) : (
         <Nav className="ml-auto">
-          <Nav.Link href="/#dashboard"><Avatar src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" /></Nav.Link>
-          <Nav.Link onClick={() => {logout(); Windows.location.push("/")}}>Logout</Nav.Link>
+          <Nav.Link href="/#dashboard">
+            {!user.user.github ? <Avatar src={user.user.icon} /> : <Avatar src={user.user.github.avatar_url}/>}
+          </Nav.Link>
+          <Nav.Link onClick={logoutUser}>Logout</Nav.Link>
         </Nav>
       )}
     </Navbar>

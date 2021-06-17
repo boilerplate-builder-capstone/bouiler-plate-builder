@@ -100,6 +100,11 @@
 .carouselItem{
   margin-left: 10px;
   margin-right: 10px;
+  padding-bottom: 5px;
+  display: flex;
+}
+.cards{
+  width: 100%;
 }
 @font-face {
   font-family: 'revicons';

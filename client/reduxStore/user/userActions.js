@@ -14,6 +14,13 @@ export const logoutCall = () => {
   };
 };
 
+export const update = (user) =>{
+  return {
+    type: types.UPDATE,
+    user
+  };
+}
+
 export const loginUser = (credentials, history) => {
   return async (dispatch) => {
     try {
@@ -54,3 +61,10 @@ export const logoutUser = () => {
     dispatch(logoutCall());
   };
 };
+
+export const updateUser = (user) =>{
+  return async (dispatch) =>{
+    console.log("User updated", user)
+    dispatch(update(user))
+  }
+}

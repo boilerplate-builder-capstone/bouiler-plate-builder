@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
+import CardCarousel from './CardCarousel';
 import IconButton from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import Carousel from "react-multi-carousel";
 import { connect } from 'react-redux';
 import axios from 'axios'
-import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
-import { SettingsInputAntennaTwoTone } from '@material-ui/icons';
+import UserEdit from './UserEdit'
 
 
 class UserDashboard extends Component{
@@ -18,75 +12,51 @@ class UserDashboard extends Component{
         super(props);
         this.state = {
          image: '',
-         repos: []
+         repos: [],
+         edit: false,
         };
       }
+
     async componentDidMount(){
         try{
+            console.log(this.props)
         if(this.props.user.user.github){
-            this.setState({ image: this.props.user.user.github.avatar_url})
             let { data } = await axios.get("https://api.github.com/users/kfless12/repos")
-            this.setState({ repos: data })
+            this.setState({ repos: data, image: this.props.user.user.github.avatar_url })
+        } else{
+            this.setState({image: this.props.user.user.icon})
         }
         }catch(er){console.log(er)}
     }
+    componentDidUpdate(){
+        console.log(this.state)
+    }
+    handleClick =()=>{
+        this.setState({edit: true})
+    }
+
     render (){
-        let items = this.state.repos
+        const { repos, edit } = this.state
+        const git = this.props.user.user.github
         return (
         <div>
             <div id="dashboardcontainer" > 
-                <div id="imageeditcont" >              
-                    <img className="userimage" src={this.state.image} />
-                    <IconButton className="editButton" style={{marginTop: 50}}>
-                        <p>Edit Profile  </p>
-                        <EditIcon />
-                    </IconButton>
+                <div id="imageeditcont" >
+                   <img className="userimage" src={this.state.image}/> 
+                        {edit?(
+                        <UserEdit />
+                        ) : ( 
+                            <>    
+                            <h3>{this.props.user.user.username}</h3>
+                            <IconButton className="editButton" style={{marginTop: 50}} onClick={this.handleClick}>
+                                <p>Edit Username</p>
+                                <EditIcon />
+                            </IconButton>
+                            </>
+                        )}
                 </div>
                 <div id="gittempinfo">
-                        <Carousel
-                        additionalTransfrom={0}
-                        arrows
-                        autoPlaySpeed={3000}
-                        className="repolist"
-                        containerClass="container"
-                        dotListClass=""
-                        draggable
-                        focusOnSelect={false}
-                        infinite={false}
-                        itemClass="carouselItem"
-                        minimumTouchDrag={80}
-                        renderButtonGroupOutside={false}
-                        renderDotsOutside={false}
-                        responsive={{
-                            desktop: {
-                                breakpoint: {
-                                    max: 3000,
-                                    min: 1024
-                                },
-                                items: 4,
-                                paritialVisibilityGutter : 40
-                                }
-                            }
-                        }
-                        >
-                            {items.map(e=>{
-                                return ( 
-                                    <Card key={e.id}>
-                                        <CardContent>
-                                            <Typography variant="h5" component="h2">
-                                            {e.name}
-                                            </Typography>
-                                            <Typography variant="body2" component="p">
-                                            {e.description}
-                                            created on {(new Date(e.created_at)).toDateString()}
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions>
-                                            <Link src={e.html_url}>Checkout on Github</Link>
-                                        </CardActions>
-                                    </Card>)
-                            })}
-                    </Carousel>
+                        <CardCarousel items={repos}/>
                     <div id="boilerList">
                     <h1>Recent Created Boiler Plates</h1>
 
