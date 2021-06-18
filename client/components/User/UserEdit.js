@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function UserEdit(props) {
-  const { user, update } = props;
+  const { user, update, editChange} = props;
   const classes = useStyles();
   const [username, setUsername] = React.useState("");
   const handleChange = (event) => {
@@ -28,6 +28,7 @@ function UserEdit(props) {
     e.preventDefault();
     try {
       await update(user);
+      editChange()
     } catch (error) {
       console.log('error occured in SignIn component onSubmit', error);
     }

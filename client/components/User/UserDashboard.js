@@ -21,7 +21,7 @@ class UserDashboard extends Component{
         try{
             console.log(this.props)
         if(this.props.user.user.github){
-            let { data } = await axios.get("https://api.github.com/users/kfless12/repos")
+            let { data } = await axios.get(this.props.user.user.github.repos_url)
             this.setState({ repos: data, image: this.props.user.user.github.avatar_url })
         } else{
             this.setState({image: this.props.user.user.icon})
@@ -29,10 +29,14 @@ class UserDashboard extends Component{
         }catch(er){console.log(er)}
     }
     componentDidUpdate(){
-        console.log(this.state)
+        console.log(this.props)
     }
     handleClick =()=>{
+        if(edit){
+        this.setState({edit: false})
+        }else{
         this.setState({edit: true})
+        }
     }
 
     render (){
@@ -44,7 +48,7 @@ class UserDashboard extends Component{
                 <div id="imageeditcont" >
                    <img className="userimage" src={this.state.image}/> 
                         {edit?(
-                        <UserEdit />
+                        <UserEdit editChange={this.handleClick}/>
                         ) : ( 
                             <>    
                             <h3>{this.props.user.user.username}</h3>
