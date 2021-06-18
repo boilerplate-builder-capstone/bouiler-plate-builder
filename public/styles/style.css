@@ -36,10 +36,30 @@
     opacity: .5;
 }
 
-#questioncontainer {
+.walkthrough {
     display: flex;
-    justify-content: center;
-    margin: 3rem;
+    justify-content: space-evenly;
+    margin: 2rem 0 0 0;
+    /* align-items: center */
+}
+
+#filestructure {
+    border: solid gray 1px;
+    border-radius: 20px;
+    width: 15rem;
+    padding: 1rem;
+    overflow-wrap: break-word;
+}
+
+#filestructure ul{
+    list-style-type: none;
+    font-size: small;
+    padding: 0 0 0 1rem;
+}
+
+#filestructure>ul{
+    list-style-type: none;
+    padding: 0
 }
 
 #question {
@@ -69,3 +89,17 @@
 #accordion {
     padding: 1.5rem 0 0 0;
 }
+
+.filechange {
+    border: solid red 1rem;
+}
+
+
+/* #animate {
+    background-color: #33ae74;
+    transition: background-color 0.5s ease-out
+}
+
+#animate.move {
+    background-color: #1ce;
+} */

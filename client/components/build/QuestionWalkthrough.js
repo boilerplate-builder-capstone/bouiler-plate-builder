@@ -4,6 +4,9 @@ import { Transition } from 'react-transition-group'
 import RadioQuestion from './RadioQuestion'
 import DropdownQuestion from './DropdownQuestion'
 import questions from '../../questiondata'
+import FileStructure from './FileStructure'
+
+// maybe move body to store, then map it to props in file structure (changed to class component). if prevprops is still not sticking and FileStructure continues to re-render along with question walkthrough, idk what to tell you man
 
 function QuestionWalkthrough() {
     const [completed, setCompleted] = useState(false)
@@ -23,7 +26,6 @@ function QuestionWalkthrough() {
         else {
             setTransition(false)
             setBody({...body, ...currQuestion[selected].body})
-
             if (currQuestion[selected].nextQuestion === null){
                 setTransition(false)
                 setTimeout(setCompleted, 500, true)
@@ -70,7 +72,8 @@ function QuestionWalkthrough() {
     }
     else if (currQuestion.type === "radio"){
         return (
-            <div id="questioncontainer">
+            <div className="walkthrough">
+                <FileStructure body={body}/>
                 <Transition in={transition} timeout={duration}>
                     {state => (
                         <div style={{
@@ -91,7 +94,8 @@ function QuestionWalkthrough() {
     }
     else if (currQuestion.type === "dropdown"){
         return (
-            <div id="questioncontainer">
+            <div className="walkthrough">
+                <FileStructure body={body}/>
                 <Transition in={transition} timeout={duration}>
                     {state => (
                         <div style={{

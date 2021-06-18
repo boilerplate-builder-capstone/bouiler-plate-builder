@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import Home from './home/Home';
