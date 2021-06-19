@@ -90,7 +90,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     Promise.all(appjsObjectArray).then((data)=>zipHelper('client/components/', data))
     Promise.all(configObjectArray).then((data)=>zipHelper('', data)).then(()=>{
     
-      let data = zip.generate({base64:false,compression:'DEFLATE'});
+    let data = zip.generate({base64:false,compression:'DEFLATE'});
 
     
     res.type('zip');

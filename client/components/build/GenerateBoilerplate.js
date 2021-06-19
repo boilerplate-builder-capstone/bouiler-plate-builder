@@ -1,47 +1,48 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import axios from 'axios'
+import ContentAccordion from './ContentAccordion'
 
 function GenerateBoilerplate(props) {
     const { body } = props
 
-    const generateBoilerplate = async () => {
-        try{
-            const assembleRequestBody = (body) => {
-                const requestBody = {}
-                // backend assembling
-                if (body.server){
-                    requestBody.server = {}
-                    if (body.db){
-                        requestBody.server.db = {
-                            extraRouter: body.extraRouter
-                        }
-                    } else if (!body.db){
-                        requestBody.server.db = false
-                    }
-                } else {
-                    requestBody.server = false
+    const assembleRequestBody = (body) => {
+        const requestBody = {}
+        // backend assembling
+        if (body.server){
+            requestBody.server = {}
+            if (body.db){
+                requestBody.server.db = {
+                    extraRouter: body.extraRouter
                 }
-                //frontend assembling
-                if (body.react){
-                    requestBody.react = {
-                        reactRouter: body.reactRouter,
-                        redux: body.redux,
-                        reacthooks: body.reacthooks
-                    }
-                } else {
-                    requestBody.react = false
-                }
-                return requestBody
+            } else if (!body.db){
+                requestBody.server.db = false
             }
-        const requestBody = assembleRequestBody(body)
-        console.log("This will be the request body:", requestBody)
-        
-        // Axios call to the server to grab documents
-        const  { data }= await axios.post(`api/completedboiler`, requestBody, { responseType: 'arraybuffer' })
-        
+        } else {
+            requestBody.server = false
+        }
+        //frontend assembling
+        if (body.react){
+            requestBody.react = {
+                reactRouter: body.reactRouter,
+                redux: body.redux,
+                reacthooks: body.reacthooks
+            }
+        } else {
+            requestBody.react = false
+        }
+        return requestBody
+    }
+    const requestBody = assembleRequestBody(body)
 
-        let blob = await new Blob([data], { type: 'application/zip' }) 
+    const generateBoilerplate = async () => {   
+        try{
+            console.log("This will be the request body:", requestBody)
+
+            // Axios call to the server to grab documents
+            const  { data }= await axios.post(`api/completedboiler`, requestBody, { responseType: 'arraybuffer' })
+            
+            let blob = await new Blob([data], { type: 'application/zip' }) 
 
         const link = document.createElement('a');
       // Browsers that support HTML5 download attribute
@@ -59,11 +60,18 @@ function GenerateBoilerplate(props) {
     }
 
     return (
-        <div>
-            <h1>DONE</h1>
-            <Button onClick={generateBoilerplate}>Download Boilerplate</Button>
+        <div id="generate">
+            <div id="download">
+                <h2>Your boilerplate is ready!</h2>
+                <Button onClick={generateBoilerplate}>Download Boilerplate</Button>
+            </div>
+            
+            {!requestBody.react && !requestBody.server
+                ? null
+                : <ContentAccordion requestBody={requestBody} />
+            }
         </div>
     )
 }
 
-export default GenerateBoilerplate 
+export default GenerateBoilerplate

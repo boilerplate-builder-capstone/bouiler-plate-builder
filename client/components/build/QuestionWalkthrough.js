@@ -25,7 +25,9 @@ function QuestionWalkthrough() {
             setBody({...body, ...currQuestion[selected].body})
 
             if (currQuestion[selected].nextQuestion === null){
-                setCompleted(true)
+                setTransition(false)
+                setTimeout(setCompleted, 500, true)
+                setTimeout(setTransition, 500, true)
             }
             else {
                 setShowWarning(false)
@@ -52,9 +54,19 @@ function QuestionWalkthrough() {
         exited:  { opacity: 0 },
     };
 
-
     if (completed){
-        return <GenerateBoilerplate body={body} />
+        return (
+            <Transition in={transition} timeout={duration}>
+                {state => (
+                    <div style={{
+                        ...defaultStyle,
+                        ...transitionStyles[state]
+                    }}>
+                        <GenerateBoilerplate body={body} />
+                    </div>
+                )}
+            </Transition>
+        )
     }
     else if (currQuestion.type === "radio"){
         return (
