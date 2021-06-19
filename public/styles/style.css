@@ -104,8 +104,7 @@
 @font-face {
   font-family: 'revicons';
   fallback: fallback;
-  src: url('./revicons.woff') format('woff'),
-    url('./revicons.ttf') format('ttf'), url('./revicons.eot') format('ttf');
+  src:url('./revicons.ttf') format('ttf'), url('./revicons.eot') format('ttf');
 }
 .react-multi-carousel-list {
   display: flex;

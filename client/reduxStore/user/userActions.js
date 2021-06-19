@@ -73,9 +73,12 @@ export const createUser = (userForm) => {
   };
 };
 
-export const updateUser = (user) =>{
+export const updateUser = (username) =>{
   return async (dispatch) =>{
-    console.log("User updated", user)
-    dispatch(update(user))
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.post('/api/localAuth/update', {data: {username}}, {headers: {
+      authorization: token,
+    }})
+    dispatch(update(data))
   }
 }

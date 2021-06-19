@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { updateUser } from '../../reduxStore/user/userActions';
@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
 function UserEdit(props) {
   const { user, update, editChange} = props;
   const classes = useStyles();
-  const [username, setUsername] = React.useState("");
+  const [invalid, setInvalid] = useState(false)
+  const [username, setUsername] = useState("");
   const handleChange = (event) => {
     setUsername(event.target.value);
   };
@@ -27,8 +28,15 @@ function UserEdit(props) {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      await update(user);
+      let useRegex = /^[a-zA-Z0-9]+$/
+      let validname = username.match(useRegex)
+      console.log(validname)
+      if(validname && username !== ""){
+      await update(username);
       editChange()
+      }else{
+        setInvalid(true)
+      }
     } catch (error) {
       console.log('error occured in SignIn component onSubmit', error);
     }
@@ -40,8 +48,12 @@ function UserEdit(props) {
                 <div>
                   <TextField id="username-edit" label="Username" value={username} onChange={handleChange} />
                 </div>
+                {invalid ? <p>***Invalid username Please Enter a new Name</p> : <></>}
                 <Button className="editButton" style={{marginTop: 50}} onClick={onSubmit}>
                     <p>Submit Change</p>
+                </Button>
+                <Button onClick={editChange}>
+                  Cancel
                 </Button>
               </form>
             </>

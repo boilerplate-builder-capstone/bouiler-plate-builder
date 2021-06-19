@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import CardCarousel from './CardCarousel';
 import IconButton from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
@@ -7,52 +7,46 @@ import axios from 'axios'
 import UserEdit from './UserEdit'
 
 
-class UserDashboard extends Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-         image: '',
-         repos: [],
-         edit: false,
-        };
-      }
+function UserDashboard (props){
+    const [repos, setRepos] = useState([]) 
+    const [edit, setEdit] = useState(false)
+    const [image, setImage] = useState("")
+    
 
-    async componentDidMount(){
+    useEffect(async()=>{
         try{
-            console.log(this.props)
-        if(this.props.user.user.github){
-            let { data } = await axios.get(this.props.user.user.github.repos_url)
-            this.setState({ repos: data, image: this.props.user.user.github.avatar_url })
+        if(props.user.user.github){
+            let { data } = await axios.get(props.user.user.github.repos_url)
+            setRepos(data)
+            setImage(props.user.user.github.avatar_url)
         } else{
-            this.setState({image: this.props.user.user.icon})
+            setImage(props.user.user.icon)
         }
         }catch(er){console.log(er)}
-    }
-    componentDidUpdate(){
-        console.log(this.props)
-    }
-    handleClick =()=>{
+    }, [])
+    const handleClick =()=>{
         if(edit){
-        this.setState({edit: false})
+            setEdit(false)
         }else{
-        this.setState({edit: true})
+            setEdit(true)
         }
     }
-
-    render (){
-        const { repos, edit } = this.state
-        const git = this.props.user.user.github
+    
+        console.log(props)
+        console.log(props.user.user)
+        console.log(image)
+        console.log(repos)
         return (
         <div>
             <div id="dashboardcontainer" > 
                 <div id="imageeditcont" >
-                   <img className="userimage" src={this.state.image}/> 
+                   <img className="userimage" src={image}/> 
                         {edit?(
-                        <UserEdit editChange={this.handleClick}/>
+                        <UserEdit editChange={handleClick}/>
                         ) : ( 
                             <>    
-                            <h3>{this.props.user.user.username}</h3>
-                            <IconButton className="editButton" style={{marginTop: 50}} onClick={this.handleClick}>
+                            <h3>{props.user.user.username}</h3>
+                            <IconButton className="editButton" style={{marginTop: 50}} onClick={handleClick}>
                                 <p>Edit Username</p>
                                 <EditIcon />
                             </IconButton>
@@ -69,8 +63,8 @@ class UserDashboard extends Component{
             </div>
         </div>
         )
-    }
 }
+
 const mapStateToProps = (state) => {
     return {
       user: state.user,
