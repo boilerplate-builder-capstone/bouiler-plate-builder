@@ -19,7 +19,6 @@ gitCreateRouter.post('/', async (req, res, next) => {
     const response = (
       await axios.post(`https://api.github.com/user/repos`, repoDetail, {
         headers: {
-          // authorization: `token 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`,
           authorization: `token ${token.token}`,
         },
       })
