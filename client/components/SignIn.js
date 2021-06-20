@@ -28,6 +28,8 @@ class SignIn extends Component {
     }
   };
 
+  onButton = async () => {};
+
   render() {
     return (
       <div>
@@ -64,6 +66,7 @@ class SignIn extends Component {
             <Button href="/api/login">Sign in through Github</Button>
           </div>
         </div>
+        <button>POST</button>
       </div>
     );
   }
