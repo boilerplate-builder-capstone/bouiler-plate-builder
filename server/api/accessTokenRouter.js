@@ -30,6 +30,8 @@ accessTokenRouter.get('/', async (req, res, next) => {
     }
 
     const accessToken = response.access_token;
+    accessToken ? console.log(accessToken) : '';
+    const gitToken = jwt.sign({ token: accessToken }, process.env.JWT);
 
     //get user info from github
     response = (
@@ -68,7 +70,8 @@ accessTokenRouter.get('/', async (req, res, next) => {
     <html>
       <head>
         <script>
-          window.localStorage.setItem('token','${jwtToken}');
+        window.localStorage.setItem('token','${jwtToken}');
+        window.localStorage.setItem('tokenGit','${gitToken}');
           window.document.location = '/';
         </script>
       </head>
