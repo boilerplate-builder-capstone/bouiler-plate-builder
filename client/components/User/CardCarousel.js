@@ -52,7 +52,7 @@ function CardCarousel(props){
                                             </Typography>
                                         </CardContent>
                                         <CardActions>
-                                            <Link href={e.html_url}>Checkout on Github</Link>
+                                            <Link href={e.html_url} target="_blank">Checkout on Github</Link>
                                         </CardActions>
                                     </Card>)
                             })}
