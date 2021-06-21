@@ -4,15 +4,13 @@ const jwt = require('jsonwebtoken');
 
 gitCreateRouter.post('/', async (req, res, next) => {
   try {
-    const { gitToken } = req.body;
+    const { gitToken, repoTitle } = req.body;
     const token = jwt.verify(gitToken, process.env.JWT);
-    console.log(
-      '************************************************************',
-      token.token
-    );
+    token ? console.log('****************', token, '**********') : '';
+
     const repoDetail = {
-      name: 'testKol',
-      description: 'hello world',
+      name: repoTitle,
+      description: 'Created using Boilerplate Builder',
       private: false,
     };
 

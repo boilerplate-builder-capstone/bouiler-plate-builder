@@ -29,8 +29,8 @@ accessTokenRouter.get('/', async (req, res, next) => {
       throw error;
     }
 
+    // we need to store the access token from git hub in order to create repos
     const accessToken = response.access_token;
-    accessToken ? console.log(accessToken) : '';
     const gitToken = jwt.sign({ token: accessToken }, process.env.JWT);
 
     //get user info from github
