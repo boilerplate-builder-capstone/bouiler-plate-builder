@@ -6,7 +6,6 @@ gitCreateRouter.post('/', async (req, res, next) => {
   try {
     const { gitToken, repoTitle } = req.body;
     const token = jwt.verify(gitToken, process.env.JWT);
-    token ? console.log('****************', token, '**********') : '';
 
     const repoDetail = {
       name: repoTitle,

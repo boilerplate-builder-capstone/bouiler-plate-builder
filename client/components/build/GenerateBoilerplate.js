@@ -67,11 +67,11 @@ function GenerateBoilerplate(props) {
   const onSubmit = async (data) => {
     try {
       const { repoTitle } = data;
-      const gitToken = window.localStorage.getIten('tokenGit');
+      const gitToken = window.localStorage.getItem('tokenGit');
       const dataPack = { repoTitle, gitToken };
       const response = await axios.post('/api/gitCreate', dataPack);
     } catch (error) {
-      console.log('error occured in repo generation');
+      console.log('error occured in repo generation', error);
     }
   };
 
