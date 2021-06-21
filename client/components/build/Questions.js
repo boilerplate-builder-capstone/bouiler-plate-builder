@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import GenerateBoilerplate from './GenerateBoilerplate'
 import { Transition } from 'react-transition-group'
 import RadioQuestion from './RadioQuestion'
 import DropdownQuestion from './DropdownQuestion'
 import questions from '../../questiondata'
 
 function Questions(props) {
-    const [completed, setCompleted] = useState(false)
     const [showWarning, setShowWarning] = useState(false)
     const [selected, setSelected] = useState(null)
     const [questionIdx, setQuestionIdx] = useState(0)
-    const { body, setBody, transition, setTransition } = props
+    const { body, setBody, transition, setTransition, setCompleted } = props
 
     const currQuestion = questions[questionIdx]
 
@@ -25,7 +23,7 @@ function Questions(props) {
             if (currQuestion[selected].nextQuestion === null){
                 setTransition(false)
                 setTimeout(setCompleted, 500, true)
-                setTimeout(setTransition, 500, true)
+                setTimeout(setTransition, 600, true)
             }
             else {
                 setShowWarning(false)
@@ -56,22 +54,7 @@ function Questions(props) {
         exited:  { opacity: 0 },
     };
 
-    // TODO: move generateboilerplate out of questions and into questionwalkthrough
-    if (completed){
-        return (
-            <Transition in={transition} timeout={duration}>
-                {state => (
-                    <div style={{
-                        ...defaultStyle,
-                        ...transitionStyles[state]
-                    }}>
-                        <GenerateBoilerplate body={body} />
-                    </div>
-                )}
-            </Transition>
-        )
-    }
-    else if (currQuestion.type === "radio"){
+    if (currQuestion.type === "radio"){
         return (
             <Transition in={transition} timeout={duration}>
                 {state => (
