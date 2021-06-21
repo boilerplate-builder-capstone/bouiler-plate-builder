@@ -31,11 +31,7 @@ function UserDashboard (props){
             setEdit(true)
         }
     }
-    
-        console.log(props)
-        console.log(props.user.user)
-        console.log(image)
-        console.log(repos)
+
         return (
         <div>
             <div id="dashboardcontainer" > 

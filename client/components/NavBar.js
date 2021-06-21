@@ -21,6 +21,9 @@ function NavBar(props) {
       <Nav className="ml-auto">
         <Nav.Link href="/#about">About</Nav.Link>
       </Nav>
+      <Nav className="ml-auto">
+        <Nav.Link href="/#forum">Forum</Nav.Link>
+      </Nav>
       {!user.user ? (
         <Nav className="ml-auto">  
           <Nav.Link href="/#signin">Sign In/Create Account</Nav.Link>
