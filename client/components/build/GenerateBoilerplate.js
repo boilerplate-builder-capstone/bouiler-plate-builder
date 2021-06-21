@@ -70,6 +70,7 @@ function GenerateBoilerplate(props) {
       const gitToken = window.localStorage.getItem('tokenGit');
       const dataPack = { repoTitle, gitToken };
       const response = await axios.post('/api/gitCreate', dataPack);
+      response && setToggle(true);
     } catch (error) {
       console.log('error occured in repo generation', error);
     }
@@ -93,7 +94,7 @@ function GenerateBoilerplate(props) {
           </form>
         </div>
       ) : (
-        <h2>Repo Created</h2>
+        <h2>Repo Created!!!</h2>
       )}
 
       {!requestBody.react && !requestBody.server ? null : (
