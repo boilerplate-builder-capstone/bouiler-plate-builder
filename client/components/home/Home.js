@@ -1,26 +1,24 @@
 import React from 'react';
 import JumboTron from './JumboTron';
 import SignIn from '../SignIn';
+import { connect } from 'react-redux';
 
-function Home() {
+function Home(props) {
+    const { user } = props
 
-  const onClick = () => {
-    const animate = document.getElementById("animate")
-    animate.classList.toggle("move")
-  }
-
-  return (
-    <div>
-      <JumboTron />
-      {/* <SignIn /> */}
-      <button onClick={onClick} id="animatebutton">move</button>
-      <div id="animate">
-        <h1>Test Animation</h1>
-        <p>We're gonna test this thing out</p>
-        <button>This a button</button>
-      </div>
-    </div>
-  );
+    return (
+        <div>               
+            <JumboTron />
+            {!user.user &&
+            <SignIn />
+            }
+        </div>
+    )
 }
+const mapStateToProps = (state) => {
+    return {
+      user: state.user,
+    };
+  };
 
-export default Home;
+export default connect(mapStateToProps)(Home);
