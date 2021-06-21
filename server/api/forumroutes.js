@@ -21,7 +21,7 @@ forum.get('/:id', async (req, res, next) => {
         id = req.params.id
         const post = await Post.findall({ where: {id}, include: [{
              model: Comment, 
-            attributes:[{
+                attributes:[{
                 include: [{
                     model: User,
                     attributes:['username', 'github', 'icon']    
