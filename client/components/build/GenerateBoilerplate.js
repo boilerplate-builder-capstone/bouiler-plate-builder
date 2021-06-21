@@ -2,37 +2,10 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import axios from 'axios'
 import ContentAccordion from './ContentAccordion'
+import assembleRequestBody from '../../utils'
 
 function GenerateBoilerplate(props) {
     const { body } = props
-
-    const assembleRequestBody = (body) => {
-        const requestBody = {}
-        // backend assembling
-        if (body.server){
-            requestBody.server = {}
-            if (body.db){
-                requestBody.server.db = {
-                    extraRouter: body.extraRouter
-                }
-            } else if (!body.db){
-                requestBody.server.db = false
-            }
-        } else {
-            requestBody.server = false
-        }
-        //frontend assembling
-        if (body.react){
-            requestBody.react = {
-                reactRouter: body.reactRouter,
-                redux: body.redux,
-                reacthooks: body.reacthooks
-            }
-        } else {
-            requestBody.react = false
-        }
-        return requestBody
-    }
     const requestBody = assembleRequestBody(body)
 
     const generateBoilerplate = async () => {   

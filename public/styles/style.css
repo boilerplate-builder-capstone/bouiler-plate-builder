@@ -46,7 +46,7 @@
 #filestructure {
     border: solid gray 1px;
     border-radius: 20px;
-    width: 15rem;
+    width: 16rem;
     padding: 1rem;
     overflow-wrap: break-word;
 }
@@ -62,11 +62,15 @@
     padding: 0
 }
 
+#filestructure li {
+    border: solid 2px white; 
+}
+
 #question {
     padding: 2rem;
     border: solid gray 1px;
     border-radius: 20px;
-    width: 20rem
+    width: 22rem
 }
 
 #question h6 {
@@ -90,10 +94,46 @@
     padding: 1.5rem 0 0 0;
 }
 
-.filechange {
-    border: solid red 1rem;
+
+@keyframes neonGreenGlow {
+    0% {
+        border: solid 2px white;
+    }
+    30% {
+        border: solid 2px greenyellow;
+    }
+    70% {
+        border: solid 2px greenyellow;
+    }
+    100% {
+        border: solid 2px white;
+    }
 }
 
+.fileadd {
+    animation: 2s neonGreenGlow 1;
+    border-radius: 10px;
+}
+
+@keyframes neonYellowGlow {
+    0% {
+        border: solid 2px white;
+    }
+    30% {
+        border: solid 2px yellow;
+    }
+    70% {
+        border: solid 2px yellow;
+    }
+    100% {
+        border: solid 2px white;
+    }
+}
+
+.filechange {
+    animation: 2s neonYellowGlow 1;
+    border-radius: 10px;
+}
 
 /* #animate {
     background-color: #33ae74;

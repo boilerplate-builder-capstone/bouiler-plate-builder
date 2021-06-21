@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import Home from './home/Home';
 import Build from './build/Build';
-import QuestionWalkthrough from './build/QuestionWalkthrough';
+import QuestionWalkthrough from './build/QuestionWalkthrough'
 import NavBar from './NavBar';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
