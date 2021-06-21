@@ -5,17 +5,12 @@ import RadioQuestion from './RadioQuestion'
 import DropdownQuestion from './DropdownQuestion'
 import questions from '../../questiondata'
 
-// maybe move body to store, then map it to props in file structure (changed to class component). if prevprops is still not sticking and FileStructure continues to re-render along with question walkthrough, idk what to tell you man
-
 function Questions(props) {
     const [completed, setCompleted] = useState(false)
-    // const [body, setBody] = useState({})    
     const [showWarning, setShowWarning] = useState(false)
     const [selected, setSelected] = useState(null)
     const [questionIdx, setQuestionIdx] = useState(0)
-    const [transition, setTransition] = useState(true)
-
-    const { body, setBody } = props
+    const { body, setBody, transition, setTransition } = props
 
     const currQuestion = questions[questionIdx]
 
@@ -43,6 +38,10 @@ function Questions(props) {
     useEffect(() => {
         setSelected(null)
     }, [currQuestion.type])
+    
+    useEffect(() => {
+        setTransition(true)
+    }, [])
 
     // TRANSITION ANIMATION STUFF
     const duration = 500;

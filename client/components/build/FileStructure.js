@@ -10,11 +10,15 @@ function FileStructure(props) {
     
     useEffect(() => {
         const additions = Object.keys(body).filter(key => !Object.keys(previousBody).includes(key))
-        console.log('new stuff:', additions)
 
         if (body[additions[0]]){
             const changedFiles = [...document.getElementsByClassName(`${additions[0]}change`)]
-            changedFiles.forEach(file => file.classList.add("filechange"))
+            changedFiles.forEach(file => {
+                if([...file.classList].includes("filechange")){
+                    file.classList.toggle("filechange")
+                }
+                setTimeout((arg) => file.classList.toggle(arg), 50, "filechange")
+            })
 
             const newFiles = [...document.getElementsByClassName(additions[0])]
             newFiles.forEach(file => file.classList.add("fileadd"))
@@ -25,7 +29,7 @@ function FileStructure(props) {
 
     return (
         <div id="filestructure">
-            <h6>File Structure</h6>
+            <h6>Your File Structure</h6>
             <ul>
                 {Object.keys(body).length 
                     ? Object.entries(requestBody).map((item, idx) => {
@@ -64,6 +68,10 @@ function FileStructure(props) {
                             )
                         }
                         if (key === "react" && val){
+                            let reduxchange = "reduxchange"
+                            let reactRouterchange = "reactRouterchange"
+                            const reacthookschange = "reacthookschange"
+                            const classes = [reduxchange, reactRouterchange, reacthookschange].join(' ')
                             return (
                                 <div key={idx} className="react">
                                     <li>CLIENT</li>
@@ -71,7 +79,7 @@ function FileStructure(props) {
                                         <li>index.js</li>
                                         <li>COMPONENTS</li>
                                         <ul>
-                                            <li className="reactRouterchange" className="reacthookschange" className="reduxchange">App.js</li>
+                                            <li className={classes}>App.js</li>
                                         </ul>
                                         {val.redux
                                             ? <div className="redux">
