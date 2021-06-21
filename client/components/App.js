@@ -7,6 +7,7 @@ import QuestionWalkthrough from './build/QuestionWalkthrough';
 import NavBar from './NavBar';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import UserDashboard from './User/UserDashboard'
 import {
   tokenLogin,
   logoutUser,
@@ -40,6 +41,7 @@ class App extends Component {
             path="/signup"
             component={() => <SignUp create={create} history={history} />}
           />
+          <Route exact path="/dashboard" component={UserDashboard} />
         </Router>
       </div>
     );

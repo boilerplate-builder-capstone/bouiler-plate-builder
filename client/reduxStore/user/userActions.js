@@ -14,6 +14,13 @@ export const logoutCall = () => {
   };
 };
 
+export const update = (user) =>{
+  return {
+    type: types.UPDATE,
+    user
+  };
+}
+
 export const loginUser = (credentials, history) => {
   return async (dispatch) => {
     try {
@@ -65,3 +72,13 @@ export const createUser = (userForm) => {
     }
   };
 };
+
+export const updateUser = (username) =>{
+  return async (dispatch) =>{
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.post('/api/localAuth/update', {data: {username}}, {headers: {
+      authorization: token,
+    }})
+    dispatch(update(data))
+  }
+}

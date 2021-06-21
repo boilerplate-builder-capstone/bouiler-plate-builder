@@ -1,4 +1,6 @@
 const User = require('../db/models/User');
+const jwt = require('jsonwebtoken');
+
 
 const localAuthRouter = require('express').Router();
 
@@ -24,5 +26,25 @@ localAuthRouter.post('/create', async (req, res, next) => {
     next(error);
   }
 });
+
+localAuthRouter.post('/update', async (req, res, next) => {
+  try {
+    const { username } = req.body.data;
+    const { userId } = await jwt.verify(
+      req.headers.authorization,
+      process.env.JWT
+    );
+    const user = await User.findByPk(userId, {
+      attributes: { exclude: ['password'] },
+    });
+    user.username = username
+    await user.save()
+    res.status(201).send(user);
+  } catch (error) {
+    console.log('error occured in post/api/localAuthRouter/update', error);
+    next(error);
+  }
+});
+
 
 module.exports = localAuthRouter;

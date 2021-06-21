@@ -21,6 +21,10 @@ const User = db.define('user', {
     allowNull: false,
     unique: true,
   },
+  icon: {
+    type: DataTypes.STRING,
+    defaultValue: "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png",
+  },
   github: {
     type: DataTypes.JSON,
   },

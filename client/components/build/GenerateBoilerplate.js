@@ -44,16 +44,17 @@ function GenerateBoilerplate(props) {
             
             let blob = await new Blob([data], { type: 'application/zip' }) 
 
-            const link = document.createElement('a');
-            // Browsers that support HTML5 download attribute  
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', 'Boilerplate');
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        } catch(er){
+        const link = document.createElement('a');
+      // Browsers that support HTML5 download attribute
+      //need to adjust this for react!!!!!!!!!!!!!!!!!!!
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'Boilerplate');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        }catch(er){
             console.log(er)
         }
     }
