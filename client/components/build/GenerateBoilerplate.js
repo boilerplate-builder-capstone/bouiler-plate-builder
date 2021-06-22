@@ -8,7 +8,7 @@ import CreateRepoModal from './CreateRepoModal';
 
 function GenerateBoilerplate(props) {
   const { body } = props;
-  const [isToken, setIsToken] = useState(true);
+  const [isToken, setIsToken] = useState(false);
 
   const assembleRequestBody = (body) => {
     const requestBody = {};
@@ -60,13 +60,14 @@ function GenerateBoilerplate(props) {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
+      // makes a modal pop up asking if the user would like to create a repo, if logged into github
+      const gitToken = window.localStorage.getItem('tokenGit');
+      gitToken && setIsToken(true);
     } catch (er) {
       console.log(er);
     }
   };
-
-  const gitToken = window.localStorage.getItem('tokenGit');
-  // gitToken ? setIsToken(true) : '';
 
   return (
     <div id="generate">

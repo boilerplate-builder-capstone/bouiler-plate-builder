@@ -5,11 +5,7 @@ import axios from 'axios';
 
 function CreateRepoModal() {
   const [toggle, setToggle] = useState(false);
-  const [isToken, setIsToken] = useState(true);
   const { register, handleSubmit } = useForm();
-
-  const gitToken = window.localStorage.getItem('tokenGit');
-  gitToken ? setIsToken(true) : '';
 
   const onSubmit = async (data) => {
     try {
@@ -27,7 +23,8 @@ function CreateRepoModal() {
     <div>
       {!toggle ? (
         <div id="repoGen">
-          <h2>Would you like to create a new repo for this project?</h2>
+          <h1>But Wait! There's more:</h1>
+          <h3>Would you like to create a new repo for this project?</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
             <input
               {...register('repoTitle')}
