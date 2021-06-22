@@ -232,3 +232,11 @@
 #accordion {
     padding: 1.5rem 0 0 0;
 }
+
+#prebuiltcontainer {
+  margin: 0rem 1.5rem;
+}
+
+.prebuiltcard {
+  width: 20rem;
+}
