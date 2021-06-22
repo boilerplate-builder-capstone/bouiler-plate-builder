@@ -91,7 +91,20 @@ const questions = [
             nextQuestion: null,
             body: {reacthooks: false}
         }
-    }
+    },
+    {
+        text: "Name the boilerplate",
+        type: "naming",
+        options: yesNo,
+        Yes: {
+            nextQuestion: null,
+            body: {reacthooks: true}
+        },
+        No: {
+            nextQuestion: null,
+            body: {reacthooks: false}
+        }
+    },
 ]
 
 export default questions

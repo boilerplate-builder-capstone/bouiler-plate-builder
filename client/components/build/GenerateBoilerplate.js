@@ -52,6 +52,7 @@ function GenerateBoilerplate(props) {
 
       const link = document.createElement('a');
       // Browsers that support HTML5 download attribute
+      //need to adjust this for react!!!!!!!!!!!!!!!!!!!
       const url = URL.createObjectURL(blob);
       link.setAttribute('href', url);
       link.setAttribute('download', 'Boilerplate');

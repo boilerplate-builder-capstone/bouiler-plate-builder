@@ -1,14 +1,24 @@
 import React from 'react';
 import JumboTron from './JumboTron';
 import SignIn from '../SignIn';
+import { connect } from 'react-redux';
 
-function Home() {
-  return (
-    <div>
-      <JumboTron />
-      {/* <SignIn /> */}
-    </div>
-  );
+function Home(props) {
+    const { user } = props
+
+    return (
+        <div>               
+            <JumboTron />
+            {!user.user &&
+            <SignIn />
+            }
+        </div>
+    )
 }
+const mapStateToProps = (state) => {
+    return {
+      user: state.user,
+    };
+  };
 
-export default Home;
+export default connect(mapStateToProps)(Home);

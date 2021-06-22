@@ -79,7 +79,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
       }
     }
     configObjectArray.push(createFile('S9', boiler))
-
+    
     Promise.all(reactreduxObjectArray).then((data)=>zipHelper('client/reactredux/', data))
     Promise.all(clientObjectArray).then((data)=>zipHelper('client/', data))
     Promise.all(publicObjectArray).then((data)=>zipHelper('public/', data))
