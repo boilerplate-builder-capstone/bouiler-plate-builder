@@ -7,7 +7,8 @@ import QuestionWalkthrough from './build/QuestionWalkthrough';
 import NavBar from './NavBar';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import UserDashboard from './User/UserDashboard'
+import UserDashboard from './User/UserDashboard';
+import PrebuiltBoilers from './PrebuiltBoilers';
 import {
   tokenLogin,
   logoutUser,
@@ -36,6 +37,7 @@ class App extends Component {
             path="/build/customize"
             component={QuestionWalkthrough}
           />
+          <Route exact path="/build/prebuilt" component={PrebuiltBoilers} />
           <Route
             exact
             path="/signup"
