@@ -1,38 +1,12 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import axios from 'axios'
+import { Transition } from 'react-transition-group'
 import ContentAccordion from './ContentAccordion'
+import assembleRequestBody from '../../utils'
 
 function GenerateBoilerplate(props) {
-    const { body } = props
-
-    const assembleRequestBody = (body) => {
-        const requestBody = {}
-        // backend assembling
-        if (body.server){
-            requestBody.server = {}
-            if (body.db){
-                requestBody.server.db = {
-                    extraRouter: body.extraRouter
-                }
-            } else if (!body.db){
-                requestBody.server.db = false
-            }
-        } else {
-            requestBody.server = false
-        }
-        //frontend assembling
-        if (body.react){
-            requestBody.react = {
-                reactRouter: body.reactRouter,
-                redux: body.redux,
-                reacthooks: body.reacthooks
-            }
-        } else {
-            requestBody.react = false
-        }
-        return requestBody
-    }
+    const { body, transition } = props
     const requestBody = assembleRequestBody(body)
 
     const generateBoilerplate = async () => {   
@@ -59,18 +33,39 @@ function GenerateBoilerplate(props) {
         }
     }
 
+    const duration = 500;
+    const defaultStyle = {
+        transition: `opacity ${duration}ms ease-in-out`,
+        opacity: 0,
+    }
+    const transitionStyles = {
+        entering: { opacity: 1 },
+        entered:  { opacity: 1 },
+        exiting:  { opacity: 0 },
+        exited:  { opacity: 0 },
+    };
+
     return (
-        <div id="generate">
-            <div id="download">
-                <h2>Your boilerplate is ready!</h2>
-                <Button onClick={generateBoilerplate}>Download Boilerplate</Button>
-            </div>
-            
-            {!requestBody.react && !requestBody.server
-                ? null
-                : <ContentAccordion requestBody={requestBody} />
-            }
-        </div>
+        <Transition in={transition} timeout={duration}>
+            {state => (
+                <div style={{
+                    ...defaultStyle,
+                    ...transitionStyles[state]
+                }}>
+                    <div id="generate">
+                        <div id="download">
+                            <h2>Your boilerplate is ready!</h2>
+                            <Button onClick={generateBoilerplate}>Download Boilerplate</Button>
+                        </div>
+                        
+                        {!requestBody.react && !requestBody.server
+                            ? null
+                            : <ContentAccordion requestBody={requestBody} />
+                        }
+                    </div>
+                </div>
+            )}
+        </Transition>
     )
 }
 
