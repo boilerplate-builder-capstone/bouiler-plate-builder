@@ -10,7 +10,6 @@ function FileStructure(props) {
     
     useEffect(() => {
         const additions = Object.keys(body).filter(key => !Object.keys(previousBody).includes(key))
-
         if (body[additions[0]]){
             const changedFiles = [...document.getElementsByClassName(`${additions[0]}change`)]
             changedFiles.forEach(file => {
@@ -35,7 +34,6 @@ function FileStructure(props) {
                     ? Object.entries(requestBody).map((item, idx) => {
                         let key = item[0]
                         let val = item[1]
-                    
                         if (key === "server" && val){
                             return (
                                 <div key={idx} className="server">
@@ -64,6 +62,7 @@ function FileStructure(props) {
                                             :null
                                         }
                                     </ul>
+                                    <li>package.json</li>
                                 </div>
                             )
                         }
@@ -93,6 +92,23 @@ function FileStructure(props) {
                                             </div>
                                             : null
                                         }
+                                    </ul>
+                                    <li><i className="fas fa-folder"></i> public</li>
+                                    <ul>
+                                        <li>htmlindex.html</li>
+                                        <li>style.css</li>
+                                    </ul>
+                                    <li>webpack.config.js</li>
+                                </div>
+                            )
+                        }
+                        if (key === "react" && !val) {
+                            return (
+                                <div key={idx}>
+                                    <li><i className="fas fa-folder"></i> public</li>
+                                    <ul>
+                                        <li>htmlindex.html</li>
+                                        <li>style.css</li>
                                     </ul>
                                 </div>
                             )

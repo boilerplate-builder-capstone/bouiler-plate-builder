@@ -20,7 +20,7 @@ const assembleRequestBody = (body) => {
             redux: body.redux,
             reacthooks: body.reacthooks
         }
-    } else {
+    } else if (body.react === false){
         requestBody.react = false
     }
     return requestBody
