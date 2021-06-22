@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
 import axios from 'axios';
 import ContentAccordion from './ContentAccordion';
+import CreateRepoModal from './CreateRepoModal';
 
 function GenerateBoilerplate(props) {
   const { body } = props;
-  const [toggle, setToggle] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const [isToken, setIsToken] = useState(true);
 
   const assembleRequestBody = (body) => {
     const requestBody = {};
@@ -65,17 +65,8 @@ function GenerateBoilerplate(props) {
     }
   };
 
-  const onSubmit = async (data) => {
-    try {
-      const { repoTitle } = data;
-      const gitToken = window.localStorage.getItem('tokenGit');
-      const dataPack = { repoTitle, gitToken };
-      const response = await axios.post('/api/gitCreate', dataPack);
-      response && setToggle(true);
-    } catch (error) {
-      console.log('error occured in repo generation', error);
-    }
-  };
+  const gitToken = window.localStorage.getItem('tokenGit');
+  // gitToken ? setIsToken(true) : '';
 
   return (
     <div id="generate">
@@ -83,20 +74,11 @@ function GenerateBoilerplate(props) {
         <h2>Your boilerplate is ready!</h2>
         <Button onClick={generateBoilerplate}>Download Boilerplate</Button>
       </div>
-      {!toggle ? (
-        <div id="repoGen">
-          <h2>Would you like to create a new repo for this project?</h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <input
-              {...register('repoTitle')}
-              placeholder="Name Your Repo Here"
-            />
-            <input type="submit" />
-          </form>
-        </div>
-      ) : (
-        <h2>Repo Created!!!</h2>
-      )}
+      <Modal centered show={isToken} onHide={() => setIsToken(false)}>
+        <Modal.Body>
+          <CreateRepoModal />
+        </Modal.Body>
+      </Modal>
 
       {!requestBody.react && !requestBody.server ? null : (
         <ContentAccordion requestBody={requestBody} />
