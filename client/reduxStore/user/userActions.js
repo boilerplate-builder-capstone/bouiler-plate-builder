@@ -56,6 +56,7 @@ export const tokenLogin = (history) => {
 export const logoutUser = () => {
   return async (dispatch) => {
     window.localStorage.removeItem('token');
+    window.localStorage.removeItem('tokenGit');
     dispatch(logoutCall());
 
     alert('Logged out successfully');

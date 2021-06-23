@@ -1,0 +1,19 @@
+1) Step 1: Create a personal access token and use it in place of password
+
+Step 2: On command line use the given API as a POST request
+
+https://api.github.com/orgs/<organisation_name>/repos?access_token=<generated token>
+or
+
+https://api.github.com/user/<username>/repos?access_token=<generated token>
+In body, pass this as a payload:
+
+{
+  "name": "<Repo Name>",
+  "description": "<Some message>",
+  "homepage": "https://github.com",
+  "private": false,
+}
+You can pass other details.
+For more details: https://docs.github.com/en/rest/reference/repos#create
+

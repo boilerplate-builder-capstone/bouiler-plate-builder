@@ -35,7 +35,7 @@ function Build() {
               <p className="textblock">
                 Save your boilerplate to a Github repo
               </p>
-              <Button href="/#build/customize">Sign in through Github</Button>
+              <Button href="/api/login">Sign in through Github</Button>
             </div>
           </div>
         </Modal.Body>
