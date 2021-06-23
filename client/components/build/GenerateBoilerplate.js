@@ -1,48 +1,18 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
-
 import axios from 'axios';
+import { Transition } from 'react-transition-group';
 import ContentAccordion from './ContentAccordion';
 import CreateRepoModal from './CreateRepoModal';
 
+import assembleRequestBody from '../../utils';
+
 function GenerateBoilerplate(props) {
-  const { body } = props;
+  const { body, transition } = props;
   const [isToken, setIsToken] = useState(false);
-
-  const assembleRequestBody = (body) => {
-    const requestBody = {};
-    // backend assembling
-    if (body.server) {
-      requestBody.server = {};
-      if (body.db) {
-        requestBody.server.db = {
-          extraRouter: body.extraRouter,
-        };
-      } else if (!body.db) {
-        requestBody.server.db = false;
-      }
-    } else {
-      requestBody.server = false;
-    }
-    //frontend assembling
-    if (body.react) {
-      requestBody.react = {
-        reactRouter: body.reactRouter,
-        redux: body.redux,
-        reacthooks: body.reacthooks,
-      };
-    } else {
-      requestBody.react = false;
-    }
-    return requestBody;
-  };
   const requestBody = assembleRequestBody(body);
-
   const generateBoilerplate = async () => {
     try {
-      console.log('This will be the request body:', requestBody);
-
       // Axios call to the server to grab documents
       const { data } = await axios.post(`api/completedboiler`, requestBody, {
         responseType: 'arraybuffer',
@@ -63,28 +33,56 @@ function GenerateBoilerplate(props) {
 
       // makes a modal pop up asking if the user would like to create a repo, if logged into github
       const gitToken = window.localStorage.getItem('tokenGit');
-      gitToken && setIsToken(true);
+      if (gitToken) {
+        setIsToken(true);
+      }
     } catch (er) {
       console.log(er);
     }
   };
 
-  return (
-    <div id="generate">
-      <div id="download">
-        <h2>Your boilerplate is ready!</h2>
-        <Button onClick={generateBoilerplate}>Download Boilerplate</Button>
-      </div>
-      <Modal centered show={isToken} onHide={() => setIsToken(false)}>
-        <Modal.Body>
-          <CreateRepoModal />
-        </Modal.Body>
-      </Modal>
+  const duration = 500;
+  const defaultStyle = {
+    transition: `opacity ${duration}ms ease-in-out`,
+    opacity: 0,
+  };
+  const transitionStyles = {
+    entering: { opacity: 1 },
+    entered: { opacity: 1 },
+    exiting: { opacity: 0 },
+    exited: { opacity: 0 },
+  };
 
-      {!requestBody.react && !requestBody.server ? null : (
-        <ContentAccordion requestBody={requestBody} />
+  return (
+    <Transition in={transition} timeout={duration}>
+      {(state) => (
+        <div
+          style={{
+            ...defaultStyle,
+            ...transitionStyles[state],
+          }}
+        >
+          <div id="generate">
+            <div id="download">
+              <h2>Your boilerplate is ready!</h2>
+              <Button onClick={generateBoilerplate}>
+                Download Boilerplate
+              </Button>
+            </div>
+
+            <Modal centered show={isToken} onHide={() => setIsToken(false)}>
+              <Modal.Body>
+                <CreateRepoModal />
+              </Modal.Body>
+            </Modal>
+
+            {!requestBody.react && !requestBody.server ? null : (
+              <ContentAccordion requestBody={requestBody} />
+            )}
+          </div>
+        </div>
       )}
-    </div>
+    </Transition>
   );
 }
 
