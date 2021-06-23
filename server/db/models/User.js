@@ -27,7 +27,7 @@ const User = db.define('user', {
   },
   github: {
     type: DataTypes.JSON,
-  },
+  }
 });
 
 // encrypts password after creation or change

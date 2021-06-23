@@ -3,6 +3,7 @@ const Code = require('./models/Code.js');
 const Post = require('./models/Posts')
 const Comment = require('./models/Comments')
 const User = require('./models/User')
+const Template = require('./models/Template.js');
 
 User.hasMany(Post);
 Post.belongsTo(User);
@@ -11,6 +12,9 @@ Comment.belongsTo(User)
 Post.hasMany(Comment);
 Comment.belongsTo(Post);
 
+//associations
+User.hasMany(Template);
+Template.belongsTo(User);
 
-
-module.exports = { db, models:{ Code, Post, Comment, User } };
+//export models
+module.exports = { db, models:{ Code, User, Template, Post, Comment } };
