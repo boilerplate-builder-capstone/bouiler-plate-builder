@@ -60,6 +60,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
 
     if(boiler.server){
       /* SERVER DB ROUTER STRUCTURE NEEDS TO BE ADJUSTED!!!!!*/
+      configObjectArray.push(createFile('S9', boiler))
       serverObjectArray.push(createFile('S2', boiler))
       serverObjectArray.push(createFile('S1', boiler))
 
@@ -76,7 +77,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
         modelObjectArray.push(createFile('S5', {}))
       }
     }
-    configObjectArray.push(createFile('S9', boiler))
+    // configObjectArray.push(createFile('S9', boiler))
     
     Promise.all(reactreduxObjectArray).then((data)=>zipHelper('client/reactredux/', data))
     Promise.all(clientObjectArray).then((data)=>zipHelper('client/', data))
