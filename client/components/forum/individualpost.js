@@ -1,33 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Avatar } from '@material-ui/core';
-import axios from 'axios'
-import { Link, useParams } from 'react-router-dom'
+import axios from 'axios';
+import { Link, useParams } from 'react-router-dom';
 import { CommentSharp } from '@material-ui/icons';
+import { getThread } from '../../reduxStore/post/postActions'
 
 
 
 function ForumPost (props){
-    const [post, setPost] = useState({})
     const { postId } = useParams()
 
     useEffect(async()=>{
         try{
-        const { data } = await axios.get(`/api/forum/${postId}`);
-        const {comments, id, post, user, createdAt } = data[0]
-        setPost({id, post, user, comments, createdAt})
+        props.getIndPost(postId)
         }catch(er){console.log(er)}
     }, [])
-    console.log(post)
-    if(post.id){
+
+    if(props.post.postThread.post){
         return (
         <div> 
            <div className="individualPost">
-                        <div className="individualUserColumn"><h3>{post.user.username}</h3><Avatar src={post.user.github ? post.user.github.avatar_url : post.user.icon} ></Avatar></div>
-                        <div className="individualPostColumn"><p>{post.post}</p><p className="postDate">{(new Date(post.createdAt)).toDateString()}</p></div>
+                        <div className="individualUserColumn"><h3>{props.post.postThread.user.username}</h3><Avatar src={props.post.postThread.user.github ? props.post.postThread.user.github.avatar_url : props.post.postThread.user.icon} ></Avatar></div>
+                        <div className="individualPostColumn"><p>{props.post.postThread.post}</p><p className="postDate">{(new Date(props.post.postThread.createdAt)).toDateString()}</p></div>
             </div>
             <div className="replies">
-            {post.comments.map(e=>{
+            {props.post.postThread.comments.map(e=>{
                 return(
                 <div className="replyPost" key={e.id}>
                     <div className="replyUserColumn"><h3>{e.user.username}</h3><Avatar src={e.user.github ? e.user.github.avatar_url : e.user.icon} ></Avatar></div>
@@ -41,10 +39,19 @@ function ForumPost (props){
     }else{ return <div>Loading</div>}
 }
 
-// const mapStateToProps = (state) => {
-//     return {
-//       user: state.user,
-//     };
-//   };
+const mapDispatchToProps = (dispatch)=>{
+    return{
+        getIndPost: (postId)=>{dispatch(getThread(postId))}
+    }
+} 
 
-export default (ForumPost)
+
+
+const mapStateToProps = (state) => {
+    return {
+      user: state.user,
+      post: state.post
+    };
+  };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForumPost)

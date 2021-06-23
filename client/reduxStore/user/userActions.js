@@ -21,6 +21,13 @@ export const update = (user) =>{
   };
 }
 
+export const addRepos = (repos) =>{
+  return {
+    type: types.ADDREPOS,
+    repos
+  }
+}
+
 export const loginUser = (credentials, history) => {
   return async (dispatch) => {
     try {
@@ -81,5 +88,12 @@ export const updateUser = (username) =>{
       authorization: token,
     }})
     dispatch(update(data))
+  }
+}
+
+export const getRepos = (url) =>{
+  return async (dispatch) =>{
+    const { data } = await axios.get(`${url}`)
+    dispatch(addRepos(data))
   }
 }

@@ -13,6 +13,9 @@ const userReducer = (state = initialState, action) => {
   } else if(action.type === types.UPDATE){
     const { user } = action;
     state = {...state, user}
+  }else if(action.type === types.ADDREPOS){
+    const { repos } = action;
+    state = {...state, repos}
   }
   return state;
 };

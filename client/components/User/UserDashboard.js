@@ -5,17 +5,16 @@ import EditIcon from '@material-ui/icons/Edit';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import UserEdit from './UserEdit';
+import { getRepos } from '../../reduxStore/user/userActions'
 
 function UserDashboard(props) {
-  const [repos, setRepos] = useState([]);
   const [edit, setEdit] = useState(false);
   const [image, setImage] = useState('');
 
   useEffect(async () => {
     try {
       if (props.user.user.github) {
-        let { data } = await axios.get(props.user.user.github.repos_url);
-        setRepos(data);
+        props.repos(props.user.user.github.repos_url); 
         setImage(props.user.user.github.avatar_url);
       } else {
         setImage(props.user.user.icon);
@@ -54,7 +53,7 @@ function UserDashboard(props) {
           )}
         </div>
         <div id="gittempinfo">
-          <CardCarousel items={repos} />
+        {props.user.repos ? <CardCarousel items={props.user.repos} /> : <div className = "noRepos">Sign in with Github to see your Repos!</div> }
           <div id="boilerList">
             <h1>Recent Created Boiler Plates</h1>
           </div>
@@ -70,4 +69,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(UserDashboard);
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+    repos: (repoURL) => dispatch(getRepos(repoURL)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(UserDashboard);
