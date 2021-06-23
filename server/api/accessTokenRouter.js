@@ -29,7 +29,9 @@ accessTokenRouter.get('/', async (req, res, next) => {
       throw error;
     }
 
+    // we need to store the access token from git hub in order to create repos
     const accessToken = response.access_token;
+    const gitToken = jwt.sign({ token: accessToken }, process.env.JWT);
 
     //get user info from github
     response = (
@@ -68,7 +70,8 @@ accessTokenRouter.get('/', async (req, res, next) => {
     <html>
       <head>
         <script>
-          window.localStorage.setItem('token','${jwtToken}');
+        window.localStorage.setItem('token','${jwtToken}');
+        window.localStorage.setItem('tokenGit','${gitToken}');
           window.document.location = '/';
         </script>
       </head>
