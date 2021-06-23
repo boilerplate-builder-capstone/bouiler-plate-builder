@@ -19,15 +19,20 @@ forum.get('/', async (req, res, next) => {
 forum.get('/:id', async (req, res, next) => {
     try{
         id = req.params.id
-        const post = await Post.findall({ where: {id}, include: [{
-             model: Comment, 
-                attributes:[{
+        const post = await Post.findAll({ 
+            where: {id}, 
+            include: [{
+                model: Comment,
                 include: [{
                     model: User,
                     attributes:['username', 'github', 'icon']    
-                }] 
+
+                }]
+            }, { 
+                model: User,
+                attributes:['username', 'github', 'icon'] 
             }]
-        }]})
+        })
         res.status(200).send(post)
     }catch(er){
         console.log("error in getting forum posts ", er)

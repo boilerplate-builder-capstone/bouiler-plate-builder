@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Avatar } from '@material-ui/core';
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 
 
 function ForumPage (props){
-    const [posts, setPosts] = useState([])     
+    const [posts, setPosts] = useState([])    
 
     useEffect(async()=>{
         try{
@@ -14,11 +16,16 @@ function ForumPage (props){
         }catch(er){console.log(er)}
     }, [])
 
-        console.log(posts)
+ 
         return (
-        <div>
+        <div> 
             {posts.map(e=>{
-                return <p key = {e.id}>{e.post}</p>
+                return <div className="topicPost" key={e.id}>
+                    <Link to={`/forum/${e.id}`}>
+                        <div className="userColumn"><h3>{e.user.username}</h3><Avatar src={e.user.github ? e.user.github.avatar_url : e.user.icon} ></Avatar></div>
+                        <div className="postColumn"><p>{e.post}</p><p className="postDate">{(new Date(e.createdAt)).toDateString()}</p></div>
+                    </Link>
+                </div>
             })}
         </div>
         )
