@@ -2,14 +2,6 @@ const zippedBoilerPlate = require('express').Router();
 const { models: { Code }} = require('../db')
 const ejs = require('ejs')
 const nodezip = require('node-zip')
-const zip = new nodezip();
-
-//helper function designed to deal with multiple files in a directory folder
-function zipHelper(fileString, arrObject){    
-  if (arrObject.length){
-    arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
-  }
-}
 
 async function createFile(key, variable){   
   try{
@@ -24,6 +16,12 @@ async function createFile(key, variable){
 
 zippedBoilerPlate.post('/', async (req, res, next) => {
   try {
+    let zip = new nodezip();
+    function zipHelper(fileString, arrObject){    
+      if (arrObject.length){
+        arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
+      }
+    }
     let boiler = req.body
     //need to fix the issues here with wrong datatypes being passed through for whatever reason
     let appjsObjectArray = []
@@ -92,6 +90,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     
     let data = zip.generate({base64:false,compression:'DEFLATE'});
 
+    zip = new nodezip();
     
     res.type('zip');
     res.send(Buffer.from(data, 'binary'));

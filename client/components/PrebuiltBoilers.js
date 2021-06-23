@@ -29,25 +29,21 @@ function PrebuiltBoilers() {
     }
 
     const onClick = (boilerType) => {
-        if (boilerType === "staticWebPage"){
-            const requestBody = {
-                server: false,
-                react: false
-            }
-            generateBoilerplate(requestBody)
-        }
-        if (boilerType === "reactCRUD"){
+        if (boilerType === "basicCRUD"){
             const requestBody = {
                 server: {
                     db: {
                         extraRouter: false
                     }
                 },
-                react: {
-                    reactRouter: true,
-                    redux: false,
-                    reacthooks: true
-                }
+                react: false
+            }
+            generateBoilerplate(requestBody)
+        }
+        if (boilerType === "staticWebPage"){
+            const requestBody = {
+                server: false,
+                react: false,
             }
             generateBoilerplate(requestBody)
         }
