@@ -5,7 +5,6 @@ const CREATE = 'CREATE';
 const ADDREPOS = 'ADDREPOS';
 const GETALLPOSTS = 'GETALLPOSTS';
 const GETFOCUSEDPOST = 'GETFOCUSEDPOST';
-const NEWPOST = 'NEWPOST';
 
 const types = {
   LOGIN,
@@ -15,7 +14,6 @@ const types = {
   ADDREPOS,
   GETALLPOSTS,
   GETFOCUSEDPOST,
-  NEWPOST
 };
 
 export default types;

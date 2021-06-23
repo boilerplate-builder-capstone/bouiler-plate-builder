@@ -12,19 +12,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function newTopic(props) {
-  const { user, post, editChange, newTopic} = props.props;
+function newComment(props) {
+  const { user, post, editChange, newReply} = props.props;
   const classes = useStyles();
-  const [contents, setContents] = useState("");
+  const [comment, setComment] = useState("");
   const handleChange = (event) => {
-    setContents(event.target.value);
+    setComment(event.target.value);
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      if(contents !== ""){
-      await newTopic({userId: user.user.id, topicContent: contents});
+      if(comment !== ""){
+      await newReply({userId: user.user.id, comment, postId: post.postThread.id});
       props.editChange()
       }
     } catch (error) {
@@ -35,7 +35,7 @@ function newTopic(props) {
             <>    
               <form className={classes.root} noValidate autoComplete="off">
                 <div>
-                  <TextField multiline={true} id="newTopic" label="Post" value={contents} onChange={handleChange} />
+                  <TextField multiline={true} id="newTopic" label="Post" value={comment} onChange={handleChange} />
                 </div>
                 <Button className="editButton" onClick={onSubmit}>
                     Submit Change
@@ -49,4 +49,4 @@ function newTopic(props) {
 }
 
 
-export default (newTopic);
+export default (newComment);

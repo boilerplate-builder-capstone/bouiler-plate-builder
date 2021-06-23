@@ -13,6 +13,7 @@ forum.get('/', async (req, res, next) => {
       res.status(200).send(posts)
   }catch(er){
       console.log("error in getting forum posts ", er)
+      next(er)
   }
 });
 
@@ -36,7 +37,29 @@ forum.get('/:id', async (req, res, next) => {
         res.status(200).send(post)
     }catch(er){
         console.log("error in getting forum posts ", er)
+        next(er)
     }
   });
+
+  forum.post('/createpost', async (req, res, next)=>{
+      try{
+        const { userId, topicContent} = req.body.contents
+        await Post.create({userId, post: topicContent})
+        res.sendStatus(200)
+      }catch(er){
+        console.log("error in creating forum posts ", er)
+        next(er)
+      }
+  })
+  forum.post('/createreply', async (req, res, next)=>{
+    try{
+      const { userId, comment, postId} = req.body.contents
+      await Comment.create({userId, comment, postId})
+      res.sendStatus(200)
+    }catch(er){
+      console.log("error in creating forum posts ", er)
+      next(er)
+    }
+})
 
 module.exports = forum;

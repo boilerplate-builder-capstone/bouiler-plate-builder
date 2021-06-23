@@ -4,11 +4,15 @@ import { Avatar } from '@material-ui/core';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { CommentSharp } from '@material-ui/icons';
-import { getThread } from '../../reduxStore/post/postActions'
+import { getThread, addNewComment } from '../../reduxStore/post/postActions'
+import IconButton from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
+import NewComment from './newComment'
 
 
 
 function ForumPost (props){
+    const [edit, setEdit] = useState(false);
     const { postId } = useParams()
 
     useEffect(async()=>{
@@ -16,6 +20,14 @@ function ForumPost (props){
         props.getIndPost(postId)
         }catch(er){console.log(er)}
     }, [])
+
+    const handleClick = () => {
+        if (edit) {
+          setEdit(false);
+        } else {
+          setEdit(true);
+        }
+      };
 
     if(props.post.postThread.post){
         return (
@@ -33,6 +45,21 @@ function ForumPost (props){
                 </div>
                 )
             })}
+            {edit ? (
+            <NewComment props={props} editChange={handleClick} />
+          ) : (
+            <>
+              <h3>{props.user.user.username}</h3>
+              <IconButton
+                className="editButton"
+                style={{ marginTop: 50 }}
+                onClick={handleClick}
+              >
+                <p>Post new topic</p>
+                <EditIcon />
+              </IconButton>
+            </>
+          )}
             </div>     
         </div>
         )
@@ -41,7 +68,8 @@ function ForumPost (props){
 
 const mapDispatchToProps = (dispatch)=>{
     return{
-        getIndPost: (postId)=>{dispatch(getThread(postId))}
+        getIndPost: (postId)=>{dispatch(getThread(postId))},
+        newReply: (contents)=>{dispatch(addNewComment(contents))}
     }
 } 
 

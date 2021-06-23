@@ -14,13 +14,6 @@ export const getFocusedPost = (postThread) =>{
   };
 };
 
-export const newPost = (newtopic) =>{
-  return {
-    type: types.NEWPOST,
-    newtopic
-  }
-}
-
 export const getPosts = () => {
   return async (dispatch) => {
     try {
@@ -48,8 +41,19 @@ export const getThread = (postId) =>{
 export const addNewPost = (contents) =>{
   return async (dispatch) =>{
     try{
-      const { data } = await axios.post('/api/forum/createpost', { contents });
-      dispatch(newPost( data ))
+      await axios.post('/api/forum/createpost', { contents });
+      dispatch(getPosts())
+    }catch(error){
+      console.log('new post error', error)
+    }
+  }
+}
+
+export const addNewComment = (contents) =>{
+  return async (dispatch) =>{
+    try{
+      await axios.post('/api/forum/createreply', { contents });
+      dispatch(getThread(contents.postId))
     }catch(error){
       console.log('new post error', error)
     }
