@@ -43,8 +43,8 @@ forum.get('/:id', async (req, res, next) => {
 
   forum.post('/createpost', async (req, res, next)=>{
       try{
-        const { userId, topicContent} = req.body.contents
-        await Post.create({userId, post: topicContent})
+        const { userId, post, title, repo} = req.body.contents
+        await Post.create({userId, post, title, repo})
         res.sendStatus(200)
       }catch(er){
         console.log("error in creating forum posts ", er)

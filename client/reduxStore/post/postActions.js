@@ -27,9 +27,18 @@ export const getPosts = () => {
 
 export const getThread = (postId) =>{
   return async (dispatch) =>{
+    let repo = false
+    let vals = false
     try{
-      const { comments, id, post, user, createdAt  } = (await axios.get(`/api/forum/${postId}`)).data[0];
-      const postThread = { comments, id, post, user, createdAt  }
+      vals = (await axios.get(`/api/forum/${postId}`)).data[0];
+      const { comments, id, post, user, createdAt } = vals
+      if(vals.repo !== "false"){
+        const { data } = await axios.get(`${vals.repo}`)
+        const commits = (await axios.get(`${data.url}/commits`)).data
+        const recentcommit = (await axios.get(`${commits[0].url}`))
+        repo = {name: data.name, files: recentcommit.data.files, url: data.html_url}
+      }
+      const postThread = { comments, id, post, user, createdAt, repo }
       dispatch(getFocusedPost(postThread))
 
     }catch(error){

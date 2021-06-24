@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function newComment(props) {
-  const { user, post, editChange, newReply} = props.props;
+  const { user, post, newReply} = props.props;
   const classes = useStyles();
   const [comment, setComment] = useState("");
   const handleChange = (event) => {
@@ -40,7 +40,7 @@ function newComment(props) {
                 <Button className="editButton" onClick={onSubmit}>
                     Submit Change
                 </Button>
-                <Button onClick={editChange}>
+                <Button onClick={props.editChange}>
                   Cancel
                 </Button>
               </form>

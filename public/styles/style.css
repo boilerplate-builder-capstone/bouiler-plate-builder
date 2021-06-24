@@ -405,3 +405,15 @@ small {
   align-items: flex-start;
 
 }
+.repoCommmitsCarouselItem{
+  height: 150px;
+  overflow: scroll;
+}
+.showButton{
+  width: 300px;
+}
+.repoCardHeaders{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

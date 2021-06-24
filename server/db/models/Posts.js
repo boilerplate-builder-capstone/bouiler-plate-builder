@@ -9,6 +9,13 @@ const Post = db.define(
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
+      title: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
     post: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -16,6 +23,10 @@ const Post = db.define(
         notEmpty: true,
       },
     },
+    repo: {
+      type: DataTypes.STRING,
+      defaultValue: false
+    }
   },
 );
 
