@@ -6,30 +6,29 @@ const syncServer = async () => {
     fileName: 'startServer.js',
     category: 'server',
     title: 'Server: startServer',
-    snippet: `
-      <% if(server.db) { %>
-      const db = require('./db/db')
-      const syncAndSeed = require('./db/syncandseed')
-      <% } %>
+    snippet: `<% if(server.db) { -%>
+const db = require('./db/db')
+const syncAndSeed = require('./db/syncandseed')
+<% } -%>
 
-      const app = require('./modifyserver')
-      const PORT = process.env.PORT || 3000
+const app = require('./modifyserver')
+const PORT = process.env.PORT || 3000
 
-      const initializeApp = async () => {
-        try {
-            <% if(server.db) {%>
-            await db.sync()
-            await syncAndSeed()
-            <% } %>
-            app.listen(PORT, () => console.log(\`app is listening on \${PORT}\`))
-        }
-        catch (error) {
-                console.log(error)
-        }
-      }
+const initializeApp = async () => {
+  try {
+<% if(server.db) {-%>
+    await db.sync()
+    await syncAndSeed()
+<% } -%>
+    app.listen(PORT, () => console.log(\`app is listening on \${PORT}\`))
+  }
+  catch (error) {
+    console.log(error)
+  }
+}
 
-      initializeApp()
-    `,
+initializeApp()
+`,
   });
 
   const s2 = await Code.create({
@@ -37,32 +36,31 @@ const syncServer = async () => {
     fileName: 'modifyServer.js',
     category: 'server',
     title: 'Server: modifyServer',
-    snippet: `
-      const express = require('express')
-      const app = express()
-      const path = require('path')
+    snippet: `const express = require('express')
+const app = express()
+const path = require('path')
 
-      app.use(express.json());
-      <% if(server.db) {%>
-      const individualRouter = require('./routes/individualrouter')
-      app.use('/YOUR-MOUNTED-PATH', individualRouter)
-      <% } %>
-      app.use('/public', express.static(path.join(__dirname, '..', 'public')));
+app.use(express.json());
+<% if(server.db) {%>
+const individualRouter = require('./routes/individualrouter')
+app.use('/YOUR-MOUNTED-PATH', individualRouter)
+<% } %>
+app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
-      app.get('/', (req, res, next) => {
-        res.sendFile(path.join(__dirname, '..', 'client/htmlindex.html'))
-      });
+app.get('/', (req, res, next) => {
+  res.sendFile(path.join(__dirname, '..', 'client/htmlindex.html'))
+});
 
-      app.use(function (req, res, next) {
-        res.status(404).send("Are you lost? That page doesn't seem to exist.");
-      });
+app.use(function (req, res, next) {
+  res.status(404).send("Are you lost? That page doesn't seem to exist.");
+});
 
-      app.use(function (err, req, res, next) {
-        res.status(500).send({ error: err });
-      });
+app.use(function (err, req, res, next) {
+  res.status(500).send({ error: err });
+});
 
-      module.exports = app
-    `,
+module.exports = app
+`,
   });
 
   const s3 = await Code.create({
@@ -70,14 +68,13 @@ const syncServer = async () => {
     fileName: 'db.js',
     category: 'database',
     title: 'Server: db',
-    snippet: `
-      const Sequelize = require('sequelize')
+    snippet: `const Sequelize = require('sequelize')
 
-      const dbName = /* NAME OF YOUR DATABASE HERE */
-      const db = new Sequelize(process.env.DATABASE_URL || \`postgres://localhost/\${dbName}\`)
+const dbName = /* NAME OF YOUR DATABASE HERE */
+const db = new Sequelize(process.env.DATABASE_URL || \`postgres://localhost/\${dbName}\`)
 
-      module.exports = db
-    `,
+module.exports = db
+`,
   });
 
   const s4 = await Code.create({
@@ -85,18 +82,17 @@ const syncServer = async () => {
     fileName: 'modelname.js',
     category: 'model',
     title: 'Server: models',
-    snippet: `
-      const { DataTypes } = require('sequelize')
-      const db = require('../db')
+    snippet: `const { DataTypes } = require('sequelize')
+const db = require('../db')
 
-      const ModelName = db.define('modelName', {
-        exampleProperty: {
-            type: DataTypes.STRING
-        }
-      })
+const ModelName = db.define('modelName', {
+  exampleProperty: {
+    type: DataTypes.STRING
+  }
+})
 
-      module.exports = ModelName
-    `,
+module.exports = ModelName
+`,
   });
 
   const s5 = await Code.create({
@@ -104,18 +100,17 @@ const syncServer = async () => {
     fileName: 'othermodelname.js',
     category: 'model',
     title: 'Server: other models',
-    snippet: `
-      const { DataTypes } = require('sequelize')
-      const db = require('../db')
+    snippet: `const { DataTypes } = require('sequelize')
+const db = require('../db')
 
-      const OtherModelName = db.define('otherModelName', {
-        exampleProperty: {
-            type: DataTypes.STRING
-        }
-      })
+const OtherModelName = db.define('otherModelName', {
+  exampleProperty: {
+    type: DataTypes.STRING
+  }
+})
 
-      module.exports = OtherModelName
-    `,
+module.exports = OtherModelName
+`,
   });
 
   const s6 = await Code.create({
@@ -123,19 +118,18 @@ const syncServer = async () => {
     fileName: 'modelsandrelationships.js',
     category: 'model',
     title: "Server: models' relationships",
-    snippet: `
-      const ModelName = require('./modelname')
-      const OtherModelName = require('./othermodelname')
+    snippet: `const ModelName = require('./modelname')
+const OtherModelName = require('./othermodelname')
 
-      // define your model associations below. See documentation: https://sequelize.org/master/manual/assocs.html
+// define your model associations below. See documentation: https://sequelize.org/master/manual/assocs.html
 
-      module.exports = {
-        models: {
-            ModelName,
-            OtherModelName
-        }
-      }
-    `,
+module.exports = {
+  models: {
+    ModelName,
+    OtherModelName
+  }
+}
+`,
   });
 
   const s7 = await Code.create({
@@ -143,28 +137,26 @@ const syncServer = async () => {
     fileName: 'syncandseed.js',
     category: 'syncandseed',
     title: 'Syncandseed',
-    snippet: `
-      const db = require('./db')
-      const { models: { ModelName, OtherModelName } } = require('./models/modelsandrelationships')
+    snippet: `const db = require('./db')
+const { models: { ModelName, OtherModelName } } = require('./models/modelsandrelationships')
 
-      const syncAndSeed = async() => {
-        try {
-            await db.sync({ force: true })
-            //create your data instances here. See documentation: https://sequelize.org/master/manual/model-instances.html
-            // await ModelName.create({
-            //     exampleProperty: 'Test property!'
-            // })
-            // await OtherModelName.create({
-            //     exampleProperty: 'Test property!'
-            // })
+const syncAndSeed = async() => {
+  try {
+    await db.sync({ force: true })
+    //create your data instances here. See documentation: https://sequelize.org/master/manual/model-instances.html
+    // await ModelName.create({
+    //     exampleProperty: 'Test property!'
+    // })
+    // await OtherModelName.create({
+    //     exampleProperty: 'Test property!'
+    // })
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-        } catch (error) {
-            console.log(error)
-        }
-      }
-
-      module.exports = syncAndSeed
-    `,
+module.exports = syncAndSeed
+`,
   });
 
   const s8 = await Code.create({
@@ -172,42 +164,40 @@ const syncServer = async () => {
     fileName: 'individualrouter.js',
     category: 'router',
     title: 'router',
-    snippet: `
-    <% if(server.db) {%>
-      // We're bringing in this model for you to use in your routes.
-      const { models: { ModelName } } = require('../db/models/modelsandrelationships')
-      const individualRouter = require('express').Router()
+    snippet: `<% if(server.db) { -%>
+// We're bringing in this model for you to use in your routes.
+const { models: { ModelName } } = require('../db/models/modelsandrelationships')
+const individualRouter = require('express').Router()
 
-      /**
-      * The routes in this file are mounted on whatever path you define in line 8 of server/modifyserver.js
-      *
-      * For instance:
-      *
-      * router.get('/helloworld', () => {...})
-      *
-      * would be accessible on the browser at http://localhost:3000/YOUR-MOUNTED-PATH/helloworld
-      */
+/**
+* The routes in this file are mounted on whatever path you define in line 8 of server/modifyserver.js
+*
+* For instance:
+*
+* router.get('/helloworld', () => {...})
+*
+* would be accessible on the browser at http://localhost:3000/YOUR-MOUNTED-PATH/helloworld
+*/
 
-      individualRouter.get('/', async(req, res, next) => {
-        res.status(200).send(/* YOUR DATA HERE */)
-        }
-      );
+individualRouter.get('/', async(req, res, next) => {
+  res.status(200).send(/* YOUR DATA HERE */)
+});
 
-      individualRouter.post('/', async(req, res, next) => {
-        res.status(201).send(/* YOUR CREATED RESOURCE HERE */)
-      });
+individualRouter.post('/', async(req, res, next) => {
+  res.status(201).send(/* YOUR CREATED RESOURCE HERE */)
+});
 
-      individualRouter.put('/', async(req, res, next) => {
-        res.status(200).send(/* YOUR UPDATED RESOURCE HERE */)
-      });
+individualRouter.put('/', async(req, res, next) => {
+  res.status(200).send(/* YOUR UPDATED RESOURCE HERE */)
+});
 
-      individualRouter.delete('/', async(req, res, next) => {
-        res.sendStatus(200)
-      });
+individualRouter.delete('/', async(req, res, next) => {
+  res.sendStatus(200)
+});
 
-      module.exports = individualRouter
-      <% } %>
-    `,
+module.exports = individualRouter
+<% } %>
+`,
   });
 
   const s9 = await Code.create({
@@ -215,8 +205,7 @@ const syncServer = async () => {
     fileName: 'package.json',
     category: 'server',
     title: 'Server: package.json file',
-    snippet: `
-{
+    snippet: `{
   "name": "boilerplatebuilder",
   "version": "1.0.0",
   "description": "",
@@ -234,7 +223,7 @@ const syncServer = async () => {
     "start:dev": "npm run build:dev & nodemon server/startserver.js --ignore dist/", 
     "windows-start:dev": "nodemon server/startserver.js"
 <% } -%>
-      },
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -250,8 +239,8 @@ const syncServer = async () => {
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0"<% } if(react.reactRouter) { -%>,
     "react-router-dom": "^5.2.0"
-    <% }} -%>
-    },
+<% }} -%>
+  },
   "devDependencies": {
 <% if(react && server) { -%>
     "nodemon": "^2.0.7",
@@ -279,22 +268,22 @@ const syncServer = async () => {
     "@babel/preset-react": "^7.13.13",
     "babel-loader": "^8.2.2"
 <% } -%>
-    }
+  }
 }`,
-  })
+})
   const s10 = await Code.create({
     id: 'S10',
     fileName: '.babelrc',
     category: 'server',
     title: 'Server: package.json file',
     snippet: `{
-      "presets": [
-          "@babel/preset-react"
-      ],
-      "plugins": [
-          "@babel/plugin-proposal-class-properties"
-      ]
-   }`,
+  "presets": [
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
+  ]
+}`,
   });
 };
 

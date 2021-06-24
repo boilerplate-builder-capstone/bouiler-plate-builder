@@ -6,27 +6,28 @@ const syncReact = async () => {
     fileName: 'index.js',
     category: 'react',
     title: 'React: index',
-    snippet: `
-import React from 'react';
+    snippet: `import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-<% if (react.redux) { %>
+<% if (react.redux) { -%>
 import { Provider } from 'react-redux'; 
 import store from './reactredux/store'; 
-  <% } %>
+<% } -%>
 
 const root = document.getElementById('root');
 
 ReactDOM.render(
-  <% if (react.redux) { %>
+<% if (react.redux) { -%>
   <Provider store={store}>
     <App />
-  </Provider>
-  <% } else { %>
-  <App />
-  <% } %>
+  </Provider>,
+  root
+<% } else { -%>
+  <App />,
+  root
+<% } -%>
 );
-    `,
+`,
   });
 
   const r2 = await Code.create({
@@ -34,13 +35,12 @@ ReactDOM.render(
     fileName: 'App.js',
     category: 'react',
     title: 'React: app',
-    snippet: `
-<% if (!react.reacthooks) { -%>
+    snippet: `<% if (!react.reacthooks) { -%>
 import React, { Component } from 'react'
 <% } else if (react.reacthooks && react.redux) { -%>
-import React, { Component, useState, useEffect }
+import React, { Component, useState, useEffect } from 'react'
 <% } else if (react.reacthooks && !react.redux) { -%>
-import React, { useState, useEffect }
+import React, { useState, useEffect } from 'react'
 <% } -%>
 <% if(react.reactRouter) { -%>
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
@@ -57,7 +57,7 @@ class App extends Component {
   }
   
 <% if (react.reacthooks) { -%>
-  const [state, setState] = useState(‘starting state’);
+  const [state, setState] = useState("starting state");
   
   useEffect(() => {
     //function that executes upon component mounting
@@ -73,14 +73,14 @@ class App extends Component {
       <div>
         <h1>Hello world</h1>
         <p>Welcome to your web app!</p>
-        <% if(react.reactRouter) { %>
+        <% if(react.reactRouter) { -%>
         <Router>
-            {/* <Route component={YourComponentName} path="/path" /> */}
-            <Switch>
-            {/* <Route component={YourComponentName2} path="/path2" /> */}
-            </Switch>
+          {/* <Route component={YourComponentName} path="/path" /> */}
+          <Switch>
+          {/* <Route component={YourComponentName2} path="/path2" /> */}
+          </Switch>
         </Router>
-        <% } %>
+        <% } -%>
       </div>
     )
   }
@@ -110,19 +110,19 @@ function App() {
 <% } -%>
 <% if (react.redux) { -%>
 const mapStateToProps = (state) => {
-    return {
-        stateName: state.stateName
-    }
+  return {
+    stateName: state.stateName
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        functionName: () => dispatch(functionFromDispatch())
-    }
+  return {
+    functionName: () => dispatch(functionFromDispatch())
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
-<% } else { %>
+<% } else { -%>
 export default (App)
 <% } -%>
     `,
@@ -133,8 +133,7 @@ export default (App)
     fileName: 'actions.js',
     category: 'react',
     title: 'React-Redux: action creator',
-    snippet: `
-import axios from 'axios'
+    snippet: `import axios from 'axios'
 const YOUR_COMMAND = 'YOUR_COMMAND'
 
 const actionCreator = (data) => {
@@ -162,8 +161,7 @@ export const someThunk = (input) => {
     fileName: 'reducer.js',
     category: 'react',
     title: 'React-Redux: single reducer',
-    snippet: `
-const YOUR_COMMAND = 'YOUR_COMMAND'
+    snippet: `const YOUR_COMMAND = 'YOUR_COMMAND'
 
 const singleReducer = (state = [], action) => {
     if (action.type === YOUR_COMMAND){
@@ -182,8 +180,7 @@ export default singleReducer;
     fileName: 'rootreducer.js',
     category: 'react',
     title: 'React-Redux: root reducer',
-    snippet: `
-// combine all your reducers here
+    snippet: `// combine all your reducers here
 
 import { combineReducers } from 'redux'
 import singleReducer from './reducer'
@@ -201,8 +198,7 @@ export default rootReducer;
     fileName: 'store.js',
     category: 'react',
     title: 'React-Redux: store',
-    snippet: `
-import { createStore, applyMiddleware } from 'redux'
+    snippet: `import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from './rootreducer'
 
@@ -220,33 +216,32 @@ export default store
     fileName: 'webpack.config.js',
     category: 'react',
     title: 'React: webpack',
-    snippet: `
-const path = require('path');
+    snippet: `const path = require('path');
  
 module.exports = { 
- mode: 'development',
-   devtool: 'source-map',
-   entry: './client/index.js',
-   output: {
-     filename: './public/bundle.js',
-     path: __dirname,
-   },
-   module: {
-     rules: [
-       {
-         loader: 'babel-loader',
-         exclude: /(node_modules)/,
-         options: {
-           presets: ['@babel/preset-react']
-         }
-       },
-       {
-         test: /\.css$/i,
-         use: ['style-loader', 'css-loader'],
-       }
-     ],
-   }
- };
+  mode: 'development',
+  devtool: 'source-map',
+  entry: './client/index.js',
+  output: {
+    filename: './public/bundle.js',
+    path: __dirname,
+  },
+  module: {
+    rules: [
+      {
+        loader: 'babel-loader',
+        exclude: /(node_modules)/,
+        options: {
+          presets: ['@babel/preset-react']
+        }
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      }
+    ],
+  }
+};
     `,
   });
 };

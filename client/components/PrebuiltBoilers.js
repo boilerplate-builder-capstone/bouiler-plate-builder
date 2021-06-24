@@ -40,18 +40,10 @@ function PrebuiltBoilers() {
             }
             generateBoilerplate(requestBody)
         }
-        if (boilerType === "reactCRUD"){
+        if (boilerType === "staticWebPage"){
             const requestBody = {
-                server: {
-                    db: {
-                        extraRouter: false
-                    }
-                },
-                react: {
-                    reactRouter: true,
-                    redux: false,
-                    reacthooks: true
-                }
+                server: false,
+                react: false,
             }
             generateBoilerplate(requestBody)
         }
@@ -90,7 +82,7 @@ function PrebuiltBoilers() {
                     <Card.Text className="mb-2 text-muted">HTML | CSS</Card.Text>
                     <Card.Body style={{display: "flex", flexDirection: "column"}}>
                         <p>Create a web page that doesn't require a server.</p>
-                        <Button onClick={() => onClick("basicCRUD")}>Generate</Button>
+                        <Button onClick={() => onClick("staticWebPage")}>Generate</Button>
                     </Card.Body>
                 </Card.Body>
             </Card>
