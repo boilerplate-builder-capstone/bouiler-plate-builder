@@ -2,12 +2,18 @@ const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
 const UPDATE = 'UPDATE'
 const CREATE = 'CREATE';
+const ADDREPOS = 'ADDREPOS';
+const GETALLPOSTS = 'GETALLPOSTS';
+const GETFOCUSEDPOST = 'GETFOCUSEDPOST';
 
 const types = {
   LOGIN,
   LOGOUT,
   UPDATE,
   CREATE,
+  ADDREPOS,
+  GETALLPOSTS,
+  GETFOCUSEDPOST,
 };
 
 export default types;

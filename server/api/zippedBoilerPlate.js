@@ -3,6 +3,7 @@ const { models: { Code }} = require('../db')
 const ejs = require('ejs')
 const nodezip = require('node-zip')
 
+
 async function createFile(key, variable){   
   try{
     let data = await Code.findByPk(key)
@@ -59,7 +60,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     publicObjectArray.push(createFile('P2', {}))
 
     if(boiler.server){
-      /* SERVER DB ROUTER STRUCTURE NEEDS TO BE ADJUSTED!!!!!*/
+
       configObjectArray.push(createFile('S9', boiler))
       serverObjectArray.push(createFile('S2', boiler))
       serverObjectArray.push(createFile('S1', boiler))
@@ -91,8 +92,9 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     
     let data = zip.generate({base64:false,compression:'DEFLATE'});
 
+
     zip = new nodezip();
-    
+
     res.type('zip');
     res.send(Buffer.from(data, 'binary'));
 

@@ -14,6 +14,8 @@ import {
   logoutUser,
   createUser,
 } from '../reduxStore/user/userActions';
+import ForumPage from './forum/topics'
+import IndividualPost from './forum/individualpost'
 
 class App extends Component {
   componentDidMount() {
@@ -44,6 +46,8 @@ class App extends Component {
             component={() => <SignUp create={create} history={history} />}
           />
           <Route exact path="/dashboard" component={UserDashboard} />
+          <Route exact path="/forum" component={ForumPage} />
+          <Route exact path="/forum/:postId" component={IndividualPost} />
         </Router>
       </div>
     );
