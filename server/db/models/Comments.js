@@ -10,7 +10,7 @@ const Comment = db.define(
         primaryKey: true,
       },
     comment: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true,

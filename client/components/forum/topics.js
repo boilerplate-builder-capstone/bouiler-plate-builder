@@ -27,12 +27,12 @@ function ForumPage (props){
       };
  
         return (
-        <div> 
+        <div className="topics"> 
             {props.post.post.map(e=>{
                 return <div className="topicPost" key={e.id}>
                     <Link to={`/forum/${e.id}`}>
                         <div className="userColumn"><h3>{e.user.username}</h3><Avatar src={e.user.github ? e.user.github.avatar_url : e.user.icon} ></Avatar></div>
-                        <div className="postColumn"><p>{e.post}</p><p className="postDate">{(new Date(e.createdAt)).toDateString()}</p></div>
+                        <div className="postColumn"><span>{e.post}</span><small className="postDate">{(new Date(e.createdAt)).toDateString()}</small></div>
                     </Link>
                 </div>
             })}

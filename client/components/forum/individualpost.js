@@ -34,14 +34,14 @@ function ForumPost (props){
         <div> 
            <div className="individualPost">
                         <div className="individualUserColumn"><h3>{props.post.postThread.user.username}</h3><Avatar src={props.post.postThread.user.github ? props.post.postThread.user.github.avatar_url : props.post.postThread.user.icon} ></Avatar></div>
-                        <div className="individualPostColumn"><p>{props.post.postThread.post}</p><p className="postDate">{(new Date(props.post.postThread.createdAt)).toDateString()}</p></div>
+                        <div className="individualPostColumn"><p>{props.post.postThread.post}</p><small className="postDate">{(new Date(props.post.postThread.createdAt)).toDateString()}</small></div>
             </div>
             <div className="replies">
             {props.post.postThread.comments.map(e=>{
                 return(
                 <div className="replyPost" key={e.id}>
                     <div className="replyUserColumn"><h3>{e.user.username}</h3><Avatar src={e.user.github ? e.user.github.avatar_url : e.user.icon} ></Avatar></div>
-                    <div className="replyPostColumn"><p>{e.comment}</p><p className="postDate">{(new Date(e.createdAt)).toDateString()}</p></div>        
+                    <div className="replyPostColumn"><p>{e.comment}</p><small className="postDate">{(new Date(e.createdAt)).toDateString()}</small></div>        
                 </div>
                 )
             })}

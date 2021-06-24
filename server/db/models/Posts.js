@@ -10,7 +10,7 @@ const Post = db.define(
         primaryKey: true,
       },
     post: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true,

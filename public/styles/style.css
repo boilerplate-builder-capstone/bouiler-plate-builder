@@ -302,3 +302,106 @@
 .prebuiltcard {
   width: 20rem;
 }
+.userColumn{
+  display:flex;
+  flex-direction: column-reverse;
+  margin-left: 15px;
+  background-color: #80808038;
+  width: 200px;
+  height: 100px;
+  justify-content:center;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  align-items: center;
+}
+.userColumn > h3{
+  order: 2;
+  margin-left: 15px;
+  margin-right: 15px;
+
+}
+.postColumn{
+  display:flex;
+  flex-direction: column;
+  margin-right: 15px;
+  background-color: #80808066;
+  width: 100%;
+  height: 100px;
+  justify-content:center;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  align-items: flex-start;
+}
+.postDate{
+  align-self: flex-end;
+  margin-right: 15px;
+  margin-bottom: 0;
+  background-color: #80808000;
+
+}
+.topics{
+  display:flex;
+  flex-direction: column;
+}
+.topicPost > a{
+  display: flex;
+  flex-direction: row;
+}
+small {
+  color: #828282;
+}
+.individualUserColumn{
+  display:flex;
+  flex-direction: column-reverse;
+  margin-left: 15px;
+  background-color: #80808038;
+  width: 200px;
+  height: 100px;
+  justify-content:center;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  align-items: center;
+}
+.replyUserColumn{
+  display:flex;
+  flex-direction: column-reverse;
+  margin-left: 15px;
+  background-color: #3c598338;
+  width: 200px;
+  height: 100px;
+  justify-content:center;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  align-items: center;
+}
+.individualPostColumn{
+  display:flex;
+  flex-direction: column;
+  margin-right: 15px;
+  background-color: #80808066;
+  width: 100%;
+  height: 100px;
+  justify-content:center;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  align-items: flex-start;
+}
+.individualPost{
+  display: flex;
+}
+.replyPost{
+  display: flex;
+}
+.replyPostColumn{
+  display:flex;
+  flex-direction: column;
+  margin-right: 15px;
+  background-color: #2a436667;
+  width: 100%;
+  height: 100px;
+  justify-content:center;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  align-items: flex-start;
+
+}
