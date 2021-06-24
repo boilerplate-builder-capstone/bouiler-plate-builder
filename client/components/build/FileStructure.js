@@ -75,6 +75,7 @@ function FileStructure(props) {
                                 <div key={idx} className="react">
                                     <li><i className="fas fa-folder"></i> client</li>
                                     <ul>
+                                        <li>htmlindex.html</li>
                                         <li>index.js</li>
                                         <li><i className="fas fa-folder"></i> components</li>
                                         <ul>
@@ -107,8 +108,11 @@ function FileStructure(props) {
                                 <div key={idx}>
                                     <li><i className="fas fa-folder"></i> public</li>
                                     <ul>
-                                        <li>htmlindex.html</li>
                                         <li>style.css</li>
+                                    </ul>
+                                    <li><i className="fas fa-folder"></i> client</li>
+                                    <ul>
+                                        <li>htmlindex.html</li>
                                     </ul>
                                 </div>
                             )

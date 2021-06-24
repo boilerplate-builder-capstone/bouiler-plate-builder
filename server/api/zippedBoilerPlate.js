@@ -3,12 +3,6 @@ const { models: { Code }} = require('../db')
 const ejs = require('ejs')
 const nodezip = require('node-zip')
 
-//helper function designed to deal with multiple files in a directory folder
-// function zipHelper(fileString, arrObject){    
-//   if (arrObject.length){
-//     arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
-//   }
-// }
 
 async function createFile(key, variable){   
   try{
@@ -23,7 +17,7 @@ async function createFile(key, variable){
 
 zippedBoilerPlate.post('/', async (req, res, next) => {
   try {
-    const zip = new nodezip();
+    let zip = new nodezip();
     function zipHelper(fileString, arrObject){    
       if (arrObject.length){
         arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
@@ -67,6 +61,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
 
     if(boiler.server){
 
+      configObjectArray.push(createFile('S9', boiler))
       serverObjectArray.push(createFile('S2', boiler))
       serverObjectArray.push(createFile('S1', boiler))
 
@@ -83,7 +78,7 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
         modelObjectArray.push(createFile('S5', {}))
       }
     }
-    configObjectArray.push(createFile('S9', boiler))
+    // configObjectArray.push(createFile('S9', boiler))
     
     Promise.all(reactreduxObjectArray).then((data)=>zipHelper('client/reactredux/', data))
     Promise.all(clientObjectArray).then((data)=>zipHelper('client/', data))
@@ -96,6 +91,9 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
     Promise.all(configObjectArray).then((data)=>zipHelper('', data)).then(()=>{
     
     let data = zip.generate({base64:false,compression:'DEFLATE'});
+
+
+    zip = new nodezip();
 
     res.type('zip');
     res.send(Buffer.from(data, 'binary'));
