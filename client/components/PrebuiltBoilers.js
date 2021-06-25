@@ -66,7 +66,7 @@ function PrebuiltBoilers() {
 
   return (
     <div>
-        <Jumbotron fluid>
+        <Jumbotron fluid id="prebuilt-jumbotron">
             <Container>
                 <h1>Choose a prebuilt boilerplate.</h1>
                 <p>
