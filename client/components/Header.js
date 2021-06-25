@@ -2,7 +2,9 @@ import React from 'react';
 
 function Header() {
   return (
-    <img src="logo.png" alt="logo"></img>
+    <div className="header">
+      <img src="logo.png" alt="logo"></img>
+    </div>
   );
 }
 
