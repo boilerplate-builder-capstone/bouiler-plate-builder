@@ -1,32 +1,8 @@
-import axios from 'axios'
 import React from 'react';
 import { Card, CardColumns, Button, Jumbotron, Container } from 'react-bootstrap';
+import {generateBoilerplate} from '../utils'
 
 function PrebuiltBoilers() {
-
-    const generateBoilerplate = async (requestBody) => {   
-        try{
-            console.log("This will be the request body:", requestBody)
-
-            // Axios call to the server to grab documents
-            const  { data }= await axios.post(`api/completedboiler`, requestBody, { responseType: 'arraybuffer' })
-            
-            let blob = await new Blob([data], { type: 'application/zip' }) 
-
-            const link = document.createElement('a');
-        // Browsers that support HTML5 download attribute
-        //need to adjust this for react!!!!!!!!!!!!!!!!!!!
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', 'Boilerplate');
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }catch(er){
-            console.log(er)
-        }
-    }
 
     const onClick = (boilerType) => {
         if (boilerType === "basicCRUD"){
@@ -90,7 +66,7 @@ function PrebuiltBoilers() {
             <Card className="prebuiltcard">
                 <Card.Body>
                     <Card.Title>Basic CRUD App</Card.Title>
-                    <Card.Text className="mb-2 text-muted">Express | PostgreSQL | Sequelize | HTML | CSS</Card.Text>
+                    <Card.Text className="mb-2 text-muted">Node.js | Express | PostgreSQL | Sequelize | HTML | CSS</Card.Text>
                     <Card.Body style={{display: "flex", flexDirection: "column"}}>
                         <p>Create an app that allows users to Create, Read, Update, and Destroy resources in your database</p>
                         <Button onClick={() => onClick("basicCRUD")}>Generate</Button>
@@ -101,7 +77,7 @@ function PrebuiltBoilers() {
             <Card className="prebuiltcard">
                 <Card.Body>
                     <Card.Title>Full Stack Application: "The Works" </Card.Title>
-                    <Card.Text className="mb-2 text-muted">Express | PostgreSQL | Sequelize | React | Webpack | React Redux</Card.Text>
+                    <Card.Text className="mb-2 text-muted">Node.js | Express | PostgreSQL | Sequelize | React | Webpack | React Redux</Card.Text>
                     <Card.Body style={{display: "flex", flexDirection: "column"}}>
                         <p>Create a full stack application that utilizes React & Redux on the front end with Express, PostgreSQL, and Sequelize on the back end.</p>
                         <Button onClick={() => onClick("fullstack")}>Generate</Button>
