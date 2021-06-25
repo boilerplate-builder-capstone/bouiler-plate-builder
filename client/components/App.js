@@ -31,7 +31,7 @@ class App extends Component {
     return (
       <div>
         <Router>
-          <Header />
+          {/* <Header /> */}
           <NavBar user={user} logout={logout} />
           <Route exact path="/" component={Home} />
           <Route exact path="/signin" component={SignIn} />
