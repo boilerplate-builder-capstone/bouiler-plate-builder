@@ -16,6 +16,7 @@ import {
 } from '../reduxStore/user/userActions';
 import ForumPage from './forum/topics'
 import IndividualPost from './forum/individualpost'
+import Header from './Header'
 
 class App extends Component {
   componentDidMount() {
@@ -30,6 +31,7 @@ class App extends Component {
     return (
       <div>
         <Router>
+          <Header />
           <NavBar user={user} logout={logout} />
           <Route exact path="/" component={Home} />
           <Route exact path="/signin" component={SignIn} />
