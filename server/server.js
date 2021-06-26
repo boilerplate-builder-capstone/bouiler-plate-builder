@@ -3,10 +3,6 @@ const app = express();
 const path = require('path');
 const router = require('./api/router');
 
-const env = require('../env');
-process.env.client_id = env.client_id;
-process.env.client_secret = env.client_secret;
-
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use(express.json())
