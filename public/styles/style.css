@@ -406,7 +406,7 @@ small {
 
 }
 .repoCommmitsCarouselItem{
-  height: 150px;
+  height: 500px;
   overflow: scroll;
 }
 .showButton{
@@ -417,3 +417,12 @@ small {
   flex-direction: column;
   align-items: center;
 }
+.repoCommitCards{
+  padding-left: 75px;
+  padding-right: 50px;
+}
+pre{
+  color: white;
+  background-color: #495057;
+}
+
