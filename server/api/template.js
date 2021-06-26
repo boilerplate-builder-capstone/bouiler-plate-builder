@@ -39,8 +39,8 @@ template.delete('/:id', async (req, res, next) => {
 //create template route
 template.post('/', async (req, res, next) => {
   try {
-    const {name, template} = req.body;
-    const newTemplate = await Template.create({name, template});
+    const {name, templateJSON, userId} = req.body;
+    const newTemplate = await Template.create({name, templateJSON, userId});
     res.status(201).send(newTemplate);
   } catch (error) {
     console.log('error in creating template router ', error);

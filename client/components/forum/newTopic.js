@@ -52,7 +52,6 @@ function newTopic(props) {
                         labelId="Github-Repos"
                         id="Github-Repos"
                         name="repo"
-                        value={contents.repo}
                         onChange={handleChange}
                       >
                           <MenuItem value={false}>
