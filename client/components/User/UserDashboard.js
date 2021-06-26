@@ -5,21 +5,23 @@ import EditIcon from '@material-ui/icons/Edit';
 import { connect } from 'react-redux';
 import UserEdit from './UserEdit';
 import { getRepos } from '../../reduxStore/user/userActions'
+import {getTemplates} from '../../reduxStore/template/templateActions'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function UserDashboard(props) {
   const [edit, setEdit] = useState(false);
   const [image, setImage] = useState('');
 
-
   useEffect(async () => {
     try {
       if (props.user.user.github) {
-        props.repos(props.user.user.github.repos_url); 
+        props.repos(props.user.user.github.repos_url);
         setImage(props.user.user.github.avatar_url);
       } else {
         setImage(props.user.user.icon);
       }
+      props.getTemplates();
     } catch (er) {
       console.log(er);
     }
@@ -31,7 +33,12 @@ function UserDashboard(props) {
       setEdit(true);
     }
   };
-  
+
+  //User Template
+
+  console.log(props)
+  //^^^^^^^^^^^^^
+
   return (
     <div>
       <div id="dashboardcontainer">
@@ -57,6 +64,24 @@ function UserDashboard(props) {
         {props.user.repos ? <CardCarousel items={props.user.repos} /> : <div className = "noRepos">Sign in with Github to see your Repos!</div> }
           <div id="boilerList">
             <h1>Recent Created Boiler Plates</h1>
+            {/* User Template */}
+            {
+            props.template.filter(
+              (elm) => elm.userId === props.user.user.id
+              ).map((elm) => {
+              return(
+                <ul key={elm.id}>
+                  <li>
+                    <Link to={`/templates/${elm.id}`}>
+                    <h2>{elm.name}</h2>
+                    </Link>
+                    <h3>{JSON.stringify(elm.templateJSON)}</h3>
+                  </li>
+                </ul>
+              )
+            })
+            }
+            {/* ^^^^^^^^^^^^^^^^^ */}
           </div>
         </div>
       </div>
@@ -67,12 +92,13 @@ function UserDashboard(props) {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    template: state.template
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    getTemplates: () => dispatch(getTemplates()),
     repos: (repoURL) => dispatch(getRepos(repoURL)),
   };
 };

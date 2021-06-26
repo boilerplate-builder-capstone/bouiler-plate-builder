@@ -18,6 +18,6 @@ router.use('/auth', oauthRouter);
 router.use('/localAuth', localAuth);
 router.use('/forum', forumRouter);
 router.use('/gitCreate', repoCreate);
-router.use('/template', template);
+router.use('/templates', template);
 
 module.exports = router;
