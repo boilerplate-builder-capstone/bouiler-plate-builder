@@ -1,6 +1,7 @@
 const User = require('../../server/db/models/User');
 const Comment = require('../../server/db/models/Comments');
-const Post = require('../../server/db/models/Posts'); 
+const Post = require('../../server/db/models/Posts');
+const Template = require('../../server/db/models/Template');
 
 
 const userSync = async () => {
@@ -20,7 +21,7 @@ const userSync = async () => {
   });
 
   const fred = await User.create({
-    username: 'fzhand',
+    username: 'fzhang',
     password: 'welcome789',
   });
   const Post1 = await Post.create({
@@ -74,6 +75,11 @@ const userSync = async () => {
       postId: Post4.id,
       userId: maciej.id
     })
+    const react1 = await Template.create({
+      name: 'react',
+      templateJSON: "import React from 'react'",
+      userId: maciej.id
+    });
 
 };
 

@@ -10,7 +10,7 @@ const Template = db.define('template', {
       notEmpty: true
     }
   },
-  template: {
+  templateJSON: {
     type: DataTypes.JSON,
   }
 });
