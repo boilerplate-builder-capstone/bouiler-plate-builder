@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import assembleRequestBody from '../../utils'
+import {assembleRequestBody} from '../../utils'
 
 function FileStructure(props) {
     const { body } = props
