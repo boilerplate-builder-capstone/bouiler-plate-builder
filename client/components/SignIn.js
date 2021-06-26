@@ -66,7 +66,6 @@ class SignIn extends Component {
             <Button href="/api/login">Sign in through Github</Button>
           </div>
         </div>
-        <button>POST</button>
       </div>
     );
   }
