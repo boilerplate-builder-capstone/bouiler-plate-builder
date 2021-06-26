@@ -9,6 +9,8 @@ import {getTemplates} from '../../reduxStore/template/templateActions'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import {generateBoilerplate} from '../../utils';
+
 function UserDashboard(props) {
   const [edit, setEdit] = useState(false);
   const [image, setImage] = useState('');
@@ -72,10 +74,9 @@ function UserDashboard(props) {
               return(
                 <ul key={elm.id}>
                   <li>
-                    <Link to={`/templates/${elm.id}`}>
+                    <button onClick={() => {generateBoilerplate(elm.templateJSON)}}>
                     <h2>{elm.name}</h2>
-                    </Link>
-                    <h3>{JSON.stringify(elm.templateJSON)}</h3>
+                    </button>
                   </li>
                 </ul>
               )
