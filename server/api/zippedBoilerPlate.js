@@ -3,7 +3,6 @@ const { models: { Code }} = require('../db')
 const ejs = require('ejs')
 const nodezip = require('node-zip')
 
-
 async function createFile(key, variable){   
   try{
     let data = await Code.findByPk(key)
@@ -18,7 +17,7 @@ async function createFile(key, variable){
 zippedBoilerPlate.post('/', async (req, res, next) => {
   try {
     let zip = new nodezip();
-    function zipHelper(fileString, arrObject){    
+    async function zipHelper(fileString, arrObject){    
       if (arrObject.length){
         arrObject.forEach(file => zip.file(`${fileString}${file.name}`, file.contents))
       }
@@ -78,22 +77,18 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
         modelObjectArray.push(createFile('S5', {}))
       }
     }
-    // configObjectArray.push(createFile('S9', boiler))
     
-    Promise.all(reactreduxObjectArray).then((data)=>zipHelper('client/reactredux/', data))
-    Promise.all(clientObjectArray).then((data)=>zipHelper('client/', data))
-    Promise.all(publicObjectArray).then((data)=>zipHelper('public/', data))
-    Promise.all(modelObjectArray).then((data)=>zipHelper('server/db/models/', data))
-    Promise.all(dbObjectArray).then((data)=>zipHelper('server/db/', data))
-    Promise.all(routesObjectArray).then((data)=>zipHelper('server/routes/', data))
-    Promise.all(serverObjectArray).then((data)=>zipHelper('server/', data))
-    Promise.all(appjsObjectArray).then((data)=>zipHelper('client/components/', data))
-    Promise.all(configObjectArray).then((data)=>zipHelper('', data)).then(()=>{
+    await Promise.all(reactreduxObjectArray).then((data)=>zipHelper('client/reactredux/', data))
+    await Promise.all(clientObjectArray).then((data)=>zipHelper('client/', data))
+    await Promise.all(publicObjectArray).then((data)=>zipHelper('public/', data))
+    await Promise.all(modelObjectArray).then((data)=>zipHelper('server/db/models/', data))
+    await Promise.all(dbObjectArray).then((data)=>zipHelper('server/db/', data))
+    await Promise.all(routesObjectArray).then((data)=>zipHelper('server/routes/', data))
+    await Promise.all(serverObjectArray).then((data)=>zipHelper('server/', data))
+    await Promise.all(appjsObjectArray).then((data)=>zipHelper('client/components/', data))
+    await Promise.all(configObjectArray).then((data)=>zipHelper('', data)).then(()=>{
     
     let data = zip.generate({base64:false,compression:'DEFLATE'});
-
-
-    zip = new nodezip();
 
     res.type('zip');
     res.send(Buffer.from(data, 'binary'));
