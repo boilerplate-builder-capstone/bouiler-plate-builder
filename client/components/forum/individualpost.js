@@ -87,10 +87,8 @@ function ForumPost (props){
                               {props.post.postThread.repo.files.map(e=>{
                                   return ( 
                                     <Card key={e.sha} className="repoCommitCards">
-                                        <CardContent>
-                                            <Typography variant="body2" component="p">
-                                            {e.patch}
-                                            </Typography>
+                                        <CardContent className= "repoCard">
+                                            <pre>{e.patch}</pre>
                                         </CardContent> 
                                     </Card>)
                               })}
