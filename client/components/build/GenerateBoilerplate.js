@@ -73,38 +73,40 @@ const GenerateBoilerplate = (props) => {
         >
           <div id="generate">
             <div id="saveTemplate">
-              {selected && props.user.user ? (
-                <div>
-                  <label>Name Your Boilerplate</label>
-                  <input
-                    name="name"
-                    value={inputValues.name}
-                    onChange={(e) => {
-                      setInputValue({
-                        ...inputValues,
-                        name: e.target.value,
-                        templateJSON: requestBody,
-                        userId: props.user.user.id,
-                      });
-                    }}
-                  />
-                  <button onClick={handleChange}>Second Thought</button>
-                  <button
-                    onClick={() => {
-                      props.createTemplate(inputValues);
-                    }}
-                  >
-                    Save Template
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <label>
-                    Would you like to save your boilerplate as template?
-                  </label>
-                  <button onClick={handleChange}>YES</button>
-                </div>
-              )}
+              {props.user.user ? (
+                selected ? (
+                  <div>
+                    <label>Name Your Boilerplate</label>
+                    <input
+                      name="name"
+                      value={inputValues.name}
+                      onChange={(e) => {
+                        setInputValue({
+                          ...inputValues,
+                          name: e.target.value,
+                          templateJSON: requestBody,
+                          userId: props.user.user.id,
+                        });
+                      }}
+                    />
+                    <button onClick={handleChange}>Second Thought</button>
+                    <button
+                      onClick={() => {
+                        props.createTemplate(inputValues);
+                      }}
+                    >
+                      Save Template
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <label>
+                      Would you like to save your boilerplate as template?
+                    </label>
+                    <button onClick={handleChange}>YES</button>
+                  </div>
+                )
+              ) : null}
             </div>
             <div id="download">
               <h2>Your boilerplate is ready!</h2>
