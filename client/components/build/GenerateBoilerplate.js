@@ -77,7 +77,7 @@ const GenerateBoilerplate = (props) => {
                       }}
                     />
                     <button onClick={handleChange}>Second Thought</button>
-                    <button onClick = {()=> {props.createTemplate(inputValues)}}>Save Tempalte</button>
+                    <button onClick = {()=> {props.createTemplate(inputValues)}}>Save Template</button>
                   </div>
                   :
                   <div>
