@@ -5,7 +5,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import { connect } from 'react-redux';
 import UserEdit from './UserEdit';
 import { getRepos } from '../../reduxStore/user/userActions'
-import {getTemplates} from '../../reduxStore/template/templateActions'
+import {getTemplates} from '../../reduxStore/template/templateActions';
+import {deleteTemplate} from '../../reduxStore/template/templateActions'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -35,11 +36,6 @@ function UserDashboard(props) {
       setEdit(true);
     }
   };
-
-  //User Template
-
-  console.log(props)
-  //^^^^^^^^^^^^^
 
   return (
     <div>
@@ -74,9 +70,19 @@ function UserDashboard(props) {
               return(
                 <ul key={elm.id}>
                   <li>
-                    <button onClick={() => {generateBoilerplate(elm.templateJSON)}}>
-                    <h2>{elm.name}</h2>
-                    </button>
+                    <a>
+                      <h2>{elm.name}</h2>
+                      <button onClick={() => {generateBoilerplate(elm.templateJSON)}}>
+                      DOWNLOAD
+                      </button>
+                    </a>
+                    {console.log(elm)}
+                    <button
+                      className='Delete_Template'
+                      onClick={()=> props.delete(elm)}
+                      >
+                        DELETE
+                        </button>
                   </li>
                 </ul>
               )
@@ -100,6 +106,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getTemplates: () => dispatch(getTemplates()),
+    delete: (template) => dispatch(deleteTemplate(template)),
     repos: (repoURL) => dispatch(getRepos(repoURL)),
   };
 };
