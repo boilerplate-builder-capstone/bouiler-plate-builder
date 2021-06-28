@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Avatar } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { getPosts, addNewPost } from '../../reduxStore/post/postActions';
+import { getPosts, addNewPost, deletePost } from '../../reduxStore/post/postActions';
 import { getRepos } from '../../reduxStore/user/userActions';
 import AddNewTopic from './newTopic';
 import IconButton from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
+import Button from '@material-ui/core/Button';
+
 
 
 
@@ -34,10 +36,10 @@ function ForumPage (props){
         <div className="topics"> 
             {props.post.post.map(e=>{
                 return <div className="topicPost" key={e.id}>
-                    <Link to={`/forum/${e.id}`}>
-                        <div className="userColumn"><h3>{e.user.username}</h3><Avatar src={e.user.github ? e.user.github.avatar_url : e.user.icon} ></Avatar></div>
-                        <div className="postColumn"><b>{e.title}</b><span>{e.post}</span><small className="postDate">{(new Date(e.createdAt)).toDateString()}</small></div>
-                    </Link>
+                        <div className="userColumn"><Link to={`/forum/${e.id}`}><h3>{e.user.username}</h3><Avatar src={e.user.github ? e.user.github.avatar_url : e.user.icon} ></Avatar></Link></div>
+                        <div className="postColumn"><Link to={`/forum/${e.id}`}><b>{e.title}</b><span>{e.post}</span></Link><small className="postDate">{props.user.user && props.user.user.id===e.userId ? (<Button onClick={()=>props.delete(e.id)} color="primary">
+            Delete
+          </Button>):(<></>)}{(new Date(e.createdAt)).toDateString()}</small></div>
                 </div>
             })}
             {edit ? (
@@ -55,7 +57,9 @@ function ForumPage (props){
                 <EditIcon />
               </IconButton>
             </>
-            ) : ( <p>Log in to post</p>)
+            ) : ( ( <Button href="/#signin" color="primary" className="loginButton">
+            Login to post a topic!
+          </Button>))
           )}
         </div>
         )
@@ -72,6 +76,7 @@ const mapDispatchToProps = (dispatch)=>{
         getAllPosts: ()=>dispatch(getPosts()),
         newTopic: (contents)=>dispatch(addNewPost(contents)),
         repos: (repoURL) => dispatch(getRepos(repoURL)),
+        delete: (id)=>dispatch(deletePost(id))
     }
 }
 

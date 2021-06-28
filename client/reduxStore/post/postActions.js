@@ -33,10 +33,14 @@ export const getThread = (postId) =>{
       vals = (await axios.get(`/api/forum/${postId}`)).data[0];
       const { comments, id, post, user, createdAt } = vals
       if(vals.repo !== "false"){
+        try{
         const { data } = await axios.get(`${vals.repo}`)
         const commits = (await axios.get(`${data.url}/commits`)).data
         const recentcommit = (await axios.get(`${commits[0].url}`))
         repo = {name: data.name, files: recentcommit.data.files, url: data.html_url}
+        }catch(er){
+          console.log("no repos fethced", er)
+        }
       }
       const postThread = { comments, id, post, user, createdAt, repo }
       dispatch(getFocusedPost(postThread))
@@ -62,6 +66,29 @@ export const addNewComment = (contents) =>{
   return async (dispatch) =>{
     try{
       await axios.post('/api/forum/createreply', { contents });
+      dispatch(getThread(contents.postId))
+    }catch(error){
+      console.log('new post error', error)
+    }
+  }
+}
+
+
+export const deletePost = (contents) =>{
+  return async (dispatch) =>{
+    try{
+      await axios.delete('/api/forum/deletetopic', { data: { contents }});
+      dispatch(getPosts())
+    }catch(error){
+      console.log('new post error', error)
+    }
+  }
+}
+
+export const deleteComment = (contents) =>{
+  return async (dispatch) =>{
+    try{
+      await axios.delete('/api/forum/deletereply', {data: {id: contents.commentId} });
       dispatch(getThread(contents.postId))
     }catch(error){
       console.log('new post error', error)

@@ -61,5 +61,27 @@ forum.get('/:id', async (req, res, next) => {
       next(er)
     }
 })
-
+forum.delete('/deletereply', async (req, res, next)=>{
+try{
+  const { id } = req.body
+  const reply = await Comment.findByPk(id)
+  await reply.destroy()
+  res.sendStatus(202)
+}catch(er){
+  console.log('an error occured when trying to delete a post', er)
+}
+})
+forum.delete('/deletetopic', async (req, res, next)=>{
+  try{
+    const id = req.body.contents
+    const post = await Post.findByPk(id, {include: [Comment]})
+    if(post.comments){
+      post.comments.forEach(async (e)=> await e.destroy())
+    }
+    await post.destroy()
+    res.sendStatus(202)
+  }catch(er){
+    console.log('an error occured when trying to delete a post', er)
+  }
+  })
 module.exports = forum;

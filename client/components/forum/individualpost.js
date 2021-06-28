@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Avatar } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
-import { getThread, addNewComment } from '../../reduxStore/post/postActions'
+import { getThread, addNewComment, deleteComment } from '../../reduxStore/post/postActions'
 import IconButton from '@material-ui/core/Button';
 import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
@@ -11,8 +11,7 @@ import NewComment from './newComment'
 import Carousel from "react-multi-carousel";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Typography from '@material-ui/core/Typography';
+
 
 
 
@@ -87,10 +86,8 @@ function ForumPost (props){
                               {props.post.postThread.repo.files.map(e=>{
                                   return ( 
                                     <Card key={e.sha} className="repoCommitCards">
-                                        <CardContent>
-                                            <Typography variant="body2" component="p">
-                                            {e.patch}
-                                            </Typography>
+                                        <CardContent className= "repoCard">
+                                            <pre>{e.patch}</pre>
                                         </CardContent> 
                                     </Card>)
                               })}
@@ -102,7 +99,9 @@ function ForumPost (props){
                 return(
                 <div className="replyPost" key={e.id}>
                     <div className="replyUserColumn"><h3>{e.user.username}</h3><Avatar src={e.user.github ? e.user.github.avatar_url : e.user.icon} ></Avatar></div>
-                    <div className="replyPostColumn"><p>{e.comment}</p><small className="postDate">{(new Date(e.createdAt)).toDateString()}</small></div>        
+                    <div className="replyPostColumn"><p>{e.comment}</p><small className="postDate">{props.user.user && props.user.user.id===e.userId ? (<Button onClick={()=>props.delete(props.post.postThread.id,e.id)} color="primary">
+            Delete
+          </Button>):(<></>)}{(new Date(e.createdAt)).toDateString()}</small></div>        
                 </div>
                 )
             })}
@@ -121,7 +120,9 @@ function ForumPost (props){
                 <EditIcon />
               </IconButton>
             </>
-            ):( <p>Log in to post</p>)
+            ):( <Button href="/#signin" color="primary" className="loginButton">
+            Login to post a topic!
+          </Button>)
           )}
             </div>     
         </div>
@@ -132,7 +133,8 @@ function ForumPost (props){
 const mapDispatchToProps = (dispatch)=>{
     return{
         getIndPost: (postId)=>{dispatch(getThread(postId))},
-        newReply: (contents)=>{dispatch(addNewComment(contents))}
+        newReply: (contents)=>{dispatch(addNewComment(contents))},
+        delete: (postId, commentId)=>{dispatch(deleteComment({postId, commentId}))}
     }
 } 
 

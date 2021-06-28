@@ -1,4 +1,6 @@
-const assembleRequestBody = (body) => {
+import axios from 'axios';
+
+export const assembleRequestBody = (body) => {
   const requestBody = {};
   // backend assembling
   if (body.server) {
@@ -24,11 +26,31 @@ const assembleRequestBody = (body) => {
     requestBody.react = false;
   }
 
-  // makes a modal pop up asking if the user would like to create a repo, if logged into github
-  const gitToken = window.localStorage.getItem('tokenGit');
-  gitToken ? (requestBody.token = true) : '';
-
   return requestBody;
 };
 
-export default assembleRequestBody;
+export const generateBoilerplate = async (requestBody) => {
+  try {
+    console.log('This will be the request body:', requestBody);
+
+    // Axios call to the server to grab documents
+    const { data } = await axios.post(`api/completedboiler`, requestBody, {
+      responseType: 'arraybuffer',
+    });
+
+    let blob = await new Blob([data], { type: 'application/zip' });
+
+    const link = document.createElement('a');
+    // Browsers that support HTML5 download attribute
+    //need to adjust this for react!!!!!!!!!!!!!!!!!!!
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'Boilerplate');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (er) {
+    console.log(er);
+  }
+};

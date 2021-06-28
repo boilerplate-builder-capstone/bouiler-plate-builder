@@ -24,7 +24,6 @@ function newTopic(props) {
   const handleChange = (event) => {
     contents[`${event.target.name}`] = event.target.value
     setContents(contents);
-    console.log(contents.repo)
   };
 
   const onSubmit = async (e) => {
@@ -52,7 +51,6 @@ function newTopic(props) {
                         labelId="Github-Repos"
                         id="Github-Repos"
                         name="repo"
-                        value={contents.repo}
                         onChange={handleChange}
                       >
                           <MenuItem value={false}>

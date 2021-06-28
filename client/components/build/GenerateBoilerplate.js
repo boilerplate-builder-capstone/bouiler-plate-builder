@@ -1,45 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { Transition } from 'react-transition-group';
 import ContentAccordion from './ContentAccordion';
 import CreateRepoModal from './CreateRepoModal';
+import { createTemplate } from '../../reduxStore/template/templateActions';
 
-import assembleRequestBody from '../../utils';
+import { assembleRequestBody, generateBoilerplate } from '../../utils';
 
-function GenerateBoilerplate(props) {
-  const { body, transition } = props;
+const GenerateBoilerplate = (props) => {
+  const { body, transition, user, template } = props;
   const [isToken, setIsToken] = useState(false);
   const requestBody = assembleRequestBody(body);
-  const generateBoilerplate = async () => {
-    try {
-      // Axios call to the server to grab documents
-      const { data } = await axios.post(`api/completedboiler`, requestBody, {
-        responseType: 'arraybuffer',
-      });
 
-      let blob = await new Blob([data], { type: 'application/zip' });
+  console.log(user);
+  //User Template
+  const [inputValues, setInputValue] = useState({
+    id: props.templateId,
+    name: '',
+    templateJSON: '',
+  });
 
-      const link = document.createElement('a');
-      // Browsers that support HTML5 download attribute
-      //need to adjust this for react!!!!!!!!!!!!!!!!!!!
-      const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', 'Boilerplate');
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  const [selected, setSelected] = useState(false);
+  const initialRender = useRef(true);
 
-      // makes a modal pop up asking if the user would like to create a repo, if logged into github
-      const gitToken = window.localStorage.getItem('tokenGit');
-      if (gitToken) {
-        setIsToken(true);
-      }
-    } catch (er) {
-      console.log(er);
+  // useEffect(() => {
+  //     setInputValue ({
+  //       id: props.templateId,
+  //       name: props.template.name,
+  //       templateJSON: template.templateJSON
+  //     })
+  // }, [props])
+
+  const handleChange = () => {
+    if (selected) {
+      setSelected(false);
+    } else {
+      setSelected(true);
     }
   };
+  //^^^^^^^^^^^^^^^^^^^^^
 
   const duration = 500;
   const defaultStyle = {
@@ -53,6 +54,14 @@ function GenerateBoilerplate(props) {
     exited: { opacity: 0 },
   };
 
+  const handleClick = (requestBody) => {
+    generateBoilerplate(requestBody);
+
+    // makes a modal pop up asking if the user would like to create a repo, if logged into github
+    const gitToken = window.localStorage.getItem('tokenGit');
+    gitToken ? setIsToken(true) : '';
+  };
+
   return (
     <Transition in={transition} timeout={duration}>
       {(state) => (
@@ -63,9 +72,45 @@ function GenerateBoilerplate(props) {
           }}
         >
           <div id="generate">
+            <div id="saveTemplate">
+              {props.user.user ? (
+                selected ? (
+                  <div>
+                    <label>Name Your Boilerplate</label>
+                    <input
+                      name="name"
+                      value={inputValues.name}
+                      onChange={(e) => {
+                        setInputValue({
+                          ...inputValues,
+                          name: e.target.value,
+                          templateJSON: requestBody,
+                          userId: props.user.user.id,
+                        });
+                      }}
+                    />
+                    <button onClick={handleChange}>Second Thought</button>
+                    <button
+                      onClick={() => {
+                        props.createTemplate(inputValues);
+                      }}
+                    >
+                      Save Template
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <label>
+                      Would you like to save your boilerplate as template?
+                    </label>
+                    <button onClick={handleChange}>YES</button>
+                  </div>
+                )
+              ) : null}
+            </div>
             <div id="download">
               <h2>Your boilerplate is ready!</h2>
-              <Button onClick={generateBoilerplate}>
+              <Button onClick={() => handleClick(requestBody)}>
                 Download Boilerplate
               </Button>
             </div>
@@ -84,6 +129,17 @@ function GenerateBoilerplate(props) {
       )}
     </Transition>
   );
-}
+};
 
-export default GenerateBoilerplate;
+const mapStateToProps = ({ template, user }) => {
+  return { template: template, user: user };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return { createTemplate: (template) => dispatch(createTemplate(template)) };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GenerateBoilerplate);

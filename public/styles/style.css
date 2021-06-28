@@ -1,5 +1,10 @@
 #jumbotron {
   margin: 1.5rem;
+  background-color: #cceeff;
+}
+
+#prebuilt-jumbotron {
+  background-color: #cceeff;
 }
 
 .splitscreen {
@@ -19,9 +24,12 @@
   text-align: center;
 }
 
-.header {
+.box {
   text-align: center;
-  margin: 1rem;
+  margin: 1rem 3rem;
+  padding: 2.5rem 0rem;
+  border: solid gray 1px;
+  border-radius: 20px;
 }
 
 .textblock {
@@ -327,8 +335,6 @@
   background-color: #80808066;
   width: 100%;
   height: 100px;
-  justify-content:center;
-  margin-bottom: 15px;
   margin-top: 15px;
   align-items: flex-start;
 }
@@ -343,7 +349,7 @@
   display:flex;
   flex-direction: column;
 }
-.topicPost > a{
+.topicPost{
   display: flex;
   flex-direction: row;
 }
@@ -368,7 +374,6 @@ small {
   margin-left: 15px;
   background-color: #3c598338;
   width: 200px;
-  height: 100px;
   justify-content:center;
   margin-bottom: 15px;
   margin-top: 15px;
@@ -398,7 +403,6 @@ small {
   margin-right: 15px;
   background-color: #2a436667;
   width: 100%;
-  height: 100px;
   justify-content:center;
   margin-bottom: 15px;
   margin-top: 15px;
@@ -406,7 +410,7 @@ small {
 
 }
 .repoCommmitsCarouselItem{
-  height: 150px;
+  height: 500px;
   overflow: scroll;
 }
 .showButton{
@@ -417,3 +421,33 @@ small {
   flex-direction: column;
   align-items: center;
 }
+.repoCommitCards{
+  padding-left: 75px;
+  padding-right: 50px;
+}
+pre{
+  background-color: #e9ecef;
+}
+#navgroup {
+  display: flex;
+  flex-direction: row;
+}
+.replies{
+  display: flex;
+  flex-direction:column;
+  align-items:center
+}
+.postColumn>a{
+  color: black;
+}
+.userColumn>a{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+}
+.postColumn>a>b{
+  display: flex;
+  color: black;
+}
+

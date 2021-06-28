@@ -33,37 +33,39 @@ class SignIn extends Component {
   render() {
     return (
       <div>
-        <h1 className="header">Sign In</h1>
-        <Link to={'/signup'}>
-          <h4 className="header">Create an account</h4>
-        </Link>
-        <div className="splitscreen">
-          <form className="split">
-            <p className="textblock">Sign In</p>
-            <br />
-            <input
-              type="text"
-              name="username"
-              placeholder="username"
-              onChange={this.onChange}
-            />
-            <br />
-            <input
-              type="password"
-              name="password"
-              placeholder="password"
-              onChange={this.onChange}
-            />
-            <br />
-            <Button type="submit" value="Submit" onClick={this.onSubmit}>
-              Submit
-            </Button>
-          </form>
-          <div className="verticalline"></div>
-          <div className="split">
-            <h5>Sign in through Github</h5>
-            <p className="textblock">Save your boilerplates to Github repos</p>
-            <Button href="/api/login">Sign in through Github</Button>
+        <div className="box">
+          <h1 >Sign In</h1>
+          <Link to={'/signup'}>
+            <h4 >Create an account</h4>
+          </Link>
+          <div className="splitscreen">
+            <form className="split">
+              <h5>Sign in to an existing account</h5>
+              <br />
+              <input
+                type="text"
+                name="username"
+                placeholder="username"
+                onChange={this.onChange}
+              />
+              <br />
+              <input
+                type="password"
+                name="password"
+                placeholder="password"
+                onChange={this.onChange}
+              />
+              <br />
+              <Button type="submit" value="Submit" onClick={this.onSubmit}>
+                Submit
+              </Button>
+            </form>
+            <div className="verticalline"></div>
+            <div className="split">
+              <h5>Sign in through Github</h5>
+              <p className="textblock">Save your boilerplates to Github repos</p>
+              <Button href="/api/login">Sign in through Github</Button>
+            </div>
           </div>
         </div>
       </div>
