@@ -24,7 +24,7 @@ function About() {
         <Card.Body>
           <Card.Title>Ellie King</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
-            Funny Job Here
+            CSS Whisperer
           </Card.Subtitle>
           <Card.Text>Boilerplates and CSS</Card.Text>
           <Card.Link href="https://github.com/king-ellie">GitHub</Card.Link>
@@ -56,7 +56,7 @@ function About() {
         <Card.Body>
           <Card.Title>Fred Zhang</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
-            Funny Job Here
+            Tech Wizard 
           </Card.Subtitle>
           <Card.Text>Testing and Saving</Card.Text>
           <Card.Link href="https://github.com/Fred1110">GitHub</Card.Link>
