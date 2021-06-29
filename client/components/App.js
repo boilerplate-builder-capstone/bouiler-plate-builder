@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import Home from './home/Home';
 import Build from './build/Build';
-import QuestionWalkthrough from './build/QuestionWalkthrough'
+import QuestionWalkthrough from './build/QuestionWalkthrough';
 import NavBar from './NavBar';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
@@ -14,8 +14,9 @@ import {
   logoutUser,
   createUser,
 } from '../reduxStore/user/userActions';
-import ForumPage from './forum/topics'
-import IndividualPost from './forum/individualpost'
+import ForumPage from './forum/topics';
+import IndividualPost from './forum/individualpost';
+import About from './home/About';
 
 class App extends Component {
   componentDidMount() {
@@ -48,6 +49,7 @@ class App extends Component {
           <Route exact path="/dashboard" component={UserDashboard} />
           <Route exact path="/forum" component={ForumPage} />
           <Route exact path="/forum/:postId" component={IndividualPost} />
+          <Route exact path="/about" component={About} />
         </Router>
       </div>
     );
