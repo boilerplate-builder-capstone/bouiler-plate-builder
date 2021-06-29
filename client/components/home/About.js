@@ -8,7 +8,7 @@ function About() {
         <Card.Body>
           <Card.Title>Kevin Flessa</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
-            Funny Job Here
+            Science Viking
           </Card.Subtitle>
           <Card.Text>EJS and Forum</Card.Text>
           <Card.Link href="https://github.com/kfless12">GitHub</Card.Link>
