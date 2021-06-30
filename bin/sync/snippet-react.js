@@ -35,18 +35,15 @@ ReactDOM.render(
     fileName: 'App.js',
     category: 'react',
     title: 'React: app',
-    snippet: `<% if (!react.reacthooks) { -%>
-import React, { Component } from 'react'
-<% } else if (react.reacthooks && react.redux) { -%>
-import React, { Component, useState, useEffect } from 'react'
-<% } else if (react.reacthooks && !react.redux) { -%>
-import React, { useState, useEffect } from 'react'
-<% } -%>
+    snippet: `import React, { Component } from 'react';
 <% if(react.reactRouter) { -%>
-import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 <% } -%>
 <% if (react.redux) { -%>
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+<% } -%>
+<% if (react.reacthooks) { -%>
+import HooksComponent from './HooksComponent';
 <% } -%>
 
 class App extends Component {
@@ -55,14 +52,6 @@ class App extends Component {
     this.state = null
   }
   
-<% if (react.reacthooks) { -%>
-  const [state, setState] = useState("starting state");
-  
-  useEffect(() => {
-    //function that executes upon component mounting
-  });
-  
-<% } -%>
   // componentDidMount(){}
 
   // componentDidUpdate(){}
@@ -72,41 +61,22 @@ class App extends Component {
       <div>
         <h1>Hello world</h1>
         <p>Welcome to your web app!</p>
-        <% if(react.reactRouter) { -%>
+<% if (react.reacthooks) { -%>
+        <HooksComponent />
+<% } -%>
+<% if(react.reactRouter) { -%>
         <Router>
           {/* <Route component={YourComponentName} path="/path" /> */}
           <Switch>
           {/* <Route component={YourComponentName2} path="/path2" /> */}
           </Switch>
         </Router>
-        <% } -%>
+<% } -%>
       </div>
     )
   }
 }
 
-<% if (react.reacthooks && !react.redux) { -%>
-function App() {
-  const [state, setState] = useState(‘starting state’);
-  
-  useEffect(() => {
-    //function that executes upon component mounting
-  });
-  
-  return(
-    <div>
-      <h1>Hello world</h1>
-      <p>Welcome to your web app!</p>
-      <Router>
-        {/* <Route component={YourComponentName} path="/path" /> */}
-        <Switch>
-        {/* <Route component={YourComponentName2} path="/path2" /> */}
-        </Switch>
-      </Router>
-    </div>
-  )
-}
-<% } -%>
 <% if (react.redux) { -%>
 const mapStateToProps = (state) => {
   return {
@@ -124,7 +94,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(App)
 <% } else { -%>
 export default (App)
 <% } -%>
-    `,
+`,
 });
 
   const r3 = await Code.create({
@@ -143,16 +113,16 @@ const actionCreator = (data) => {
 }
 
 export const someThunk = (input) => {
-    return async(dispatch) => {
-        try {
-            const data = (await axios.get('/pathName')).data
-            dispatch(actionCreator(data))
-        } catch (error) {
-            console.log(error)
-        }
+  return async(dispatch) => {
+    try {
+        const data = (await axios.get('/pathName')).data
+        dispatch(actionCreator(data))
+    } catch (error) {
+        console.log(error)
     }
+  }
 }
-      `,
+`,
   });
 
   const r4 = await Code.create({
@@ -207,7 +177,7 @@ const store = createStore(
 )
 
 export default store
-    `,
+`,
   });
 
   const r7 = await Code.create({
@@ -241,10 +211,32 @@ module.exports = {
     ],
   }
 };
-    `,
+`,
   });
+
+  const r8 = await Code.create({
+    id: 'R8',
+    fileName: 'HooksComponent.js',
+    category: 'react',
+    title: 'React: hooks component',
+    snippet: `import React, { useState, useEffect } from 'react';
+
+function HooksComponent() {
+  const [state, setState] = useState("starting state");
+
+  useEffect(() => {
+    // function that executes upon component mounting
+  });
+
+  return (
+    <h2>This is your hooks component!</h2>
+  )
+}
+
+export default HooksComponent
+`,
+});
 };
 
 module.exports = syncReact;
 
-//

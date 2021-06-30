@@ -80,6 +80,7 @@ function FileStructure(props) {
                                         <li><i className="fas fa-folder"></i> components</li>
                                         <ul>
                                             <li className={classes}>App.js</li>
+                                            {val.reacthooks ? <li className="reacthooks">HooksComponent.js</li> : null}
                                         </ul>
                                         {val.redux
                                             ? <div className="redux">
