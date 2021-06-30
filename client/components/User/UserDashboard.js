@@ -76,7 +76,6 @@ function UserDashboard(props) {
                       DOWNLOAD
                       </button>
                     </a>
-                    {console.log(elm)}
                     <button
                       className='Delete_Template'
                       onClick={()=> props.delete(elm)}
