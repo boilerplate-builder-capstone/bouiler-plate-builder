@@ -79,6 +79,10 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
         modelObjectArray.push(createFile('S4', {}))
         modelObjectArray.push(createFile('S6', {}))
         modelObjectArray.push(createFile('S5', {}))
+        //extra router file creation
+        if(boiler.server.db.extraRouter){
+          routesObjectArray.push(createFile('S11', {}))
+        }
       }
     }
     
