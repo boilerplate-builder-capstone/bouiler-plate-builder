@@ -41,10 +41,17 @@ const app = express()
 const path = require('path')
 
 app.use(express.json());
-<% if(server.db) {%>
+
+<% if(server.db) { -%>
 const individualRouter = require('./routes/individualrouter')
 app.use('/YOUR-MOUNTED-PATH', individualRouter)
-<% } %>
+<% } -%>
+
+<% if(server.db.extraRouter) { -%>
+const secondRouter = require('./routes/secondrouter')
+app.use('/YOUR-SECOND-MOUNTED-PATH', secondRouter)
+<% } -%>
+
 app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
 app.get('/', (req, res, next) => {
@@ -174,7 +181,7 @@ const individualRouter = require('express').Router()
 *
 * For instance:
 *
-* router.get('/helloworld', () => {...})
+* individualRouter.get('/helloworld', () => {...})
 *
 * would be accessible on the browser at http://localhost:3000/YOUR-MOUNTED-PATH/helloworld
 */
@@ -285,6 +292,43 @@ module.exports = individualRouter
   ]
 }`,
   });
+
+  const s11 = await Code.create({
+    id: 'S11',
+    fileName: 'secondrouter.js',
+    category: 'router',
+    title: 'extra router',
+    snippet: `const secondRouter = require('express').Router()
+
+/**
+* The routes in this file are mounted on whatever path you define in line 11 of server/modifyserver.js
+*
+* For instance:
+*
+* secondRouter.get('/helloworld', () => {...})
+*
+* would be accessible on the browser at http://localhost:3000/YOUR-MOUNTED-PATH/helloworld
+*/
+
+secondRouter.get('/', async(req, res, next) => {
+  res.status(200).send(/* YOUR DATA HERE */)
+});
+
+secondRouter.post('/', async(req, res, next) => {
+  res.status(201).send(/* YOUR CREATED RESOURCE HERE */)
+});
+
+secondRouter.put('/', async(req, res, next) => {
+  res.status(200).send(/* YOUR UPDATED RESOURCE HERE */)
+});
+
+secondRouter.delete('/', async(req, res, next) => {
+  res.sendStatus(200)
+});
+
+module.exports = secondRouter
+`,
+  })
 };
 
 module.exports = syncServer;

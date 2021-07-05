@@ -31,8 +31,6 @@ export const assembleRequestBody = (body) => {
 
 export const generateBoilerplate = async (requestBody) => {
   try {
-    console.log('This will be the request body:', requestBody);
-
     // Axios call to the server to grab documents
     const { data } = await axios.post(`api/completedboiler`, requestBody, {
       responseType: 'arraybuffer',

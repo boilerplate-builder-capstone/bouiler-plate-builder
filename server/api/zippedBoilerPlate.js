@@ -50,6 +50,10 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
         reactreduxObjectArray.push(createFile('R5', {}))
         reactreduxObjectArray.push(createFile('R6', {}))
       }
+      //add react hooks component
+      if(boiler.react.reacthooks){
+        appjsObjectArray.push(createFile('R8', {}))
+      }
     }
    
     //The app index html creation for htmlindex in public folder
@@ -75,6 +79,10 @@ zippedBoilerPlate.post('/', async (req, res, next) => {
         modelObjectArray.push(createFile('S4', {}))
         modelObjectArray.push(createFile('S6', {}))
         modelObjectArray.push(createFile('S5', {}))
+        //extra router file creation
+        if(boiler.server.db.extraRouter){
+          routesObjectArray.push(createFile('S11', {}))
+        }
       }
     }
     

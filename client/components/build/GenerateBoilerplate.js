@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { Transition } from 'react-transition-group';
 import ContentAccordion from './ContentAccordion';
@@ -14,7 +13,6 @@ const GenerateBoilerplate = (props) => {
   const [isToken, setIsToken] = useState(false);
   const requestBody = assembleRequestBody(body);
 
-  console.log(user);
   //User Template
   const [inputValues, setInputValue] = useState({
     id: props.templateId,
@@ -23,15 +21,6 @@ const GenerateBoilerplate = (props) => {
   });
 
   const [selected, setSelected] = useState(false);
-  const initialRender = useRef(true);
-
-  // useEffect(() => {
-  //     setInputValue ({
-  //       id: props.templateId,
-  //       name: props.template.name,
-  //       templateJSON: template.templateJSON
-  //     })
-  // }, [props])
 
   const handleChange = () => {
     if (selected) {
@@ -40,7 +29,6 @@ const GenerateBoilerplate = (props) => {
       setSelected(true);
     }
   };
-  //^^^^^^^^^^^^^^^^^^^^^
 
   const duration = 500;
   const defaultStyle = {

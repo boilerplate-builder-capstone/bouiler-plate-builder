@@ -30,7 +30,6 @@ function UserEdit(props) {
     try {
       let useRegex = /^[a-zA-Z0-9]+$/
       let validname = username.match(useRegex)
-      console.log(validname)
       if(validname && username !== ""){
       await update(username);
       editChange()
@@ -66,7 +65,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    // login: () => console.log(history),
     update: (credentails) => dispatch(updateUser(credentails)),
   };
 };

@@ -40,7 +40,7 @@ function FileStructure(props) {
                                     <li><i className="fas fa-folder"></i> server</li>
                                     <ul>
                                         <li className="dbchange">startserver.js</li>
-                                        <li className="dbchange">modifyserver.js</li>
+                                        <li className={'dbchange extraRouterchange'}>modifyserver.js</li>
                                         {val.db
                                             ? <div className="db">
                                                 <li><i className="fas fa-folder"></i> db</li>
@@ -54,9 +54,10 @@ function FileStructure(props) {
                                                     <li>db.js</li>
                                                     <li>syncandseed.js</li>
                                                 </ul>
-                                                <li className="extraRouter"><i className="fas fa-folder"></i> routes</li>
+                                                <li><i className="fas fa-folder"></i> routes</li>
                                                     <ul>
                                                         <li>individualrouter.js</li>
+                                                        {val.db.extraRouter ? <li className="extraRouter">secondrouter.js</li> : null}
                                                     </ul>
                                             </div>
                                             :null
@@ -67,10 +68,6 @@ function FileStructure(props) {
                             )
                         }
                         if (key === "react" && val){
-                            let reduxchange = "reduxchange"
-                            let reactRouterchange = "reactRouterchange"
-                            const reacthookschange = "reacthookschange"
-                            const classes = [reduxchange, reactRouterchange, reacthookschange].join(' ')
                             return (
                                 <div key={idx} className="react">
                                     <li><i className="fas fa-folder"></i> client</li>
@@ -79,7 +76,8 @@ function FileStructure(props) {
                                         <li>index.js</li>
                                         <li><i className="fas fa-folder"></i> components</li>
                                         <ul>
-                                            <li className={classes}>App.js</li>
+                                            <li className={'reduxchange reactRouterchange reacthookschange'}>App.js</li>
+                                            {val.reacthooks ? <li className="reacthooks">HooksComponent.js</li> : null}
                                         </ul>
                                         {val.redux
                                             ? <div className="redux">
